@@ -33,10 +33,7 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          # If your repo is at github.com/username/repo-name,
-          # set NEXT_PUBLIC_BASE_PATH to /repo-name below.
-          # Leave empty if you use a custom domain or username.github.io
-          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_BASE_PATH: "/xxshuqi"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

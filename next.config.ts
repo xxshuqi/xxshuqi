@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   },
   // Set this if your GitHub Pages URL is github.com/username/repo-name
   // Leave empty ("") if you use a custom domain or username.github.io
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "/xxshuqi",
   trailingSlash: true,
 };
 
