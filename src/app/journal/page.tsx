@@ -1,15 +1,10 @@
-import { prisma } from "@/lib/db";
 import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { getJournalEntries } from "@/lib/data";
 
-export const revalidate = 60;
-
-export default async function JournalPage() {
-  const entries = await prisma.journalEntry.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
-  });
+export default function JournalPage() {
+  const entries = getJournalEntries().filter((e) => e.published);
 
   return (
     <div style={{ paddingTop: "52px" }}>
@@ -37,10 +32,7 @@ export default async function JournalPage() {
           <div>
             {entries.map((entry, i) => (
               <ScrollReveal key={entry.id} delay={i * 0.08}>
-                <Link
-                  href={`/journal/${entry.slug}`}
-                  style={{ textDecoration: "none" }}
-                >
+                <Link href={`/journal/${entry.slug}`} style={{ textDecoration: "none" }}>
                   <article
                     style={{
                       display: "grid",
@@ -79,11 +71,10 @@ export default async function JournalPage() {
                       {entry.subtitle && (
                         <p
                           style={{
-                            fontSize: "14px",
+                            fontSize: "18px",
                             color: "var(--text-mid)",
                             fontWeight: 300,
                             fontFamily: "Crimson Pro, Georgia, serif",
-                            fontSize: "18px",
                           }}
                         >
                           {entry.subtitle}
@@ -106,13 +97,8 @@ export default async function JournalPage() {
                           {entry.category}
                         </span>
                       )}
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "var(--text-faint)",
-                        }}
-                      >
-                        {entry.createdAt.toLocaleDateString("en-US", {
+                      <span style={{ fontSize: "12px", color: "var(--text-faint)" }}>
+                        {new Date(entry.createdAt).toLocaleDateString("en-US", {
                           month: "long",
                           year: "numeric",
                         })}

@@ -38,8 +38,5 @@ next-env.d.ts
 *.db
 *.db-journal
 
-# uploads
-/public/uploads/originals/*
-/public/uploads/thumbnails/*
-!/public/uploads/originals/.gitkeep
-!/public/uploads/thumbnails/.gitkeep
+# Photos are committed to the repo for static GitHub Pages hosting
+# Add new photos to public/uploads/ and update public/data/photos.json

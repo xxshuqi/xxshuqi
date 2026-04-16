@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/db";
 import { getSettings, SectionConfig } from "@/lib/settings";
+import { getPhotos, getJournalEntries } from "@/lib/data";
 import Hero from "@/components/home/Hero";
 import FeaturedStory from "@/components/home/FeaturedStory";
 import PhotoGrid from "@/components/home/PhotoGrid";
@@ -8,11 +8,12 @@ import JournalPreview from "@/components/home/JournalPreview";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-export const revalidate = 60;
-
-export default async function HomePage() {
+export default function HomePage() {
   const settings = getSettings();
   const { sections, hero } = settings;
+
+  const allPhotos = getPhotos();
+  const allJournal = getJournalEntries();
 
   const visible = (id: SectionConfig["id"]) =>
     sections.find((s) => s.id === id)?.visible ?? true;
@@ -20,36 +21,33 @@ export default async function HomePage() {
   const count = (id: SectionConfig["id"], fallback: number) =>
     sections.find((s) => s.id === id)?.count ?? fallback;
 
-  const [featuredPhotos, recentPhotos, filmStripPhotos, journalEntries, bgPhoto] =
-    await Promise.all([
-      visible("featured")
-        ? prisma.photo.findMany({ where: { featured: true }, orderBy: { createdAt: "desc" }, take: 1 })
-        : Promise.resolve([]),
-      visible("grid")
-        ? prisma.photo.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }], take: count("grid", 8) })
-        : Promise.resolve([]),
-      visible("filmstrip")
-        ? prisma.photo.findMany({ orderBy: { createdAt: "desc" }, take: count("filmstrip", 12) })
-        : Promise.resolve([]),
-      visible("journal")
-        ? prisma.journalEntry.findMany({ where: { published: true }, orderBy: { createdAt: "desc" }, take: count("journal", 3) })
-        : Promise.resolve([]),
-      hero.bgPhotoId
-        ? prisma.photo.findUnique({ where: { id: hero.bgPhotoId }, select: { originalUrl: true } })
-        : Promise.resolve(null),
-    ]);
+  const featuredPhoto = visible("featured")
+    ? (allPhotos.find((p) => p.featured) ?? null)
+    : null;
 
-  const featuredPhoto = featuredPhotos[0] ?? null;
-  const heroBgUrl = bgPhoto?.originalUrl ?? null;
+  const recentPhotos = visible("grid")
+    ? allPhotos.slice(0, count("grid", 8))
+    : [];
 
-  // Build section order
+  const filmStripPhotos = visible("filmstrip")
+    ? allPhotos.slice(0, count("filmstrip", 12))
+    : [];
+
+  const journalEntries = visible("journal")
+    ? allJournal.filter((e) => e.published).slice(0, count("journal", 3))
+    : [];
+
+  const heroBgUrl = hero.bgPhotoId
+    ? (allPhotos.find((p) => p.id === hero.bgPhotoId)?.originalUrl ?? null)
+    : null;
+
   const sectionNumber = (id: string) => {
     const visibleSections = sections.filter((s) => s.visible);
     const idx = visibleSections.findIndex((s) => s.id === id);
     return idx >= 0 ? String(idx + 1).padStart(2, "0") : "00";
   };
 
-  const renderSection = (section: SectionConfig, i: number) => {
+  const renderSection = (section: SectionConfig) => {
     if (!section.visible) return null;
 
     switch (section.id) {
@@ -102,12 +100,7 @@ export default async function HomePage() {
           <ScrollReveal key="journal">
             <section style={{ padding: "0 80px 120px" }}>
               <SectionLabel number={sectionNumber("journal")} label="Journal" />
-              <JournalPreview
-                entries={journalEntries.map((e) => ({
-                  ...e,
-                  createdAt: e.createdAt.toISOString(),
-                }))}
-              />
+              <JournalPreview entries={journalEntries} />
             </section>
           </ScrollReveal>
         );
@@ -117,5 +110,5 @@ export default async function HomePage() {
     }
   };
 
-  return <>{sections.map((section, i) => renderSection(section, i))}</>;
+  return <>{sections.map((section) => renderSection(section))}</>;
 }

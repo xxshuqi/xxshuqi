@@ -1,16 +1,12 @@
-import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
+import { getJournalEntries } from "@/lib/data";
 
-export const revalidate = 60;
-
+// Required for static export: tell Next.js which slugs to generate at build time
 export async function generateStaticParams() {
-  const entries = await prisma.journalEntry.findMany({
-    where: { published: true },
-    select: { slug: true },
-  });
+  const entries = getJournalEntries().filter((e) => e.published);
   return entries.map((e) => ({ slug: e.slug }));
 }
 
@@ -20,13 +16,10 @@ interface PageProps {
 
 export default async function JournalEntryPage({ params }: PageProps) {
   const { slug } = await params;
+  const entries = getJournalEntries();
+  const entry = entries.find((e) => e.slug === slug && e.published);
 
-  const entry = await prisma.journalEntry.findUnique({
-    where: { slug },
-    include: { photos: { orderBy: { sortOrder: "asc" } } },
-  });
-
-  if (!entry || !entry.published) notFound();
+  if (!entry) notFound();
 
   return (
     <div style={{ paddingTop: "52px" }}>
@@ -100,7 +93,7 @@ export default async function JournalEntryPage({ params }: PageProps) {
                 letterSpacing: "0.15em",
               }}
             >
-              {entry.createdAt.toLocaleDateString("en-US", {
+              {new Date(entry.createdAt).toLocaleDateString("en-US", {
                 day: "numeric",
                 month: "long",
                 year: "numeric",
@@ -119,12 +112,7 @@ export default async function JournalEntryPage({ params }: PageProps) {
             }}
           >
             {entry.body.split("\n\n").map((para, i) => (
-              <p
-                key={i}
-                style={{
-                  marginBottom: "1.5em",
-                }}
-              >
+              <p key={i} style={{ marginBottom: "1.5em" }}>
                 {para}
               </p>
             ))}
@@ -154,7 +142,8 @@ export default async function JournalEntryPage({ params }: PageProps) {
                       style={{
                         position: "relative",
                         overflow: "hidden",
-                        background: "linear-gradient(135deg, #c5d8e3 0%, #7a9aad 100%)",
+                        background:
+                          "linear-gradient(135deg, #c5d8e3 0%, #7a9aad 100%)",
                         aspectRatio: `${photo.width} / ${photo.height}`,
                       }}
                     >
