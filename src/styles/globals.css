@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=DM+Sans:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #ffffff;
+  --bg-off: #f6f7f8;
+  --text: #111111;
+  --text-mid: #555555;
+  --text-light: #999999;
+  --text-faint: #c8c8c8;
+  --border: #e8e8e8;
+  --accent: #7a9aad;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 300;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Film grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: "Libre Caslon Display", Georgia, serif;
+}
+
+.font-prose {
+  font-family: "Crimson Pro", Georgia, serif;
+}
+
+/* Subtle underline link style */
+.link-underline {
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+
+.link-underline:hover {
+  border-color: var(--text);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-off);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-faint);
+  border-radius: 2px;
+}
+
+/* Image placeholder */
+.blurhash-placeholder {
+  background: linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Hero background animations */
+@keyframes hero-kenburns {
+  0%   { transform: scale(1)    translate(0%,    0%); }
+  25%  { transform: scale(1.06) translate(-0.8%, -0.5%); }
+  50%  { transform: scale(1.1)  translate(-1.2%, 0.6%); }
+  75%  { transform: scale(1.06) translate(0.6%,  0.8%); }
+  100% { transform: scale(1)    translate(0%,    0%); }
+}
+
+@keyframes hero-zoom {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.hero-bg-kenburns {
+  animation: hero-kenburns 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+.hero-bg-zoom {
+  animation: hero-zoom 16s ease-in-out infinite;
+  will-change: transform;
+}
