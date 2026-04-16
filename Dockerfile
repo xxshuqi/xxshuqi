@@ -39,9 +39,6 @@ COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 RUN mkdir -p /data/uploads/originals /data/uploads/thumbnails && \
     chown -R nextjs:nodejs /data
 
-# Mount /data for SQLite DB and uploads
-VOLUME ["/data"]
-
 USER nextjs
 
 EXPOSE 3000
