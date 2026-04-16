@@ -41,7 +41,7 @@ export default function Nav() {
           textDecoration: "none",
         }}
       >
-        Bunnies.
+        The Wandering Bunny.
       </Link>
 
       <div style={{ display: "flex", gap: "36px", alignItems: "center" }}>
