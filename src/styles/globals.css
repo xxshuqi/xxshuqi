@@ -117,3 +117,63 @@ body::after {
   animation: hero-zoom 16s ease-in-out infinite;
   will-change: transform;
 }
+
+/* ── Mobile responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* (1) Hide vertical side text */
+  .vertical-text-side {
+    display: none;
+  }
+
+  /* (3) Nav: hide desktop links, show hamburger */
+  .nav-desktop-links {
+    display: none !important;
+  }
+  .nav-hamburger-btn {
+    display: flex !important;
+  }
+
+  /* (2) Featured section: stack vertically */
+  .featured-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* (5) Photo grid: 2 columns on mobile */
+  .photo-grid-4col {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .photo-grid-3col {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* (6) Section padding: tighten on mobile */
+  .section-featured {
+    padding: 60px 24px !important;
+  }
+  .section-grid {
+    padding: 0 24px 60px !important;
+  }
+  .section-filmstrip-wrap {
+    margin-bottom: 60px !important;
+  }
+  .section-filmstrip-label {
+    padding: 0 24px !important;
+    margin-bottom: 20px !important;
+  }
+  .section-journal {
+    padding: 0 24px 60px !important;
+  }
+  .gallery-section {
+    padding: 40px 20px 60px !important;
+  }
+
+  /* Hero: tighten horizontal padding */
+  .hero-section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .hero-bottom-info {
+    display: none;
+  }
+}

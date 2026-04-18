@@ -59,6 +59,7 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
+      className="photo-grid-4col"
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",

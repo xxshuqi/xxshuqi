@@ -124,7 +124,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
         .photo-highlight { animation: photo-pulse 1.6s ease forwards; }
       `}</style>
 
-      <section style={{ padding: "80px 80px 120px" }}>
+      <section className="gallery-section" style={{ padding: "80px 80px 120px" }}>
         <SectionLabel number="03" label="Gallery" />
 
         <div
@@ -215,6 +215,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                   </span>
                 </div>
                 <div
+                  className="photo-grid-3col"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(3, 1fr)",
@@ -258,6 +259,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                   </span>
                 </div>
                 <div
+                  className="photo-grid-4col"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(4, 1fr)",

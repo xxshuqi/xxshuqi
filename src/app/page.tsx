@@ -66,7 +66,7 @@ export default function HomePage() {
       case "featured":
         return (
           <ScrollReveal key="featured">
-            <section style={{ padding: "120px 80px" }}>
+            <section className="section-featured" style={{ padding: "120px 80px" }}>
               <SectionLabel number={sectionNumber("featured")} label="Featured" />
               <FeaturedStory photo={featuredPhoto} />
             </section>
@@ -76,7 +76,7 @@ export default function HomePage() {
       case "grid":
         return (
           <ScrollReveal key="grid">
-            <section style={{ padding: "0 80px 120px" }}>
+            <section className="section-grid" style={{ padding: "0 80px 120px" }}>
               <SectionLabel number={sectionNumber("grid")} label="Recent Work" />
               <PhotoGrid photos={recentPhotos} />
             </section>
@@ -86,8 +86,8 @@ export default function HomePage() {
       case "filmstrip":
         return filmStripPhotos.length > 0 ? (
           <ScrollReveal key="filmstrip">
-            <section style={{ marginBottom: "120px" }}>
-              <div style={{ padding: "0 80px", marginBottom: "32px" }}>
+            <section className="section-filmstrip-wrap" style={{ marginBottom: "120px" }}>
+              <div className="section-filmstrip-label" style={{ padding: "0 80px", marginBottom: "32px" }}>
                 <SectionLabel number={sectionNumber("filmstrip")} label="Contact Sheet" />
               </div>
               <FilmStrip photos={filmStripPhotos} />
@@ -98,7 +98,7 @@ export default function HomePage() {
       case "journal":
         return (
           <ScrollReveal key="journal">
-            <section style={{ padding: "0 80px 120px" }}>
+            <section className="section-journal" style={{ padding: "0 80px 120px" }}>
               <SectionLabel number={sectionNumber("journal")} label="Journal" />
               <JournalPreview entries={journalEntries} />
             </section>

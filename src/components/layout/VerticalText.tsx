@@ -5,6 +5,7 @@ export default function VerticalText() {
     <>
       {/* Left side */}
       <div
+        className="vertical-text-side"
         style={{
           position: "fixed",
           left: "16px",
@@ -25,6 +26,7 @@ export default function VerticalText() {
 
       {/* Right side */}
       <div
+        className="vertical-text-side"
         style={{
           position: "fixed",
           right: "16px",

@@ -25,6 +25,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
   if (!photo) {
     return (
       <div
+        className="featured-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -51,6 +52,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
 
   return (
     <div
+      className="featured-grid"
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -85,7 +87,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
             alt={photo.caption ?? "Featured photo"}
             width={photo.width}
             height={photo.height}
-            sizes="50vw"
+            sizes="(max-width: 768px) 100vw, 50vw"
             style={{ width: "100%", height: "auto", display: "block" }}
             priority
           />

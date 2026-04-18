@@ -35,6 +35,7 @@ export default function Hero({
 
   return (
     <section
+      className="hero-section"
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -45,6 +46,8 @@ export default function Hero({
         paddingTop: "52px",
         position: "relative",
         overflow: "hidden",
+        // Fujifilm gradient shows instantly while hero image loads
+        background: "linear-gradient(135deg, #c5d8e3 0%, #b8ccda 50%, #7a9aad 100%)",
       }}
     >
       {/* Background image */}
@@ -64,6 +67,8 @@ export default function Hero({
               fill
               priority
               sizes="100vw"
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjNWQ4ZTMiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzliYjhjOSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzdhOWFhZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+PC9zdmc+"
               style={{ objectFit: "cover" }}
               className={bgClass}
             />
@@ -191,6 +196,7 @@ export default function Hero({
 
       {/* Bottom right corner info */}
       <motion.div
+        className="hero-bottom-info"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.2 }}
