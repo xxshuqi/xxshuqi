@@ -88,7 +88,7 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
                 style={{ position: "absolute", inset: 0 }}
               >
                 <Image
-                  src={photo.originalUrl}
+                  src={photo.thumbUrl}
                   alt={photo.caption ?? "Photo"}
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"

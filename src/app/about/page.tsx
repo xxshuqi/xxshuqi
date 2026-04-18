@@ -9,7 +9,7 @@ export default function AboutPage() {
 
   return (
     <div style={{ paddingTop: "52px" }}>
-      <section style={{ padding: "80px 80px 120px" }}>
+      <section className="section-about" style={{ padding: "80px 80px 120px" }}>
         <div style={{ maxWidth: "680px" }}>
           <SectionLabel number="06" label="About" />
 

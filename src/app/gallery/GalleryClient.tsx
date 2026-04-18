@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,22 +30,12 @@ interface GalleryClientProps {
 
 const CATEGORIES = ["all", "travel", "street", "portrait", "food", "landscape", "architecture"];
 
-export default function GalleryClient({ photos }: GalleryClientProps) {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [lightbox, setLightbox] = useState<Photo | null>(null);
-
+// Tiny component that reads ?photo= and scrolls/highlights the target.
+// Wrapped in Suspense so the parent GalleryClient can be statically rendered.
+function PhotoHighlight() {
   const searchParams = useSearchParams();
   const targetPhotoId = searchParams.get("photo");
 
-  // Filter by category
-  const filtered = activeCategory === "all"
-    ? photos
-    : photos.filter((p) => p.category === activeCategory);
-
-  const landscapePhotos = filtered.filter((p) => p.width > p.height);
-  const portraitPhotos = filtered.filter((p) => p.width <= p.height);
-
-  // Deep-link: scroll to and pulse the target photo
   useEffect(() => {
     if (!targetPhotoId) return;
     const timer = setTimeout(() => {
@@ -58,6 +48,21 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
     }, 150);
     return () => clearTimeout(timer);
   }, [targetPhotoId]);
+
+  return null;
+}
+
+export default function GalleryClient({ photos }: GalleryClientProps) {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [lightbox, setLightbox] = useState<Photo | null>(null);
+
+  // Filter by category
+  const filtered = activeCategory === "all"
+    ? photos
+    : photos.filter((p) => p.category === activeCategory);
+
+  const landscapePhotos = filtered.filter((p) => p.width > p.height);
+  const portraitPhotos = filtered.filter((p) => p.width <= p.height);
 
   // Close lightbox on Escape
   useEffect(() => {
@@ -114,6 +119,11 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
 
   return (
     <div style={{ paddingTop: "52px" }}>
+      {/* Deep-link: rendered outside Suspense boundary so it doesn't block static HTML */}
+      <Suspense fallback={null}>
+        <PhotoHighlight />
+      </Suspense>
+
       <style>{`
         @keyframes photo-pulse {
           0%   { outline: 2px solid transparent; outline-offset: 4px; }
@@ -147,7 +157,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
             All Photos
           </h1>
 
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}

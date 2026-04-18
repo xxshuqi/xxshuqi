@@ -176,4 +176,9 @@ body::after {
   .hero-bottom-info {
     display: none;
   }
+
+  /* About page: full-width text on mobile */
+  .section-about {
+    padding: 40px 24px 80px !important;
+  }
 }
