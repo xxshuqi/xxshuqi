@@ -14,7 +14,7 @@ export default function AboutPage() {
         <SectionLabel number="06" label="About" />
 
         {/* Two-column layout: photo left, content right */}
-        <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", alignItems: "start", marginTop: "0" }}>
+        <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "2fr 3fr", gap: "80px", alignItems: "start", marginTop: "0" }}>
 
           {/* Left: portrait photo */}
           <div className="about-photo-col" style={{ position: "sticky", top: "80px" }}>
