@@ -63,7 +63,7 @@ export default function Nav() {
             textDecoration: "none",
           }}
         >
-          Bunnies.
+          The Wandering Bunny.
         </Link>
 
         {/* Desktop links — hidden on mobile via CSS */}
@@ -167,7 +167,7 @@ export default function Nav() {
               color: "var(--text-faint)",
             }}
           >
-            Bunnies. · 2026
+            The Wandering Bunny. · 2026
           </p>
         </div>
       )}
