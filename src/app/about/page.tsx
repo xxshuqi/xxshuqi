@@ -37,7 +37,7 @@ export default function AboutPage() {
                 fontWeight: 400,
                 letterSpacing: "-0.02em",
                 lineHeight: 1,
-                marginBottom: "60px",
+                marginBottom: "24px",
               }}
             >
               {about.heading}
