@@ -3,11 +3,11 @@ import "@/styles/globals.css";
 import PublicShell from "@/components/layout/PublicShell";
 
 export const metadata: Metadata = {
-  title: "Bunnies. — Photo Diary",
+  title: "The Wandering Bunny - Photo Diary",
   description:
     "A personal photo diary. Slow moments, quiet streets, and honest light — captured on Fujifilm.",
   openGraph: {
-    title: "Bunnies. — Photo Diary",
+    title: "The Wandering Bunny - Photo Diary",
     description: "A personal Fujifilm photo diary",
     type: "website",
   },
