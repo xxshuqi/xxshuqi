@@ -38,23 +38,19 @@
   },
   "about": {
     "heading": "The Photographer",
-    "bio": "Bunnies. is a personal photography journal — a quiet place for photos made slowly, on Fujifilm cameras, with attention to light, texture, and the kind of moments that pass without announcement.\n\nThe name comes from that feeling of something caught in suspension: a street at 6am, the last light on a wall, a person unaware of being seen. Bunnies. — as in quiet, as in not-moving, as in continuing.\n\nShot primarily on the X-T5, with a preference for Classic Chrome and Acros. Mostly 23mm. Sometimes 35mm.",
+    "bio": "The Wandering Bunny is a personal photography journal — a quiet place for photos made slowly, with attention to light, texture, and the kind of moments that pass without announcement.\n\nBehind the lens is ShuQi — not a professional photographer, just someone whose love language is taking pictures. Noticing a warm scene, lifting the camera, and quietly keeping it before it slips away.\n\nThe name is inspired by Usagi from Chiikawa — that little yellow bunny who's always energetic, free-spirited, and bouncing through the world without overthinking it. That's the energy behind this diary: curious, light-footed, always wandering toward the next moment worth saving.\n\nShot on the Fujifilm X-T30 II with a 14–45mm kit lens — nothing fancy, just enough to catch what matters. Always drawn to Classic Negative for its quiet, slightly faded warmth that makes everyday scenes feel like memories the moment you press the shutter.",
     "gear": [
       {
         "label": "Body",
-        "value": "Fujifilm X-T5"
+        "value": "Fujifilm X-T30 II"
       },
       {
-        "label": "Primary lens",
-        "value": "Fujinon XF 23mm ƒ/2 R WR"
-      },
-      {
-        "label": "Secondary",
-        "value": "Fujinon XF 35mm ƒ/1.4 R"
+        "label": "Lens",
+        "value": "Fujinon XF 14–45mm"
       },
       {
         "label": "Film sims",
-        "value": "Classic Chrome, Acros, Eterna Cinema"
+        "value": "Classic Negative, Classic Chrome, Acros"
       }
     ]
   }
