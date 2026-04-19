@@ -189,6 +189,6 @@ body::after {
   }
   .about-photo-col {
     position: static !important;
-    max-width: 220px !important;
+    max-width: 300px !important;
   }
 }
