@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getSettings } from "@/lib/settings";
 import SectionLabel from "@/components/ui/SectionLabel";
 
@@ -18,14 +17,12 @@ export default function AboutPage() {
 
           {/* Left: portrait photo */}
           <div className="about-photo-col" style={{ position: "sticky", top: "80px" }}>
-            <div style={{ position: "relative", overflow: "hidden", aspectRatio: "2 / 3" }}>
-              <Image
+            <div style={{ overflow: "hidden", aspectRatio: "2 / 3" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/about-photo.jpg"
                 alt="ShuQi at Nyhavn, Copenhagen"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "cover", objectPosition: "center top" }}
-                priority
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
               />
             </div>
           </div>
