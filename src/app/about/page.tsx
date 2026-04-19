@@ -33,6 +33,7 @@ export default function AboutPage() {
           {/* Right: heading, bio, gear */}
           <div>
             <h1
+              className="about-heading"
               style={{
                 fontFamily: "Libre Caslon Display, Georgia, serif",
                 fontSize: "52px",

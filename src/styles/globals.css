@@ -190,5 +190,10 @@ body::after {
   .about-photo-col {
     position: static !important;
     max-width: 300px !important;
+    margin: 0 auto !important;
+  }
+  .about-heading {
+    font-size: 36px !important;
+    margin-bottom: 24px !important;
   }
 }
