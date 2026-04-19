@@ -57,6 +57,9 @@ export default function AboutPage() {
                   {para}
                 </p>
               ))}
+              <p style={{ textAlign: "right", fontStyle: "italic", marginTop: "2em", color: "var(--text-light)" }}>
+                — ShuQi, The Wandering Bunny 🐰
+              </p>
             </div>
 
             {about.gear.length > 0 && (
