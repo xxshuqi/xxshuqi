@@ -181,4 +181,13 @@ body::after {
   .section-about {
     padding: 40px 24px 80px !important;
   }
+
+  /* About page: stack photo above content on mobile */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .about-photo-col {
+    position: static !important;
+  }
 }
