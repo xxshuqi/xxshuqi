@@ -37,12 +37,11 @@ export interface HomepageSettings {
 
 export const DEFAULT_ABOUT: AboutConfig = {
   heading: "The Photographer",
-  bio: "Bunnies. is a personal photography journal — a quiet place for photos made slowly, on Fujifilm cameras, with attention to light, texture, and the kind of moments that pass without announcement.\n\nThe name comes from that feeling of something caught in suspension: a street at 6am, the last light on a wall, a person unaware of being seen. Bunnies. — as in quiet, as in not-moving, as in continuing.\n\nShot primarily on the X-T5, with a preference for Classic Chrome and Acros. Mostly 23mm. Sometimes 35mm.",
+  bio: "The Wandering Bunny is a personal photography journal. A quiet place for photos made slowly, on Fujifilm cameras, with attention to light, texture, and the kind of moments that pass without announcement.\n\nShot on the Fujifilm X-T30 II with a 14-45mm kit lens. Always drawn to Classic Negative for its quiet, slightly faded warmth.",
   gear: [
-    { label: "Body", value: "Fujifilm X-T5" },
-    { label: "Primary lens", value: "Fujinon XF 23mm ƒ/2 R WR" },
-    { label: "Secondary", value: "Fujinon XF 35mm ƒ/1.4 R" },
-    { label: "Film sims", value: "Classic Chrome, Acros, Eterna Cinema" },
+    { label: "Body", value: "Fujifilm X-T30 II" },
+    { label: "Lens", value: "Fujinon XC 14–45mm" },
+    { label: "Film sims", value: "Classic Negative, Classic Chrome, Acros" },
   ],
 };
 
@@ -57,7 +56,7 @@ export const DEFAULT_SETTINGS: HomepageSettings = {
   hero: {
     title: "Bunnies.",
     tagline:
-      "A personal photo diary. Slow moments, quiet streets, and honest light — captured on Fujifilm.",
+      "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
     bgPhotoId: null,
     bgAnimation: "kenburns",
     bgOverlay: 0.45,

@@ -5,7 +5,7 @@ import PublicShell from "@/components/layout/PublicShell";
 export const metadata: Metadata = {
   title: "The Wandering Bunny - Photo Diary",
   description:
-    "A personal photo diary. Slow moments, quiet streets, and honest light — captured on Fujifilm.",
+    "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
   openGraph: {
     title: "The Wandering Bunny - Photo Diary",
     description: "A personal Fujifilm photo diary",

@@ -14,7 +14,7 @@ interface HeroProps {
 
 export default function Hero({
   title = "Bunnies.",
-  tagline = "A personal photo diary. Slow moments, quiet streets, and honest light — captured on Fujifilm.",
+  tagline = "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
   bgUrl = null,
   bgAnimation = "kenburns",
   bgOverlay = 0.45,
@@ -217,9 +217,9 @@ export default function Hero({
             lineHeight: 2,
           }}
         >
-          Fujifilm X-T5
+          Fujifilm X-T30 II
           <br />
-          Classic Chrome
+          Classic Negative
           <br />
           2026
         </p>
