@@ -519,7 +519,7 @@
     "shutter": "1/2400s",
     "iso": "ISO 320",
     "filmSim": "Classic Negative",
-    "featured": true,
+    "featured": false,
     "sortOrder": 25,
     "createdAt": "2026-04-29T15:16:16.965Z",
     "journalEntryId": null
@@ -1918,7 +1918,7 @@
     "width": 1600,
     "height": 2400,
     "blurhash": null,
-    "caption": "",
+    "caption": "Mt. Fuji from Lake Yamanaka",
     "category": "tokyo",
     "camera": "FUJIFILM X-T30 II",
     "lens": "Fujinon 15.0-45.0 mm f/3.5-5.6",
@@ -1926,7 +1926,7 @@
     "shutter": "1/1800s",
     "iso": "ISO 320",
     "filmSim": "Classic Negative",
-    "featured": false,
+    "featured": true,
     "sortOrder": 92,
     "createdAt": "2026-04-29T15:16:35.699Z",
     "journalEntryId": null
