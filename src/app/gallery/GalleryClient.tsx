@@ -28,7 +28,7 @@ interface GalleryClientProps {
   photos: Photo[];
 }
 
-const CATEGORIES = ["all", "travel", "street", "portrait", "food", "landscape", "architecture"];
+const CATEGORIES = ["all", "copenhagen", "hokkaido", "korea", "oslo", "stockholm", "taiwan", "thailand", "tokyo", "random"];
 
 // Tiny component that reads ?photo= and scrolls/highlights the target.
 // Wrapped in Suspense so the parent GalleryClient can be statically rendered.
