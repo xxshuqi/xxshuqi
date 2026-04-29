@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -28,7 +27,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         className="featured-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
           gap: "60px",
           alignItems: "center",
           padding: "80px 0",
@@ -55,12 +54,12 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
       className="featured-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr",
+        gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
         gap: "80px",
         alignItems: "center",
       }}
     >
-      <Link href={`/gallery?photo=${photo.id}`} style={{ display: "block" }}>
+      <Link href={`/gallery?photo=${photo.id}`} style={{ display: "block", minWidth: 0 }}>
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -73,6 +72,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
           background:
             "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
           cursor: "pointer",
+          width: "100%",
         }}
       >
         <motion.div
@@ -81,15 +81,18 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
           }}
           initial={{ filter: "saturate(1) brightness(1) contrast(1)" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          style={{ width: "100%" }}
         >
-          <Image
-            src={photo.originalUrl}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={photo.thumbUrl}
+            srcSet={`${photo.thumbUrl} 1200w, ${photo.originalUrl} 2400w`}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt={photo.caption ?? "Featured photo"}
             width={photo.width}
             height={photo.height}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            decoding="async"
             style={{ width: "100%", height: "auto", display: "block" }}
-            priority
           />
         </motion.div>
       </motion.div>

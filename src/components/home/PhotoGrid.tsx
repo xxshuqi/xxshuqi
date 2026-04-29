@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 interface Photo {
@@ -87,12 +86,24 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
                 transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                 style={{ position: "absolute", inset: 0 }}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={photo.thumbUrl}
-                  alt={photo.caption ?? "Photo"}
-                  fill
+                  srcSet={`${photo.thumbUrl} 1200w, ${photo.originalUrl} 2400w`}
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  style={{ objectFit: "cover" }}
+                  alt={photo.caption ?? "Photo"}
+                  width="800"
+                  height="1000"
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
                 />
               </motion.div>
             </motion.div>
