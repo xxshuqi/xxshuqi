@@ -7,11 +7,11 @@ const DEFAULT_OG_IMAGE = "/uploads/originals/tokyo-092.jpg"; // Mt. Fuji, the fe
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "The Wandering Bunny - Photo Diary",
+  title: "The Wandering Bunny. — Photo Diary",
   description:
     "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
   openGraph: {
-    title: "The Wandering Bunny - Photo Diary",
+    title: "The Wandering Bunny. — Photo Diary",
     description:
       "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
     type: "website",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Wandering Bunny - Photo Diary",
+    title: "The Wandering Bunny. — Photo Diary",
     description:
       "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
     images: [DEFAULT_OG_IMAGE],
