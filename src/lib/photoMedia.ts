@@ -1,5 +1,6 @@
 export interface PhotoAsset {
   id: string;
+  filename?: string;
   thumbUrl: string;
   originalUrl: string;
   width: number;
@@ -48,8 +49,17 @@ export function getThumbIntrinsicSize(
 }
 
 export function getPhotoAlt(
-  photo: Pick<PhotoAsset, "title" | "caption">,
+  photo: Pick<
+    PhotoAsset,
+    "id" | "filename" | "title" | "caption" | "location" | "category"
+  >,
   fallback: string
 ) {
-  return photo.title?.trim() || photo.caption?.trim() || fallback;
+  const namedFallback = photo.location || photo.category || photo.filename || photo.id;
+  const readableFallback = namedFallback
+    ?.replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+  return photo.title?.trim() || photo.caption?.trim() || readableFallback || fallback;
 }

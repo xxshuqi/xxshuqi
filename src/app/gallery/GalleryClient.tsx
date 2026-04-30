@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -37,36 +36,23 @@ function normalizeCategory(value: string | null): (typeof VALID_CATEGORIES)[numb
     : "all";
 }
 
-function PhotoHighlight() {
-  const searchParams = useSearchParams();
-  const targetPhotoId = searchParams.get("photo");
-
-  useEffect(() => {
-    if (!targetPhotoId) return;
-    const timer = window.setTimeout(() => {
-      const el = document.getElementById(`photo-${targetPhotoId}`);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.classList.add("photo-highlight");
-        window.setTimeout(() => el.classList.remove("photo-highlight"), 1800);
-      }
-    }, 150);
-    return () => window.clearTimeout(timer);
-  }, [targetPhotoId]);
-
-  return null;
+function readGalleryQuery() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    category: normalizeCategory(params.get("location")),
+    photoId: params.get("photo"),
+  };
 }
 
 export default function GalleryClient({ photos }: GalleryClientProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [activeCategory, setActiveCategory] =
+    useState<(typeof VALID_CATEGORIES)[number]>("all");
+  const [targetPhotoId, setTargetPhotoId] = useState<string | null>(null);
   const [lightboxId, setLightboxId] = useState<string | null>(null);
   const [lightboxBusy, setLightboxBusy] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const busyTimeoutRef = useRef<number | null>(null);
 
-  const activeCategory = normalizeCategory(searchParams.get("location"));
   const filtered =
     activeCategory === "all"
       ? photos
@@ -96,18 +82,23 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
 
   const updateCategory = useCallback(
     (category: string) => {
-      const nextParams = new URLSearchParams(searchParams.toString());
-      if (category === "all") {
+      const nextCategory = normalizeCategory(category);
+      const nextParams = new URLSearchParams(window.location.search);
+      if (nextCategory === "all") {
         nextParams.delete("location");
       } else {
-        nextParams.set("location", category);
+        nextParams.set("location", nextCategory);
       }
       const nextQuery = nextParams.toString();
-      router.push(nextQuery ? `${pathname}?${nextQuery}` : pathname, {
-        scroll: false,
-      });
+      const nextUrl = nextQuery
+        ? `${window.location.pathname}?${nextQuery}`
+        : window.location.pathname;
+
+      window.history.pushState(null, "", nextUrl);
+      setActiveCategory(nextCategory);
+      setTargetPhotoId(nextParams.get("photo"));
     },
-    [pathname, router, searchParams]
+    []
   );
 
   const openLightbox = useCallback(
@@ -135,6 +126,31 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
     },
     [lightboxBusy, nextPhoto, previousPhoto, setBusyWindow]
   );
+
+  useEffect(() => {
+    const syncFromQuery = () => {
+      const nextQuery = readGalleryQuery();
+      setActiveCategory(nextQuery.category);
+      setTargetPhotoId(nextQuery.photoId);
+    };
+
+    syncFromQuery();
+    window.addEventListener("popstate", syncFromQuery);
+    return () => window.removeEventListener("popstate", syncFromQuery);
+  }, []);
+
+  useEffect(() => {
+    if (!targetPhotoId) return;
+    const timer = window.setTimeout(() => {
+      const el = document.getElementById(`photo-${targetPhotoId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("photo-highlight");
+        window.setTimeout(() => el.classList.remove("photo-highlight"), 1800);
+      }
+    }, 150);
+    return () => window.clearTimeout(timer);
+  }, [activeCategory, targetPhotoId]);
 
   useEffect(() => {
     if (lightboxId && filtered.every((photo) => photo.id !== lightboxId)) {
@@ -243,10 +259,6 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
 
   return (
     <div style={{ paddingTop: "52px" }}>
-      <Suspense fallback={null}>
-        <PhotoHighlight />
-      </Suspense>
-
       <style>{`
         @keyframes photo-pulse {
           0%   { outline: 2px solid transparent; outline-offset: 4px; }
