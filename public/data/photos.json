@@ -18,7 +18,9 @@
     "featured": false,
     "sortOrder": 1,
     "createdAt": "2026-04-29T15:16:09.889Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-002",
@@ -39,7 +41,9 @@
     "featured": false,
     "sortOrder": 2,
     "createdAt": "2026-04-29T15:16:10.213Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-003",
@@ -49,7 +53,7 @@
     "width": 2400,
     "height": 1600,
     "blurhash": null,
-    "caption": "",
+    "caption": "Harbor light and a city moving at its own pace.",
     "category": "copenhagen",
     "camera": "FUJIFILM X-T30 II",
     "lens": "Fujinon 15.0-45.0 mm f/3.5-5.6",
@@ -60,7 +64,12 @@
     "featured": false,
     "sortOrder": 3,
     "createdAt": "2026-04-29T15:16:10.413Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 799,
+    "title": "Copenhagen Harbor",
+    "location": "Copenhagen, Denmark",
+    "story": "A quiet patch of Copenhagen light where the water, buildings, and passing bodies all felt evenly paced. Nothing dramatic happened. That was the reason to keep it."
   },
   {
     "id": "copenhagen-004",
@@ -81,7 +90,9 @@
     "featured": false,
     "sortOrder": 4,
     "createdAt": "2026-04-29T15:16:10.598Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-005",
@@ -102,7 +113,9 @@
     "featured": false,
     "sortOrder": 5,
     "createdAt": "2026-04-29T15:16:10.896Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-006",
@@ -123,7 +136,9 @@
     "featured": false,
     "sortOrder": 6,
     "createdAt": "2026-04-29T15:16:11.201Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-007",
@@ -144,7 +159,9 @@
     "featured": false,
     "sortOrder": 7,
     "createdAt": "2026-04-29T15:16:11.502Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-008",
@@ -165,7 +182,9 @@
     "featured": false,
     "sortOrder": 8,
     "createdAt": "2026-04-29T15:16:11.815Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "copenhagen-009",
@@ -186,7 +205,9 @@
     "featured": false,
     "sortOrder": 9,
     "createdAt": "2026-04-29T15:16:12.148Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-010",
@@ -207,7 +228,9 @@
     "featured": false,
     "sortOrder": 10,
     "createdAt": "2026-04-29T15:16:12.443Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 799
   },
   {
     "id": "copenhagen-011",
@@ -228,7 +251,9 @@
     "featured": false,
     "sortOrder": 11,
     "createdAt": "2026-04-29T15:16:12.769Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-012",
@@ -249,7 +274,9 @@
     "featured": false,
     "sortOrder": 12,
     "createdAt": "2026-04-29T15:16:13.107Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-013",
@@ -270,7 +297,9 @@
     "featured": false,
     "sortOrder": 13,
     "createdAt": "2026-04-29T15:16:13.440Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-014",
@@ -291,7 +320,9 @@
     "featured": false,
     "sortOrder": 14,
     "createdAt": "2026-04-29T15:16:13.764Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-015",
@@ -312,7 +343,9 @@
     "featured": false,
     "sortOrder": 15,
     "createdAt": "2026-04-29T15:16:14.089Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-016",
@@ -333,7 +366,9 @@
     "featured": false,
     "sortOrder": 16,
     "createdAt": "2026-04-29T15:16:14.401Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-017",
@@ -354,7 +389,9 @@
     "featured": false,
     "sortOrder": 17,
     "createdAt": "2026-04-29T15:16:14.672Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-018",
@@ -375,7 +412,9 @@
     "featured": false,
     "sortOrder": 18,
     "createdAt": "2026-04-29T15:16:14.973Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-019",
@@ -396,7 +435,9 @@
     "featured": false,
     "sortOrder": 19,
     "createdAt": "2026-04-29T15:16:15.287Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-020",
@@ -417,7 +458,9 @@
     "featured": false,
     "sortOrder": 20,
     "createdAt": "2026-04-29T15:16:15.600Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-021",
@@ -438,7 +481,9 @@
     "featured": false,
     "sortOrder": 21,
     "createdAt": "2026-04-29T15:16:15.924Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "copenhagen-022",
@@ -459,7 +504,9 @@
     "featured": false,
     "sortOrder": 22,
     "createdAt": "2026-04-29T15:16:16.245Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-023",
@@ -480,7 +527,9 @@
     "featured": false,
     "sortOrder": 23,
     "createdAt": "2026-04-29T15:16:16.570Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-024",
@@ -501,7 +550,9 @@
     "featured": false,
     "sortOrder": 24,
     "createdAt": "2026-04-29T15:16:16.764Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "copenhagen-025",
@@ -522,7 +573,9 @@
     "featured": false,
     "sortOrder": 25,
     "createdAt": "2026-04-29T15:16:16.965Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "hokkaido-026",
@@ -543,7 +596,9 @@
     "featured": false,
     "sortOrder": 26,
     "createdAt": "2026-04-29T15:16:17.269Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "hokkaido-027",
@@ -564,7 +619,9 @@
     "featured": false,
     "sortOrder": 27,
     "createdAt": "2026-04-29T15:16:17.490Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "hokkaido-028",
@@ -585,7 +642,9 @@
     "featured": false,
     "sortOrder": 28,
     "createdAt": "2026-04-29T15:16:17.859Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "hokkaido-029",
@@ -606,7 +665,9 @@
     "featured": false,
     "sortOrder": 29,
     "createdAt": "2026-04-29T15:16:18.085Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "hokkaido-030",
@@ -627,7 +688,9 @@
     "featured": false,
     "sortOrder": 30,
     "createdAt": "2026-04-29T15:16:18.307Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "hokkaido-031",
@@ -648,7 +711,9 @@
     "featured": false,
     "sortOrder": 31,
     "createdAt": "2026-04-29T15:16:18.531Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-032",
@@ -669,7 +734,9 @@
     "featured": false,
     "sortOrder": 32,
     "createdAt": "2026-04-29T15:16:18.705Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-033",
@@ -690,7 +757,9 @@
     "featured": false,
     "sortOrder": 33,
     "createdAt": "2026-04-29T15:16:18.982Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-034",
@@ -711,7 +780,9 @@
     "featured": false,
     "sortOrder": 34,
     "createdAt": "2026-04-29T15:16:19.147Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-035",
@@ -732,7 +803,9 @@
     "featured": false,
     "sortOrder": 35,
     "createdAt": "2026-04-29T15:16:19.420Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-036",
@@ -753,7 +826,9 @@
     "featured": false,
     "sortOrder": 36,
     "createdAt": "2026-04-29T15:16:19.698Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-037",
@@ -774,7 +849,9 @@
     "featured": false,
     "sortOrder": 37,
     "createdAt": "2026-04-29T15:16:19.994Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "korea-038",
@@ -795,7 +872,9 @@
     "featured": false,
     "sortOrder": 38,
     "createdAt": "2026-04-29T15:16:20.300Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-039",
@@ -816,7 +895,9 @@
     "featured": false,
     "sortOrder": 39,
     "createdAt": "2026-04-29T15:16:20.610Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "korea-040",
@@ -837,7 +918,9 @@
     "featured": false,
     "sortOrder": 40,
     "createdAt": "2026-04-29T15:16:20.925Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "korea-041",
@@ -858,7 +941,9 @@
     "featured": false,
     "sortOrder": 41,
     "createdAt": "2026-04-29T15:16:21.253Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "korea-042",
@@ -879,7 +964,9 @@
     "featured": false,
     "sortOrder": 42,
     "createdAt": "2026-04-29T15:16:21.568Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-043",
@@ -900,7 +987,9 @@
     "featured": false,
     "sortOrder": 43,
     "createdAt": "2026-04-29T15:16:21.869Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "korea-044",
@@ -921,7 +1010,9 @@
     "featured": false,
     "sortOrder": 44,
     "createdAt": "2026-04-29T15:16:22.145Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "oslo-045",
@@ -931,7 +1022,7 @@
     "width": 1600,
     "height": 2400,
     "blurhash": null,
-    "caption": "",
+    "caption": "Cold air, pale sun, and a street still waking up.",
     "category": "oslo",
     "camera": "FUJIFILM X-T30 II",
     "lens": "Fujinon 15.0-45.0 mm f/3.5-5.6",
@@ -942,7 +1033,12 @@
     "featured": false,
     "sortOrder": 45,
     "createdAt": "2026-04-29T15:16:22.445Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200,
+    "title": "Oslo Morning",
+    "location": "Oslo, Norway",
+    "story": "This frame felt like the first deep breath of the day. The light was soft, the street was nearly still, and the whole scene carried that brief calm before the city properly begins."
   },
   {
     "id": "oslo-046",
@@ -963,7 +1059,9 @@
     "featured": false,
     "sortOrder": 46,
     "createdAt": "2026-04-29T15:16:22.774Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "random-047",
@@ -984,7 +1082,9 @@
     "featured": false,
     "sortOrder": 47,
     "createdAt": "2026-04-29T15:16:23.009Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "random-048",
@@ -1005,7 +1105,9 @@
     "featured": false,
     "sortOrder": 48,
     "createdAt": "2026-04-29T15:16:23.238Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "random-049",
@@ -1017,7 +1119,7 @@
     "blurhash": null,
     "caption": "",
     "category": "random",
-    "camera": "FUJIFILM X-T5",
+    "camera": "FUJIFILM X-T30 II",
     "lens": "Fujinon 16.0-55.0 mm f/2.8",
     "aperture": "f/2.8",
     "shutter": "1/125s",
@@ -1026,7 +1128,9 @@
     "featured": false,
     "sortOrder": 49,
     "createdAt": "2026-04-29T15:16:23.510Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "random-050",
@@ -1038,7 +1142,7 @@
     "blurhash": null,
     "caption": "",
     "category": "random",
-    "camera": "FUJIFILM X-T5",
+    "camera": "FUJIFILM X-T30 II",
     "lens": "Fujinon 16.0-55.0 mm f/2.8",
     "aperture": "f/2.8",
     "shutter": "1/120s",
@@ -1047,7 +1151,9 @@
     "featured": false,
     "sortOrder": 50,
     "createdAt": "2026-04-29T15:16:23.767Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "random-051",
@@ -1068,7 +1174,9 @@
     "featured": false,
     "sortOrder": 51,
     "createdAt": "2026-04-29T15:16:24.075Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "random-052",
@@ -1089,7 +1197,9 @@
     "featured": false,
     "sortOrder": 52,
     "createdAt": "2026-04-29T15:16:24.398Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "random-053",
@@ -1110,7 +1220,9 @@
     "featured": false,
     "sortOrder": 53,
     "createdAt": "2026-04-29T15:16:24.644Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 799,
+    "thumbHeight": 1200
   },
   {
     "id": "random-054",
@@ -1131,7 +1243,9 @@
     "featured": false,
     "sortOrder": 54,
     "createdAt": "2026-04-29T15:16:24.788Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "random-055",
@@ -1152,7 +1266,9 @@
     "featured": false,
     "sortOrder": 55,
     "createdAt": "2026-04-29T15:16:25.090Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "random-056",
@@ -1173,7 +1289,9 @@
     "featured": false,
     "sortOrder": 56,
     "createdAt": "2026-04-29T15:16:25.227Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 900
   },
   {
     "id": "random-057",
@@ -1194,7 +1312,9 @@
     "featured": false,
     "sortOrder": 57,
     "createdAt": "2026-04-29T15:16:25.360Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 900
   },
   {
     "id": "stockholm-058",
@@ -1215,7 +1335,9 @@
     "featured": false,
     "sortOrder": 58,
     "createdAt": "2026-04-29T15:16:25.658Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "stockholm-059",
@@ -1236,7 +1358,9 @@
     "featured": false,
     "sortOrder": 59,
     "createdAt": "2026-04-29T15:16:25.957Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "stockholm-060",
@@ -1257,7 +1381,9 @@
     "featured": false,
     "sortOrder": 60,
     "createdAt": "2026-04-29T15:16:26.132Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "stockholm-061",
@@ -1278,7 +1404,9 @@
     "featured": false,
     "sortOrder": 61,
     "createdAt": "2026-04-29T15:16:26.441Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "stockholm-062",
@@ -1299,7 +1427,9 @@
     "featured": false,
     "sortOrder": 62,
     "createdAt": "2026-04-29T15:16:26.714Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 799,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-063",
@@ -1320,7 +1450,9 @@
     "featured": false,
     "sortOrder": 63,
     "createdAt": "2026-04-29T15:16:27.015Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 1200,
+    "thumbHeight": 800
   },
   {
     "id": "taiwan-064",
@@ -1341,7 +1473,9 @@
     "featured": false,
     "sortOrder": 64,
     "createdAt": "2026-04-29T15:16:27.302Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-065",
@@ -1362,7 +1496,9 @@
     "featured": false,
     "sortOrder": 65,
     "createdAt": "2026-04-29T15:16:27.590Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-066",
@@ -1383,7 +1519,9 @@
     "featured": false,
     "sortOrder": 66,
     "createdAt": "2026-04-29T15:16:27.903Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-067",
@@ -1404,7 +1542,9 @@
     "featured": false,
     "sortOrder": 67,
     "createdAt": "2026-04-29T15:16:28.198Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-068",
@@ -1425,7 +1565,9 @@
     "featured": false,
     "sortOrder": 68,
     "createdAt": "2026-04-29T15:16:28.510Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-069",
@@ -1446,7 +1588,9 @@
     "featured": false,
     "sortOrder": 69,
     "createdAt": "2026-04-29T15:16:28.811Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-070",
@@ -1467,7 +1611,9 @@
     "featured": false,
     "sortOrder": 70,
     "createdAt": "2026-04-29T15:16:29.097Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-071",
@@ -1488,7 +1634,9 @@
     "featured": false,
     "sortOrder": 71,
     "createdAt": "2026-04-29T15:16:29.401Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-072",
@@ -1509,7 +1657,9 @@
     "featured": false,
     "sortOrder": 72,
     "createdAt": "2026-04-29T15:16:29.687Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-073",
@@ -1530,7 +1680,9 @@
     "featured": false,
     "sortOrder": 73,
     "createdAt": "2026-04-29T15:16:29.972Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-074",
@@ -1551,7 +1703,9 @@
     "featured": false,
     "sortOrder": 74,
     "createdAt": "2026-04-29T15:16:30.276Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-075",
@@ -1572,7 +1726,9 @@
     "featured": false,
     "sortOrder": 75,
     "createdAt": "2026-04-29T15:16:30.592Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "taiwan-076",
@@ -1593,7 +1749,9 @@
     "featured": false,
     "sortOrder": 76,
     "createdAt": "2026-04-29T15:16:30.907Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "thailand-077",
@@ -1614,7 +1772,9 @@
     "featured": false,
     "sortOrder": 77,
     "createdAt": "2026-04-29T15:16:31.194Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "thailand-078",
@@ -1635,7 +1795,9 @@
     "featured": false,
     "sortOrder": 78,
     "createdAt": "2026-04-29T15:16:31.491Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "thailand-079",
@@ -1656,7 +1818,9 @@
     "featured": false,
     "sortOrder": 79,
     "createdAt": "2026-04-29T15:16:31.803Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-080",
@@ -1677,7 +1841,9 @@
     "featured": false,
     "sortOrder": 80,
     "createdAt": "2026-04-29T15:16:32.086Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-081",
@@ -1698,7 +1864,9 @@
     "featured": false,
     "sortOrder": 81,
     "createdAt": "2026-04-29T15:16:32.401Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-082",
@@ -1719,7 +1887,9 @@
     "featured": false,
     "sortOrder": 82,
     "createdAt": "2026-04-29T15:16:32.691Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-083",
@@ -1740,7 +1910,9 @@
     "featured": false,
     "sortOrder": 83,
     "createdAt": "2026-04-29T15:16:32.984Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-084",
@@ -1761,7 +1933,9 @@
     "featured": false,
     "sortOrder": 84,
     "createdAt": "2026-04-29T15:16:33.254Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-085",
@@ -1782,7 +1956,9 @@
     "featured": false,
     "sortOrder": 85,
     "createdAt": "2026-04-29T15:16:33.527Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-086",
@@ -1803,7 +1979,9 @@
     "featured": false,
     "sortOrder": 86,
     "createdAt": "2026-04-29T15:16:33.808Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-087",
@@ -1824,7 +2002,9 @@
     "featured": false,
     "sortOrder": 87,
     "createdAt": "2026-04-29T15:16:34.111Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-088",
@@ -1845,7 +2025,9 @@
     "featured": false,
     "sortOrder": 88,
     "createdAt": "2026-04-29T15:16:34.424Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-089",
@@ -1866,7 +2048,9 @@
     "featured": false,
     "sortOrder": 89,
     "createdAt": "2026-04-29T15:16:34.718Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-090",
@@ -1887,7 +2071,9 @@
     "featured": false,
     "sortOrder": 90,
     "createdAt": "2026-04-29T15:16:35.060Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-091",
@@ -1908,7 +2094,9 @@
     "featured": false,
     "sortOrder": 91,
     "createdAt": "2026-04-29T15:16:35.351Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200
   },
   {
     "id": "tokyo-092",
@@ -1918,7 +2106,7 @@
     "width": 1600,
     "height": 2400,
     "blurhash": null,
-    "caption": "Mt. Fuji from Lake Yamanaka",
+    "caption": "The last stretch of evening before everyone disappears inside.",
     "category": "tokyo",
     "camera": "FUJIFILM X-T30 II",
     "lens": "Fujinon 15.0-45.0 mm f/3.5-5.6",
@@ -1929,6 +2117,11 @@
     "featured": true,
     "sortOrder": 92,
     "createdAt": "2026-04-29T15:16:35.699Z",
-    "journalEntryId": null
+    "journalEntryId": null,
+    "thumbWidth": 800,
+    "thumbHeight": 1200,
+    "title": "Tokyo at Closing Time",
+    "location": "Tokyo, Japan",
+    "story": "Tokyo can feel loud from a distance, but this moment was the opposite. It was the kind of evening where the glow from windows does most of the talking and the street keeps the rest to itself."
   }
 ]

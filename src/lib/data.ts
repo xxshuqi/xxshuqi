@@ -1,22 +1,10 @@
 import fs from "fs";
 import path from "path";
+import type { PhotoAsset } from "./photoMedia";
 
-export interface Photo {
-  id: string;
+export interface Photo extends PhotoAsset {
   filename: string;
-  originalUrl: string;
-  thumbUrl: string;
-  width: number;
-  height: number;
   blurhash?: string | null;
-  caption?: string | null;
-  category?: string | null;
-  camera?: string | null;
-  lens?: string | null;
-  aperture?: string | null;
-  shutter?: string | null;
-  iso?: string | null;
-  filmSim?: string | null;
   featured: boolean;
   sortOrder: number;
   createdAt: string;

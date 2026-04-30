@@ -164,14 +164,23 @@ body::after {
   .section-journal {
     padding: 0 24px 60px !important;
   }
+  .journal-section {
+    padding: 40px 24px 80px !important;
+  }
   .gallery-section {
     padding: 40px 20px 60px !important;
+  }
+  .gallery-header {
+    margin-bottom: 40px !important;
   }
 
   /* Hero: tighten horizontal padding */
   .hero-section {
     padding-left: 24px !important;
     padding-right: 24px !important;
+  }
+  .hero-bg-image {
+    object-position: center 72% !important;
   }
   .hero-bottom-info {
     display: none;

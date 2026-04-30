@@ -58,7 +58,7 @@ export default function AboutPage() {
                 </p>
               ))}
               <p style={{ textAlign: "right", fontStyle: "italic", marginTop: "2em", color: "var(--text-light)" }}>
-                — ShuQi, The Wandering Bunny 🐰
+                ShuQi, The Wandering Bunny 🐰
               </p>
             </div>
 

@@ -22,7 +22,7 @@ export default function Hero({
   const hasBg = !!bgUrl;
   const textColor = hasBg ? "#fff" : "var(--text)";
   const textMid = hasBg ? "rgba(255,255,255,0.8)" : "var(--text-mid)";
-  const textFaint = hasBg ? "rgba(255,255,255,0.45)" : "var(--text-faint)";
+  const textFaint = hasBg ? "rgba(255,255,255,0.75)" : "var(--text-faint)";
   const borderColor = hasBg ? "rgba(255,255,255,0.3)" : "var(--border)";
   const linkSecondary = hasBg ? "rgba(255,255,255,0.6)" : "var(--text-light)";
 
@@ -70,11 +70,11 @@ export default function Hero({
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjNWQ4ZTMiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzliYjhjOSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzdhOWFhZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+PC9zdmc+"
               style={{ objectFit: "cover" }}
-              className={bgClass}
+              className={`hero-bg-image ${bgClass}`.trim()}
             />
           </div>
 
-          {/* White overlay to keep it film-toned & text readable */}
+          {/* White overlay to keep it film-toned */}
           <div
             style={{
               position: "absolute",
@@ -83,10 +83,22 @@ export default function Hero({
               background: `rgba(255, 255, 255, ${bgOverlay})`,
             }}
           />
+
+          {/* Dark gradient overlay for text legibility (top + bottom darker, middle lighter) */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 1,
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.10) 35%, rgba(0,0,0,0.10) 65%, rgba(0,0,0,0.45) 100%)",
+              pointerEvents: "none",
+            }}
+          />
         </>
       )}
 
-      {/* Content — sits above bg */}
+      {/* Content - sits above bg */}
       <div style={{ position: "relative", zIndex: 2 }}>
         {/* Top label */}
         <motion.div

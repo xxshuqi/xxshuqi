@@ -2,19 +2,15 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-
-interface Photo {
-  id: string;
-  thumbUrl: string;
-  originalUrl: string;
-  width: number;
-  height: number;
-  caption?: string | null;
-  category?: string | null;
-}
+import type { PhotoAsset } from "@/lib/photoMedia";
+import {
+  buildPhotoSrcSet,
+  getPhotoAlt,
+  getThumbIntrinsicSize,
+} from "@/lib/photoMedia";
 
 interface PhotoGridProps {
-  photos: Photo[];
+  photos: PhotoAsset[];
 }
 
 const container = {
@@ -89,11 +85,11 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={photo.thumbUrl}
-                  srcSet={`${photo.thumbUrl} 1200w, ${photo.originalUrl} 2400w`}
+                  srcSet={buildPhotoSrcSet(photo)}
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  alt={photo.caption ?? "Photo"}
-                  width="800"
-                  height="1000"
+                  alt={getPhotoAlt(photo, "Photo")}
+                  width={getThumbIntrinsicSize(photo).width}
+                  height={getThumbIntrinsicSize(photo).height}
                   loading="lazy"
                   decoding="async"
                   style={{

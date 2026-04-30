@@ -2,22 +2,15 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-
-interface Photo {
-  id: string;
-  originalUrl: string;
-  thumbUrl: string;
-  width: number;
-  height: number;
-  caption?: string | null;
-  camera?: string | null;
-  aperture?: string | null;
-  shutter?: string | null;
-  filmSim?: string | null;
-}
+import type { PhotoAsset } from "@/lib/photoMedia";
+import {
+  buildPhotoSrcSet,
+  getPhotoAlt,
+  getThumbIntrinsicSize,
+} from "@/lib/photoMedia";
 
 interface FeaturedStoryProps {
-  photo: Photo | null;
+  photo: PhotoAsset | null;
 }
 
 export default function FeaturedStory({ photo }: FeaturedStoryProps) {
@@ -27,7 +20,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         className="featured-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+          gridTemplateColumns: "minmax(320px, 1.05fr) minmax(260px, 0.95fr)",
           gap: "60px",
           alignItems: "center",
           padding: "80px 0",
@@ -54,48 +47,63 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
       className="featured-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
-        gap: "80px",
+        gridTemplateColumns: "minmax(320px, 1.05fr) minmax(260px, 0.95fr)",
+        gap: "56px",
         alignItems: "center",
       }}
     >
-      <Link href={`/gallery?photo=${photo.id}`} style={{ display: "block", minWidth: 0 }}>
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        whileHover="hovered"
+      <Link
+        href={`/gallery?photo=${photo.id}`}
         style={{
-          position: "relative",
-          overflow: "hidden",
-          background:
-            "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
-          cursor: "pointer",
+          display: "block",
+          minWidth: 0,
           width: "100%",
+          maxWidth: "640px",
         }}
       >
         <motion.div
-          variants={{
-            hovered: { scale: 1.04, filter: "saturate(1.15) brightness(1.06) contrast(1.05)" },
-          }}
-          initial={{ filter: "saturate(1) brightness(1) contrast(1)" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          whileHover="hovered"
           style={{ width: "100%" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={photo.thumbUrl}
-            srcSet={`${photo.thumbUrl} 1200w, ${photo.originalUrl} 2400w`}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            alt={photo.caption ?? "Featured photo"}
-            width={photo.width}
-            height={photo.height}
-            decoding="async"
-            style={{ width: "100%", height: "auto", display: "block" }}
-          />
+          <motion.div
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              background:
+                "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
+              cursor: "pointer",
+              width: "100%",
+            }}
+          >
+            <motion.div
+              variants={{
+                hovered: {
+                  scale: 1.04,
+                  filter: "saturate(1.15) brightness(1.06) contrast(1.05)",
+                },
+              }}
+              initial={{ filter: "saturate(1) brightness(1) contrast(1)" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{ width: "100%" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photo.thumbUrl}
+                srcSet={buildPhotoSrcSet(photo)}
+                sizes="(max-width: 768px) 100vw, 46vw"
+                alt={getPhotoAlt(photo, "Featured photo")}
+                width={getThumbIntrinsicSize(photo).width}
+                height={getThumbIntrinsicSize(photo).height}
+                decoding="async"
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+            </motion.div>
+          </motion.div>
         </motion.div>
-      </motion.div>
       </Link>
 
       <motion.div
@@ -103,6 +111,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        style={{ maxWidth: "420px" }}
       >
         {photo.filmSim && (
           <p
@@ -116,6 +125,22 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
           >
             {photo.filmSim}
           </p>
+        )}
+
+        {photo.title && (
+          <h2
+            style={{
+              fontFamily: "Libre Caslon Display, Georgia, serif",
+              fontSize: "40px",
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.05,
+              color: "var(--text)",
+              marginBottom: "16px",
+            }}
+          >
+            {photo.title}
+          </h2>
         )}
 
         {photo.caption && (

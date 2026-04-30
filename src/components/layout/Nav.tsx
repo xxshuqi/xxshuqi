@@ -66,7 +66,7 @@ export default function Nav() {
           The Wandering Bunny.
         </Link>
 
-        {/* Desktop links — hidden on mobile via CSS */}
+        {/* Desktop links - hidden on mobile via CSS */}
         <div
           className="nav-desktop-links"
           style={{ display: "flex", gap: "36px", alignItems: "center" }}
@@ -93,7 +93,7 @@ export default function Nav() {
           })}
         </div>
 
-        {/* Hamburger button — shown only on mobile via CSS */}
+        {/* Hamburger button - shown only on mobile via CSS */}
         <button
           className="nav-hamburger-btn"
           onClick={() => setOpen((v) => !v)}

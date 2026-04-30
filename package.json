@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npx serve out"
+    "start": "npx serve out",
+    "backfill:photos": "node scripts/backfill-photo-metadata.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.13.1",

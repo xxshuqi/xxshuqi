@@ -41,7 +41,7 @@ export const DEFAULT_ABOUT: AboutConfig = {
   gear: [
     { label: "Body", value: "Fujifilm X-T30 II" },
     { label: "Lens", value: "Fujinon XC 14–45mm" },
-    { label: "Film sims", value: "Classic Negative, Classic Chrome, Acros" },
+    { label: "Film sims", value: "Classic Negative, Acros" },
   ],
 };
 

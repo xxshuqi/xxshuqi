@@ -8,6 +8,9 @@ import JournalPreview from "@/components/home/JournalPreview";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
+const HOME_SIDE_PADDING = "80px";
+const HOME_SECTION_SPACING = "80px";
+
 export default function HomePage() {
   const settings = getSettings();
   const { sections, hero } = settings;
@@ -66,7 +69,10 @@ export default function HomePage() {
       case "featured":
         return (
           <ScrollReveal key="featured">
-            <section className="section-featured" style={{ padding: "120px 80px" }}>
+            <section
+              className="section-featured"
+              style={{ padding: `100px ${HOME_SIDE_PADDING} ${HOME_SECTION_SPACING}` }}
+            >
               <SectionLabel number={sectionNumber("featured")} label="Featured" />
               <FeaturedStory photo={featuredPhoto} />
             </section>
@@ -76,7 +82,10 @@ export default function HomePage() {
       case "grid":
         return (
           <ScrollReveal key="grid">
-            <section className="section-grid" style={{ padding: "0 80px 120px" }}>
+            <section
+              className="section-grid"
+              style={{ padding: `0 ${HOME_SIDE_PADDING} ${HOME_SECTION_SPACING}` }}
+            >
               <SectionLabel number={sectionNumber("grid")} label="Recent Work" />
               <PhotoGrid photos={recentPhotos} />
             </section>
@@ -86,8 +95,14 @@ export default function HomePage() {
       case "filmstrip":
         return filmStripPhotos.length > 0 ? (
           <ScrollReveal key="filmstrip">
-            <section className="section-filmstrip-wrap" style={{ marginBottom: "120px" }}>
-              <div className="section-filmstrip-label" style={{ padding: "0 80px", marginBottom: "32px" }}>
+            <section
+              className="section-filmstrip-wrap"
+              style={{ marginBottom: HOME_SECTION_SPACING }}
+            >
+              <div
+                className="section-filmstrip-label"
+                style={{ padding: `0 ${HOME_SIDE_PADDING}`, marginBottom: "24px" }}
+              >
                 <SectionLabel number={sectionNumber("filmstrip")} label="Contact Sheet" />
               </div>
               <FilmStrip photos={filmStripPhotos} />
@@ -98,7 +113,10 @@ export default function HomePage() {
       case "journal":
         return (
           <ScrollReveal key="journal">
-            <section className="section-journal" style={{ padding: "0 80px 120px" }}>
+            <section
+              className="section-journal"
+              style={{ padding: `0 ${HOME_SIDE_PADDING} ${HOME_SECTION_SPACING}` }}
+            >
               <SectionLabel number={sectionNumber("journal")} label="Journal" />
               <JournalPreview entries={journalEntries} />
             </section>
