@@ -20,7 +20,8 @@
     "createdAt": "2026-04-29T15:16:09.889Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-002",
@@ -43,7 +44,8 @@
     "createdAt": "2026-04-29T15:16:10.213Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-003",
@@ -92,7 +94,8 @@
     "createdAt": "2026-04-29T15:16:10.598Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-005",
@@ -115,7 +118,8 @@
     "createdAt": "2026-04-29T15:16:10.896Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-006",
@@ -138,7 +142,8 @@
     "createdAt": "2026-04-29T15:16:11.201Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-007",
@@ -161,7 +166,8 @@
     "createdAt": "2026-04-29T15:16:11.502Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-008",
@@ -184,7 +190,10 @@
     "createdAt": "2026-04-29T15:16:11.815Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Copenhagen, Denmark",
+    "title": "Wide-angle Copenhagen",
+    "story": "Stepped back from the canal to fit more of the row in. The light was cooler here, the buildings a touch more weathered. Classic Negative made the brick read warmer than it felt."
   },
   {
     "id": "copenhagen-009",
@@ -207,7 +216,8 @@
     "createdAt": "2026-04-29T15:16:12.148Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-010",
@@ -230,7 +240,8 @@
     "createdAt": "2026-04-29T15:16:12.443Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 799
+    "thumbHeight": 799,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-011",
@@ -253,7 +264,8 @@
     "createdAt": "2026-04-29T15:16:12.769Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-012",
@@ -276,7 +288,8 @@
     "createdAt": "2026-04-29T15:16:13.107Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-013",
@@ -299,7 +312,8 @@
     "createdAt": "2026-04-29T15:16:13.440Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-014",
@@ -322,7 +336,8 @@
     "createdAt": "2026-04-29T15:16:13.764Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-015",
@@ -345,7 +360,8 @@
     "createdAt": "2026-04-29T15:16:14.089Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-016",
@@ -368,7 +384,8 @@
     "createdAt": "2026-04-29T15:16:14.401Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-017",
@@ -391,7 +408,8 @@
     "createdAt": "2026-04-29T15:16:14.672Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-018",
@@ -414,7 +432,8 @@
     "createdAt": "2026-04-29T15:16:14.973Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-019",
@@ -437,7 +456,8 @@
     "createdAt": "2026-04-29T15:16:15.287Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-020",
@@ -460,7 +480,8 @@
     "createdAt": "2026-04-29T15:16:15.600Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-021",
@@ -483,7 +504,8 @@
     "createdAt": "2026-04-29T15:16:15.924Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-022",
@@ -506,7 +528,8 @@
     "createdAt": "2026-04-29T15:16:16.245Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-023",
@@ -529,7 +552,8 @@
     "createdAt": "2026-04-29T15:16:16.570Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-024",
@@ -552,7 +576,8 @@
     "createdAt": "2026-04-29T15:16:16.764Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-025",
@@ -575,7 +600,10 @@
     "createdAt": "2026-04-29T15:16:16.965Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Copenhagen, Denmark",
+    "title": "Nyhavn, before the boats moved",
+    "story": "I sat on the stone wall for maybe twenty minutes waiting for the wind to settle. The boats hadn't started moving yet. A few locals walked by, no tourists, no accordion music yet. For a few seconds it was just the colors waiting to start the day."
   },
   {
     "id": "hokkaido-026",
@@ -598,7 +626,8 @@
     "createdAt": "2026-04-29T15:16:17.269Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Hokkaido, Japan"
   },
   {
     "id": "hokkaido-027",
@@ -621,7 +650,8 @@
     "createdAt": "2026-04-29T15:16:17.490Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Hokkaido, Japan"
   },
   {
     "id": "hokkaido-028",
@@ -644,7 +674,8 @@
     "createdAt": "2026-04-29T15:16:17.859Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Hokkaido, Japan"
   },
   {
     "id": "hokkaido-029",
@@ -667,7 +698,10 @@
     "createdAt": "2026-04-29T15:16:18.085Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Hokkaido, Japan",
+    "title": "Hokkaido, indoors",
+    "story": "Cold enough outside that the windows stayed half-fogged. ISO had to climb a little. I like how the noise sits underneath the warm tones — it gives the image a memory of how cold it actually was."
   },
   {
     "id": "hokkaido-030",
@@ -690,7 +724,8 @@
     "createdAt": "2026-04-29T15:16:18.307Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Hokkaido, Japan"
   },
   {
     "id": "hokkaido-031",
@@ -713,7 +748,8 @@
     "createdAt": "2026-04-29T15:16:18.531Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Hokkaido, Japan"
   },
   {
     "id": "korea-032",
@@ -736,7 +772,10 @@
     "createdAt": "2026-04-29T15:16:18.705Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea",
+    "title": "The Wandering One",
+    "story": "She'd been walking the seawall ahead of her parents, a tiny figure in a beanie working out the world by the time we crossed paths. I lifted the camera and she looked over for one quiet second."
   },
   {
     "id": "korea-033",
@@ -759,7 +798,8 @@
     "createdAt": "2026-04-29T15:16:18.982Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-034",
@@ -782,7 +822,8 @@
     "createdAt": "2026-04-29T15:16:19.147Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-035",
@@ -805,7 +846,8 @@
     "createdAt": "2026-04-29T15:16:19.420Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-036",
@@ -828,7 +870,8 @@
     "createdAt": "2026-04-29T15:16:19.698Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-037",
@@ -851,7 +894,8 @@
     "createdAt": "2026-04-29T15:16:19.994Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-038",
@@ -874,7 +918,8 @@
     "createdAt": "2026-04-29T15:16:20.300Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-039",
@@ -897,7 +942,8 @@
     "createdAt": "2026-04-29T15:16:20.610Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-040",
@@ -920,7 +966,10 @@
     "createdAt": "2026-04-29T15:16:20.925Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Jeju, Korea",
+    "title": "Cafe morning, Jeju",
+    "story": "A roadside cafe with all the windows open to the sea wind. The kind of place where you order a single cup and stay an hour. The orange peel and the glass jars caught me before the coffee did."
   },
   {
     "id": "korea-041",
@@ -943,7 +992,8 @@
     "createdAt": "2026-04-29T15:16:21.253Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-042",
@@ -966,7 +1016,8 @@
     "createdAt": "2026-04-29T15:16:21.568Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-043",
@@ -989,7 +1040,8 @@
     "createdAt": "2026-04-29T15:16:21.869Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-044",
@@ -1012,7 +1064,8 @@
     "createdAt": "2026-04-29T15:16:22.145Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Jeju, Korea"
   },
   {
     "id": "oslo-045",
@@ -1061,7 +1114,8 @@
     "createdAt": "2026-04-29T15:16:22.774Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Oslo, Norway"
   },
   {
     "id": "random-047",
@@ -1337,7 +1391,8 @@
     "createdAt": "2026-04-29T15:16:25.658Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Stockholm, Sweden"
   },
   {
     "id": "stockholm-059",
@@ -1360,7 +1415,8 @@
     "createdAt": "2026-04-29T15:16:25.957Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Stockholm, Sweden"
   },
   {
     "id": "stockholm-060",
@@ -1383,7 +1439,8 @@
     "createdAt": "2026-04-29T15:16:26.132Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Stockholm, Sweden"
   },
   {
     "id": "stockholm-061",
@@ -1406,7 +1463,8 @@
     "createdAt": "2026-04-29T15:16:26.441Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Stockholm, Sweden"
   },
   {
     "id": "stockholm-062",
@@ -1429,7 +1487,8 @@
     "createdAt": "2026-04-29T15:16:26.714Z",
     "journalEntryId": null,
     "thumbWidth": 799,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Stockholm, Sweden"
   },
   {
     "id": "taiwan-063",
@@ -1452,7 +1511,10 @@
     "createdAt": "2026-04-29T15:16:27.015Z",
     "journalEntryId": null,
     "thumbWidth": 1200,
-    "thumbHeight": 800
+    "thumbHeight": 800,
+    "location": "Taiwan",
+    "title": "Afternoon in Taiwan",
+    "story": "The kind of light that looks easy to shoot but actually hides everything in shadow if you don't watch your meter. Held for half a second, exposed for the highlights, let the rest fall where it wanted."
   },
   {
     "id": "taiwan-064",
@@ -1475,7 +1537,8 @@
     "createdAt": "2026-04-29T15:16:27.302Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-065",
@@ -1498,7 +1561,8 @@
     "createdAt": "2026-04-29T15:16:27.590Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-066",
@@ -1521,7 +1585,8 @@
     "createdAt": "2026-04-29T15:16:27.903Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-067",
@@ -1544,7 +1609,8 @@
     "createdAt": "2026-04-29T15:16:28.198Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-068",
@@ -1567,7 +1633,8 @@
     "createdAt": "2026-04-29T15:16:28.510Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-069",
@@ -1590,7 +1657,8 @@
     "createdAt": "2026-04-29T15:16:28.811Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-070",
@@ -1613,7 +1681,8 @@
     "createdAt": "2026-04-29T15:16:29.097Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-071",
@@ -1636,7 +1705,8 @@
     "createdAt": "2026-04-29T15:16:29.401Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-072",
@@ -1659,7 +1729,8 @@
     "createdAt": "2026-04-29T15:16:29.687Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-073",
@@ -1682,7 +1753,8 @@
     "createdAt": "2026-04-29T15:16:29.972Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-074",
@@ -1705,7 +1777,8 @@
     "createdAt": "2026-04-29T15:16:30.276Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-075",
@@ -1728,7 +1801,8 @@
     "createdAt": "2026-04-29T15:16:30.592Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-076",
@@ -1751,7 +1825,8 @@
     "createdAt": "2026-04-29T15:16:30.907Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Taiwan"
   },
   {
     "id": "thailand-077",
@@ -1774,7 +1849,8 @@
     "createdAt": "2026-04-29T15:16:31.194Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Thailand"
   },
   {
     "id": "thailand-078",
@@ -1797,7 +1873,8 @@
     "createdAt": "2026-04-29T15:16:31.491Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Thailand"
   },
   {
     "id": "thailand-079",
@@ -1820,7 +1897,8 @@
     "createdAt": "2026-04-29T15:16:31.803Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Thailand"
   },
   {
     "id": "tokyo-080",
@@ -1843,7 +1921,8 @@
     "createdAt": "2026-04-29T15:16:32.086Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-081",
@@ -1866,7 +1945,8 @@
     "createdAt": "2026-04-29T15:16:32.401Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-082",
@@ -1889,7 +1969,8 @@
     "createdAt": "2026-04-29T15:16:32.691Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-083",
@@ -1912,7 +1993,8 @@
     "createdAt": "2026-04-29T15:16:32.984Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-084",
@@ -1935,7 +2017,8 @@
     "createdAt": "2026-04-29T15:16:33.254Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-085",
@@ -1958,7 +2041,8 @@
     "createdAt": "2026-04-29T15:16:33.527Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-086",
@@ -1981,7 +2065,8 @@
     "createdAt": "2026-04-29T15:16:33.808Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-087",
@@ -2004,7 +2089,8 @@
     "createdAt": "2026-04-29T15:16:34.111Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-088",
@@ -2027,7 +2113,8 @@
     "createdAt": "2026-04-29T15:16:34.424Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-089",
@@ -2050,7 +2137,8 @@
     "createdAt": "2026-04-29T15:16:34.718Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-090",
@@ -2073,7 +2161,8 @@
     "createdAt": "2026-04-29T15:16:35.060Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-091",
@@ -2096,7 +2185,8 @@
     "createdAt": "2026-04-29T15:16:35.351Z",
     "journalEntryId": null,
     "thumbWidth": 800,
-    "thumbHeight": 1200
+    "thumbHeight": 1200,
+    "location": "Tokyo, Japan"
   },
   {
     "id": "tokyo-092",
