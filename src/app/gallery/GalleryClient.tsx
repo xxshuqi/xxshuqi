@@ -187,6 +187,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
       <ScrollReveal>
         <div id={`photo-${photo.id}`}>
           <div
+            className="gallery-photo"
             onClick={() => openLightbox(photo.id)}
             style={{
               position: "relative",
@@ -254,6 +255,16 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
           100% { outline: 2px solid transparent; outline-offset: 4px; }
         }
         .photo-highlight { animation: photo-pulse 1.6s ease forwards; }
+        .gallery-photo {
+          transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), filter 0.5s ease;
+        }
+        .gallery-photo:hover {
+          transform: scale(1.02);
+          filter: saturate(1.12) brightness(1.04) contrast(1.03);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .gallery-photo, .gallery-photo:hover { transition: none; transform: none; filter: none; }
+        }
       `}</style>
 
       <section className="gallery-section" style={{ padding: "80px 80px 120px" }}>
@@ -340,6 +351,117 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
           >
             No photos in this category yet
           </div>
+        ) : activeCategory === "all" ? (
+          <motion.div
+            key="all-chapters"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            {[...PLACE_CATEGORIES.filter((c) => c !== "all"), RANDOM_CATEGORY].map(
+              (loc) => {
+                const chapter = filtered.filter((p) => p.category === loc);
+                if (chapter.length === 0) return null;
+                const chapterLandscape = chapter.filter(
+                  (p) => p.width > p.height
+                );
+                const chapterPortrait = chapter.filter(
+                  (p) => p.width <= p.height
+                );
+                const chapterTitle =
+                  loc.charAt(0).toUpperCase() + loc.slice(1);
+                return (
+                  <section
+                    key={loc}
+                    style={{ marginBottom: "100px" }}
+                    aria-label={`${chapterTitle} photos`}
+                  >
+                    {/* Location chapter header */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        gap: "24px",
+                        marginBottom: "40px",
+                      }}
+                    >
+                      <h2
+                        style={{
+                          fontFamily:
+                            "Libre Caslon Display, Georgia, serif",
+                          fontSize: "36px",
+                          fontWeight: 400,
+                          letterSpacing: "-0.02em",
+                          color: "var(--text)",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {chapterTitle}
+                      </h2>
+                      <div
+                        style={{
+                          flex: 1,
+                          height: "1px",
+                          background: "var(--text)",
+                          opacity: 0.6,
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontFamily: "DM Sans, system-ui, sans-serif",
+                          fontSize: "11px",
+                          color: "var(--text-light)",
+                          fontVariantNumeric: "tabular-nums",
+                          letterSpacing: "0.1em",
+                        }}
+                      >
+                        {String(chapter.length).padStart(2, "0")} photos
+                      </span>
+                    </div>
+
+                    {chapterLandscape.length > 0 && (
+                      <div
+                        className="photo-grid-3col"
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(3, 1fr)",
+                          gap: "12px",
+                          marginBottom:
+                            chapterPortrait.length > 0 ? "12px" : "0",
+                        }}
+                      >
+                        {chapterLandscape.map((photo) => (
+                          <PhotoCard
+                            key={photo.id}
+                            photo={photo}
+                            sizes="(max-width: 768px) 50vw, 33vw"
+                          />
+                        ))}
+                      </div>
+                    )}
+                    {chapterPortrait.length > 0 && (
+                      <div
+                        className="photo-grid-4col"
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(4, 1fr)",
+                          gap: "12px",
+                        }}
+                      >
+                        {chapterPortrait.map((photo) => (
+                          <PhotoCard
+                            key={photo.id}
+                            photo={photo}
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                );
+              }
+            )}
+          </motion.div>
         ) : (
           <motion.div
             key={activeCategory}

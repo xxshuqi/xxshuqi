@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -11,6 +12,46 @@ export async function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const entry = getJournalEntries().find(
+    (e) => e.slug === slug && e.published
+  );
+  if (!entry) return {};
+
+  const cover =
+    entry.photos.find((p) => p.id === entry.coverPhotoId) ?? entry.photos[0];
+  const description = entry.subtitle ?? entry.body.slice(0, 160);
+
+  return {
+    title: `${entry.title} — The Wandering Bunny`,
+    description,
+    openGraph: {
+      title: entry.title,
+      description,
+      type: "article",
+      images: cover
+        ? [
+            {
+              url: cover.originalUrl,
+              width: cover.width,
+              height: cover.height,
+              alt: cover.caption ?? entry.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: entry.title,
+      description,
+      images: cover ? [cover.originalUrl] : undefined,
+    },
+  };
 }
 
 export default async function JournalEntryPage({ params }: PageProps) {
