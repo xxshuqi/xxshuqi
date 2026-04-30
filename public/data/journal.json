@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "id": "first-light-nyhavn",
+    "title": "First Light, Nyhavn",
+    "subtitle": "Copenhagen at the edge of morning",
+    "slug": "first-light-nyhavn",
+    "category": "Copenhagen",
+    "published": true,
+    "coverPhotoId": "copenhagen-025",
+    "createdAt": "2026-04-19T07:30:00.000Z",
+    "body": "I'd been waiting for the wind to die down. Walking the canal that morning, the light was hitting the painted houses in that particular Scandinavian way. Low, soft, almost silver.\n\nI sat on the low stone wall by the water for maybe twenty minutes. The boats hadn't started moving yet. A few locals walked by. No tourists, no accordion music, just the soft clink of rigging on the masts.\n\nWhen I finally lifted the camera, what I caught wasn't the postcard view I'd planned for. It was just the quiet. The colors waiting. That kind of stillness you only get before a place fully wakes up.\n\nClassic Negative did most of the work after that. There's a softness in the orange paint, a particular kind of patient blue in the water, that I don't think any other film simulation gets quite right. Walking back to the apartment with cold fingers, I already knew this set would stay with me.",
+    "photos": [
+      {
+        "id": "copenhagen-025",
+        "originalUrl": "/uploads/originals/copenhagen-025.jpg",
+        "thumbUrl": "/uploads/thumbnails/thumb-copenhagen-025.jpg",
+        "width": 1600,
+        "height": 2400,
+        "caption": "Nyhavn just before the boats started moving"
+      },
+      {
+        "id": "copenhagen-021",
+        "originalUrl": "/uploads/originals/copenhagen-021.jpg",
+        "thumbUrl": "/uploads/thumbnails/thumb-copenhagen-021.jpg",
+        "width": 2400,
+        "height": 1600,
+        "caption": null
+      },
+      {
+        "id": "copenhagen-008",
+        "originalUrl": "/uploads/originals/copenhagen-008.jpg",
+        "thumbUrl": "/uploads/thumbnails/thumb-copenhagen-008.jpg",
+        "width": 2400,
+        "height": 1600,
+        "caption": null
+      },
+      {
+        "id": "copenhagen-001",
+        "originalUrl": "/uploads/originals/copenhagen-001.jpg",
+        "thumbUrl": "/uploads/thumbnails/thumb-copenhagen-001.jpg",
+        "width": 1600,
+        "height": 2400,
+        "caption": null
+      }
+    ]
+  }
+]
