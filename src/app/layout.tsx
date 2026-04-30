@@ -50,7 +50,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=DM+Sans:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
       </head>

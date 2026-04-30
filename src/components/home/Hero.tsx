@@ -143,7 +143,7 @@ export default function Hero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontFamily: "Libre Caslon Display, Georgia, serif",
+              fontFamily: "DM Sans, system-ui, sans-serif",
               fontSize: "clamp(52px, 8vw, 96px)",
               fontWeight: 400,
               lineHeight: 0.95,

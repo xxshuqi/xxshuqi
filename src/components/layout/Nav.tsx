@@ -56,7 +56,7 @@ export default function Nav() {
         <Link
           href="/"
           style={{
-            fontFamily: "Libre Caslon Display, Georgia, serif",
+            fontFamily: "DM Sans, system-ui, sans-serif",
             fontSize: "16px",
             letterSpacing: "0.06em",
             color: "var(--text)",
@@ -137,7 +137,7 @@ export default function Nav() {
               href={href}
               onClick={() => setOpen(false)}
               style={{
-                fontFamily: "Libre Caslon Display, Georgia, serif",
+                fontFamily: "DM Sans, system-ui, sans-serif",
                 fontSize: "clamp(36px, 10vw, 52px)",
                 fontWeight: 400,
                 color: "var(--text)",

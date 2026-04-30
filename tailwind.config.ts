@@ -19,9 +19,9 @@ const config: Config = {
         accent: "var(--accent)",
       },
       fontFamily: {
-        display: ["Libre Caslon Display", "Georgia", "serif"],
+        display: ["DM Sans", "system-ui", "sans-serif"],
         sans: ["DM Sans", "system-ui", "sans-serif"],
-        prose: ["Crimson Pro", "Georgia", "serif"],
+        prose: ["DM Sans", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         widest: "0.2em",
