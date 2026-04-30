@@ -86,6 +86,7 @@ export default function Hero({
 
           {/* Dark gradient overlay for text legibility (top + bottom darker, middle lighter) */}
           <div
+            className="hero-dark-overlay"
             style={{
               position: "absolute",
               inset: 0,

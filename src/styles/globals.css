@@ -174,13 +174,30 @@ body::after {
     margin-bottom: 40px !important;
   }
 
-  /* Hero: tighten horizontal padding */
+  /* Hero: tighten horizontal padding & anchor content to the bottom so
+     the photo subject in the upper portion stays clear (FIXES.md item 14).
+     svh handles iOS Safari URL bar correctly. */
   .hero-section {
     padding-left: 24px !important;
     padding-right: 24px !important;
+    min-height: 100svh !important;
+    justify-content: flex-end !important;
+    padding-bottom: 64px !important;
   }
+  /* Shift the image so the subject sits in the upper unblocked area */
   .hero-bg-image {
-    object-position: center 72% !important;
+    object-position: center 30% !important;
+  }
+  /* Mobile gradient: clear at top (where subject sits), heavier at bottom
+     under the content. */
+  .hero-dark-overlay {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.05) 0%,
+        rgba(0, 0, 0, 0.05) 45%,
+        rgba(0, 0, 0, 0.55) 100%
+      ) !important;
   }
   .hero-bottom-info {
     display: none;
