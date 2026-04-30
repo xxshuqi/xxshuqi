@@ -352,22 +352,35 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "24px",
+                    alignItems: "baseline",
+                    gap: "20px",
+                    marginBottom: "28px",
                   }}
                 >
-                  <span
+                  <h2
                     style={{
-                      fontSize: "10px",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "var(--text-light)",
+                      fontFamily: "Libre Caslon Display, Georgia, serif",
+                      fontStyle: "italic",
+                      fontSize: "22px",
+                      fontWeight: 400,
+                      letterSpacing: "-0.01em",
+                      color: "var(--text)",
+                      lineHeight: 1,
                     }}
                   >
-                    Landscape · {landscapePhotos.length} photos
-                  </span>
+                    Landscape
+                  </h2>
                   <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+                  <span
+                    style={{
+                      fontFamily: "DM Sans, system-ui, sans-serif",
+                      fontSize: "11px",
+                      color: "var(--text-faint)",
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {String(landscapePhotos.length).padStart(2, "0")}
+                  </span>
                 </div>
                 <div
                   className="photo-grid-3col"
@@ -393,22 +406,35 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "24px",
+                    alignItems: "baseline",
+                    gap: "20px",
+                    marginBottom: "28px",
                   }}
                 >
-                  <span
+                  <h2
                     style={{
-                      fontSize: "10px",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "var(--text-light)",
+                      fontFamily: "Libre Caslon Display, Georgia, serif",
+                      fontStyle: "italic",
+                      fontSize: "22px",
+                      fontWeight: 400,
+                      letterSpacing: "-0.01em",
+                      color: "var(--text)",
+                      lineHeight: 1,
                     }}
                   >
-                    Portrait · {portraitPhotos.length} photos
-                  </span>
+                    Portrait
+                  </h2>
                   <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+                  <span
+                    style={{
+                      fontFamily: "DM Sans, system-ui, sans-serif",
+                      fontSize: "11px",
+                      color: "var(--text-faint)",
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {String(portraitPhotos.length).padStart(2, "0")}
+                  </span>
                 </div>
                 <div
                   className="photo-grid-4col"
