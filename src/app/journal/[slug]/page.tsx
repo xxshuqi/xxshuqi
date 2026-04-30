@@ -28,7 +28,7 @@ export async function generateMetadata({
   const description = entry.subtitle ?? entry.body.slice(0, 160);
 
   return {
-    title: `${entry.title} — The Wandering Bunny.`,
+    title: `${entry.title} — The Wandering Bunny`,
     description,
     openGraph: {
       title: entry.title,

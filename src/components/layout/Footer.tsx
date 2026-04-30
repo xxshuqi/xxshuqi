@@ -18,7 +18,7 @@ export default function Footer() {
           color: "var(--text-faint)",
         }}
       >
-        The Wandering Bunny. · Fujifilm · 2026
+        The Wandering Bunny · Fujifilm · 2026
       </span>
       <span
         style={{
