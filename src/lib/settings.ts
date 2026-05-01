@@ -49,7 +49,7 @@ export const DEFAULT_SETTINGS: HomepageSettings = {
   sections: [
     { id: "hero", label: "Hero", visible: true },
     { id: "featured", label: "Featured", visible: true },
-    { id: "grid", label: "Photo Grid", visible: true, count: 8 },
+    { id: "grid", label: "Photo Grid", visible: true, count: 14 },
     { id: "filmstrip", label: "Film Strip", visible: true, count: 12 },
     { id: "journal", label: "Journal", visible: true, count: 3 },
   ],

@@ -52,26 +52,23 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
     <motion.div
       variants={container}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      className="photo-grid-4col"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "12px",
-      }}
+      // Fires the stagger on mount instead of waiting for an IntersectionObserver
+      // event. Recent Work is often visible-ish on first paint; whileInView was
+      // leaving thumbnails stuck at opacity:0 when the section was already in view.
+      animate="show"
+      className="photo-mosaic-grid"
     >
       {photos.map((photo) => (
-        <motion.div key={photo.id} variants={item}>
-          <Link href={`/gallery?photo=${photo.id}`} style={{ display: "block" }}>
+        <motion.div key={photo.id} variants={item} className="photo-mosaic-item">
+          <Link href={`/gallery?photo=${photo.id}`} style={{ display: "block", textDecoration: "none" }}>
             <motion.div
               whileHover="hovered"
+              className="photo-mosaic-frame"
               style={{
                 position: "relative",
                 overflow: "hidden",
                 background:
                   "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
-                aspectRatio: "4 / 5",
               }}
             >
               <motion.div
@@ -80,24 +77,20 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
                 }}
                 initial={{ filter: "saturate(1) brightness(1) contrast(1)" }}
                 transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                style={{ position: "absolute", inset: 0 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={photo.thumbUrl}
                   srcSet={buildPhotoSrcSet(photo)}
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1199px) 50vw, 33vw"
                   alt={getPhotoAlt(photo, "Photo")}
                   width={getThumbIntrinsicSize(photo).width}
                   height={getThumbIntrinsicSize(photo).height}
                   loading="lazy"
                   decoding="async"
                   style={{
-                    position: "absolute",
-                    inset: 0,
                     width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
+                    height: "auto",
                     display: "block",
                   }}
                 />
@@ -111,9 +104,6 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
                   fontWeight: 300,
                   marginTop: "6px",
                   lineHeight: 1.5,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
                 }}
               >
                 {photo.caption}

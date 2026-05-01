@@ -1,8 +1,6 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import type { PhotoAsset } from "@/lib/photoMedia";
 import { getPhotoAlt } from "@/lib/photoMedia";
+import type { CSSProperties } from "react";
 
 interface FilmStripProps {
   photos: PhotoAsset[];
@@ -42,58 +40,32 @@ function Perforations() {
 }
 
 export default function FilmStrip({ photos }: FilmStripProps) {
-  const [paused, setPaused] = useState(false);
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const directionRef = useRef(1);
-
   if (photos.length === 0) return null;
 
-  useEffect(() => {
-    const node = scrollerRef.current;
-    if (!node) return;
-
-    let rafId = 0;
-    let lastTime = 0;
-
-    const tick = (time: number) => {
-      if (!lastTime) lastTime = time;
-      const delta = (time - lastTime) / 1000;
-      lastTime = time;
-
-      if (!paused) {
-        const maxScroll = Math.max(0, node.scrollWidth - node.clientWidth);
-        if (maxScroll > 0) {
-          const nextLeft =
-            node.scrollLeft + directionRef.current * SPEED_PX_PER_SEC * delta;
-          if (nextLeft >= maxScroll) {
-            node.scrollLeft = maxScroll;
-            directionRef.current = -1;
-          } else if (nextLeft <= 0) {
-            node.scrollLeft = 0;
-            directionRef.current = 1;
-          } else {
-            node.scrollLeft = nextLeft;
-          }
-        }
-      }
-
-      rafId = window.requestAnimationFrame(tick);
-    };
-
-    rafId = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(rafId);
-  }, [paused]);
+  const sequenceWidth = photos.length * (ITEM_WIDTH + ITEM_GAP);
+  const duration = Math.max(18, sequenceWidth / SPEED_PX_PER_SEC);
+  const repeatedPhotos = [...photos, ...photos];
 
   return (
     <>
       <style>{`
-        .filmstrip-scroll {
-          scrollbar-width: none;
+        @keyframes filmstrip-marquee {
+          from { transform: translate3d(0, 0, 0); }
+          to { transform: translate3d(-50%, 0, 0); }
         }
-        .filmstrip-scroll::-webkit-scrollbar {
-          display: none;
+        .filmstrip-track {
+          animation: filmstrip-marquee var(--filmstrip-duration) linear infinite;
+          display: flex;
+          gap: ${ITEM_GAP}px;
+          padding: 0 12px;
+          width: max-content;
+          will-change: transform;
+        }
+        .filmstrip-track:hover {
+          animation-play-state: paused;
         }
         .filmstrip-frame {
+          flex-shrink: 0;
           transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), filter 0.4s ease;
         }
         .filmstrip-frame:hover {
@@ -108,70 +80,57 @@ export default function FilmStrip({ photos }: FilmStripProps) {
 
         <div
           style={{ background: "#1a1a1a", padding: "12px 0", overflow: "hidden", cursor: "pointer" }}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
         >
           <div
-            ref={scrollerRef}
-            className="filmstrip-scroll"
+            className="filmstrip-track"
             data-contact-sheet
-            style={{ overflowX: "auto", overflowY: "hidden" }}
+            style={{ "--filmstrip-duration": `${duration}s` } as CSSProperties}
           >
-            <div
-              style={{
-                display: "flex",
-                gap: `${ITEM_GAP}px`,
-                width: "max-content",
-                padding: "0 12px",
-              }}
-            >
-              {photos.map((photo, index) => (
-                <div
-                  key={photo.id}
-                  className="filmstrip-frame"
+            {repeatedPhotos.map((photo, index) => (
+              <div
+                key={`${photo.id}-${index}`}
+                className="filmstrip-frame"
+                style={{
+                  width: `${ITEM_WIDTH}px`,
+                  height: "100px",
+                  position: "relative",
+                  overflow: "hidden",
+                  background: "linear-gradient(135deg, #2a3a45 0%, #1a2a35 100%)",
+                  filter: "saturate(0.7) contrast(1.1)",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photo.thumbUrl}
+                  alt={getPhotoAlt(photo, "")}
+                  width="140"
+                  height="100"
+                  loading="lazy"
+                  decoding="async"
                   style={{
-                    flexShrink: 0,
-                    width: `${ITEM_WIDTH}px`,
-                    height: "100px",
-                    position: "relative",
-                    overflow: "hidden",
-                    background: "linear-gradient(135deg, #2a3a45 0%, #1a2a35 100%)",
-                    filter: "saturate(0.7) contrast(1.1)",
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: 0.9,
+                  }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: "4px",
+                    right: "6px",
+                    fontSize: "9px",
+                    color: "rgba(255,255,255,0.4)",
+                    fontFamily: "monospace",
+                    letterSpacing: "0.1em",
                   }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.thumbUrl}
-                    alt={getPhotoAlt(photo, "")}
-                    width="140"
-                    height="100"
-                    loading="lazy"
-                    decoding="async"
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      opacity: 0.9,
-                    }}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      bottom: "4px",
-                      right: "6px",
-                      fontSize: "9px",
-                      color: "rgba(255,255,255,0.4)",
-                      fontFamily: "monospace",
-                      letterSpacing: "0.1em",
-                    }}
-                  >
-                    {String(index + 1).padStart(2, "0")}A
-                  </span>
-                </div>
-              ))}
-            </div>
+                  {String((index % photos.length) + 1).padStart(2, "0")}A
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 

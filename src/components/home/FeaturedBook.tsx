@@ -1,13 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  motion,
-  PanInfo,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-} from "framer-motion";
+import { motion, PanInfo, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
 export type FeaturedPhoto = {
@@ -30,8 +24,6 @@ interface FeaturedBookProps {
   photos: FeaturedPhoto[];
 }
 
-const TURN_THRESHOLD = 92;
-
 function clampIndex(index: number, length: number) {
   if (length === 0) return 0;
   return (index + length) % length;
@@ -40,13 +32,9 @@ function clampIndex(index: number, length: number) {
 export default function FeaturedBook({ photos }: FeaturedBookProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
-  const dragX = useMotionValue(0);
   const reducedMotion = useReducedMotion();
-  const rotateY = useTransform(dragX, [-180, 0], [-16, 0]);
-  const shadowOpacity = useTransform(dragX, [-180, 0], [0.18, 0.04]);
 
   const active = photos[current];
-  const nextPhoto = photos[clampIndex(current + 1, photos.length)];
 
   const meta = useMemo(
     () => [active?.camera, active?.aperture, active?.shutter].filter(Boolean),
@@ -55,13 +43,13 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
-        setDirection(1);
-        setCurrent((value) => clampIndex(value + 1, photos.length));
-      }
       if (event.key === "ArrowLeft") {
         setDirection(-1);
         setCurrent((value) => clampIndex(value - 1, photos.length));
+      }
+      if (event.key === "ArrowRight") {
+        setDirection(1);
+        setCurrent((value) => clampIndex(value + 1, photos.length));
       }
     };
 
@@ -77,18 +65,10 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
     );
   }
 
-  const turnPage = (offset: number) => {
+  const navigate = (offset: number) => {
     if (photos.length <= 1) return;
-    const shouldTurn = Math.abs(offset) > TURN_THRESHOLD;
-    if (shouldTurn) {
-      setDirection(offset < 0 ? 1 : -1);
-      setCurrent((value) => clampIndex(value + (offset < 0 ? 1 : -1), photos.length));
-    }
-    dragX.set(0);
-  };
-
-  const handleCornerDrag = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    turnPage(info.offset.x);
+    setDirection(offset > 0 ? 1 : -1);
+    setCurrent((value) => clampIndex(value + offset, photos.length));
   };
 
   const handleSwipe = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -100,15 +80,28 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
   return (
     <div className="featured-book-wrap">
       <div className="featured-book-desktop" aria-label="Featured photo book">
-        <motion.div
-          key={active.id}
-          className="featured-book-spread"
-          aria-label={active.title}
-          initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: direction * 18 }}
-          animate={reducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-          transition={{ duration: reducedMotion ? 0.2 : 0.35, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Link href={active.galleryUrl} className="featured-book-photo-page">
+        <div className="featured-book-spread" aria-label={active.title}>
+          <motion.button
+            key={`photo-${active.id}`}
+            type="button"
+            className="featured-book-photo-page"
+            aria-label="Previous photo"
+            onClick={() => navigate(-1)}
+            initial={
+              reducedMotion
+                ? { opacity: 0 }
+                : {
+                    opacity: 0.72,
+                    rotateY: direction > 0 ? -38 : 0,
+                    scale: direction > 0 ? 1.015 : 1,
+                  }
+            }
+            animate={{ opacity: 1, rotateY: 0, scale: 1 }}
+            transition={{
+              duration: reducedMotion ? 0.18 : 0.58,
+              ease: [0.45, 0, 0.2, 1],
+            }}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={active.imageUrl}
@@ -118,30 +111,37 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
               width={active.width}
               height={active.height}
             />
-          </Link>
+          </motion.button>
 
-          <div className="featured-book-spine" aria-hidden="true" />
+          <div className="featured-book-divider" aria-hidden="true" />
 
           <motion.article
+            key={`text-${active.id}`}
             className="featured-book-text-page"
             role="button"
             tabIndex={0}
-            aria-label={`Turn page from ${active.title}`}
-            onClick={() => turnPage(-TURN_THRESHOLD - 1)}
+            aria-label="Next photo"
+            onClick={() => navigate(1)}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                turnPage(-TURN_THRESHOLD - 1);
+                navigate(1);
               }
             }}
-            style={
+            initial={
               reducedMotion
-                ? undefined
+                ? { opacity: 0 }
                 : {
-                    rotateY,
-                    transformOrigin: "left center",
+                    opacity: 0.72,
+                    rotateY: direction < 0 ? 38 : 0,
+                    scale: direction < 0 ? 1.015 : 1,
                   }
             }
+            animate={{ opacity: 1, rotateY: 0, scale: 1 }}
+            transition={{
+              duration: reducedMotion ? 0.18 : 0.58,
+              ease: [0.45, 0, 0.2, 1],
+            }}
           >
             <p className="featured-book-eyebrow">{active.filmSimulation}</p>
             <h2>{active.title}</h2>
@@ -158,27 +158,8 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
             >
               View All Photos
             </Link>
-            <motion.div
-              className="featured-book-curl-shadow"
-              style={{ opacity: reducedMotion ? 0.08 : shadowOpacity }}
-              aria-hidden="true"
-            />
-            <motion.button
-              type="button"
-              className="featured-book-corner"
-              aria-label="Turn featured page"
-              drag={reducedMotion ? false : "x"}
-              dragConstraints={{ left: -180, right: 0 }}
-              dragElastic={0.08}
-              style={{ x: reducedMotion ? 0 : dragX }}
-              onDragEnd={handleCornerDrag}
-              onClick={(event) => {
-                event.stopPropagation();
-                turnPage(-TURN_THRESHOLD - 1);
-              }}
-            />
           </motion.article>
-        </motion.div>
+        </div>
 
         <div className="featured-book-dots" aria-label="Featured page position">
           {photos.map((photo, index) => (
@@ -194,11 +175,6 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
             />
           ))}
         </div>
-        {nextPhoto && photos.length > 1 && (
-          <p className="featured-book-hint" aria-hidden="true">
-            click page →
-          </p>
-        )}
       </div>
 
       <div className="featured-book-mobile" aria-label="Featured photo carousel">
@@ -217,6 +193,18 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
               className="featured-book-mobile-card"
               aria-label={photo.title}
             >
+              <button
+                type="button"
+                className="featured-book-mobile-zone featured-book-mobile-zone-prev"
+                aria-label="Previous photo"
+                onClick={() => navigate(-1)}
+              />
+              <button
+                type="button"
+                className="featured-book-mobile-zone featured-book-mobile-zone-next"
+                aria-label="Next photo"
+                onClick={() => navigate(1)}
+              />
               <Link href={photo.galleryUrl} className="featured-book-mobile-photo">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -255,7 +243,6 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
             />
           ))}
         </div>
-        <p className="featured-book-mobile-hint">← swipe →</p>
       </div>
     </div>
   );

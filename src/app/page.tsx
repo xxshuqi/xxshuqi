@@ -59,7 +59,7 @@ export default function HomePage() {
     : [];
 
   const recentPhotos = visible("grid")
-    ? allPhotos.slice(0, count("grid", 8))
+    ? allPhotos.slice(0, Math.max(count("grid", 14), 14))
     : [];
 
   const filmStripPhotos = visible("filmstrip")

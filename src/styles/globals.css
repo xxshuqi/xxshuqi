@@ -140,13 +140,14 @@ body::after {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-  gap: 16px;
+  gap: 40px;
+  align-items: center;
   min-height: 500px;
   max-height: 520px;
-  padding: 46px 64px;
+  padding: 0;
   overflow: hidden;
   background: transparent;
-  perspective: 1200px;
+  perspective: 1500px;
 }
 
 .featured-book-photo-page,
@@ -154,13 +155,49 @@ body::after {
   position: relative;
   min-height: 410px;
   height: 410px;
-  border: 1px solid #deded8;
-  background: #fff;
+  border: 0;
+  background: transparent;
 }
 
 .featured-book-photo-page {
   display: block;
+  padding: 0;
   overflow: hidden;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  transform-origin: right center;
+}
+
+.featured-book-photo-page::after,
+.featured-book-text-page::after {
+  position: absolute;
+  bottom: 18px;
+  z-index: 2;
+  color: rgba(17, 17, 17, 0.28);
+  font-size: 24px;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.featured-book-photo-page::after {
+  content: "←";
+  left: 18px;
+}
+
+.featured-book-text-page::after {
+  content: "→";
+  right: 18px;
+}
+
+.featured-book-photo-page:hover::after,
+.featured-book-text-page:hover::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .featured-book-photo-page img,
@@ -178,16 +215,10 @@ body::after {
   transform: scale(1.03);
 }
 
-.featured-book-spine {
-  width: 1px;
-  min-height: 446px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(17, 17, 17, 0.18) 9%,
-    rgba(17, 17, 17, 0.18) 91%,
-    transparent
-  );
+.featured-book-divider {
+  width: 0.5px;
+  min-height: 410px;
+  background: var(--border);
 }
 
 .featured-book-text-page {
@@ -198,6 +229,7 @@ body::after {
   overflow: hidden;
   padding: 42px 34px;
   cursor: pointer;
+  transform-origin: left center;
 }
 
 .featured-book-eyebrow {
@@ -263,55 +295,13 @@ body::after {
   padding-bottom: 3px;
 }
 
-.featured-book-corner {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 42px;
-  height: 42px;
-  border: 0;
-  border-top: 1px solid #cfcfca;
-  border-left: 1px solid #cfcfca;
-  background:
-    linear-gradient(135deg, transparent 49%, #f8f8f5 50%),
-    linear-gradient(135deg, transparent 0%, rgba(17, 17, 17, 0.08) 100%);
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  cursor: grab;
-  touch-action: none;
-}
-
-.featured-book-corner:active {
-  cursor: grabbing;
-}
-
-.featured-book-curl-shadow {
-  position: absolute;
-  right: -20px;
-  bottom: -20px;
-  width: 90px;
-  height: 90px;
-  border-radius: 999px;
-  background: #111;
-  filter: blur(24px);
-  pointer-events: none;
-}
-
 .featured-book-dots {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: -22px;
+  margin-top: 28px;
   position: relative;
   z-index: 2;
-}
-
-.featured-book-desktop .featured-book-dots {
-  position: absolute;
-  top: 50%;
-  right: 22px;
-  flex-direction: column;
-  margin-top: 0;
-  transform: translateY(-50%);
 }
 
 .featured-book-dots button {
@@ -329,23 +319,38 @@ body::after {
   background: var(--text);
 }
 
-.featured-book-hint {
-  position: absolute;
-  right: 84px;
-  bottom: 20px;
-  color: var(--text-mid);
-  font-size: 13px;
-  line-height: 1;
-}
-
 .featured-book-mobile {
   display: none;
+}
+
+.photo-mosaic-grid {
+  column-count: 3;
+  column-gap: 14px;
+}
+
+.photo-mosaic-item {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 14px;
+  min-width: 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.photo-mosaic-frame {
+  width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .featured-book-photo-page img,
   .featured-book-mobile-photo img {
     transition: none;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+  .photo-mosaic-grid {
+    column-count: 2;
   }
 }
 
@@ -381,12 +386,34 @@ body::after {
     width: 100%;
   }
   .featured-book-mobile-card {
+    position: relative;
     flex: 0 0 100%;
     min-width: 0;
     padding: 16px;
     border: 1px solid var(--border);
     border-radius: 22px;
     background: #fff;
+  }
+  .featured-book-mobile-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 50%;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .featured-book-mobile-zone-prev {
+    left: 0;
+  }
+  .featured-book-mobile-zone-next {
+    right: 0;
+  }
+  .featured-book-mobile-photo,
+  .featured-book-mobile-card .featured-book-cta {
+    position: relative;
+    z-index: 3;
   }
   .featured-book-mobile-photo {
     display: block;
@@ -422,12 +449,6 @@ body::after {
     margin-top: 18px;
     transform: none;
   }
-  .featured-book-mobile-hint {
-    margin-top: 10px;
-    color: var(--text-light);
-    font-size: 13px;
-    text-align: center;
-  }
 
   /* (5) Photo grid: 2 columns on mobile */
   .photo-grid-4col {
@@ -435,6 +456,13 @@ body::after {
   }
   .photo-grid-3col {
     grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .photo-mosaic-grid {
+    column-count: 2;
+    column-gap: 10px;
+  }
+  .photo-mosaic-item {
+    margin-bottom: 10px;
   }
 
   /* (6) Section padding: tighten on mobile */
