@@ -69,9 +69,7 @@
     "journalEntryId": null,
     "thumbWidth": 1200,
     "thumbHeight": 799,
-    "title": "Copenhagen Harbor",
-    "location": "Copenhagen, Denmark",
-    "story": "A quiet patch of Copenhagen light where the water, buildings, and passing bodies all felt evenly paced. Nothing dramatic happened. That was the reason to keep it."
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-004",
@@ -191,9 +189,7 @@
     "journalEntryId": null,
     "thumbWidth": 1200,
     "thumbHeight": 800,
-    "location": "Copenhagen, Denmark",
-    "title": "Wide-angle Copenhagen",
-    "story": "Stepped back from the canal to fit more of the row in. The light was cooler here, the buildings a touch more weathered. Classic Negative made the brick read warmer than it felt."
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "copenhagen-009",
@@ -601,9 +597,7 @@
     "journalEntryId": null,
     "thumbWidth": 800,
     "thumbHeight": 1200,
-    "location": "Copenhagen, Denmark",
-    "title": "Nyhavn, before the boats moved",
-    "story": "I sat on the stone wall for maybe twenty minutes waiting for the wind to settle. The boats hadn't started moving yet. A few locals walked by, no tourists, no accordion music yet. For a few seconds it was just the colors waiting to start the day."
+    "location": "Copenhagen, Denmark"
   },
   {
     "id": "hokkaido-026",
@@ -699,9 +693,7 @@
     "journalEntryId": null,
     "thumbWidth": 800,
     "thumbHeight": 1200,
-    "location": "Hokkaido, Japan",
-    "title": "Hokkaido, indoors",
-    "story": "Cold enough outside that the windows stayed half-fogged. ISO had to climb a little. I like how the noise sits underneath the warm tones — it gives the image a memory of how cold it actually was."
+    "location": "Hokkaido, Japan"
   },
   {
     "id": "hokkaido-030",
@@ -773,9 +765,7 @@
     "journalEntryId": null,
     "thumbWidth": 800,
     "thumbHeight": 1200,
-    "location": "Jeju, Korea",
-    "title": "The Wandering One",
-    "story": "She'd been walking the seawall ahead of her parents, a tiny figure in a beanie working out the world by the time we crossed paths. I lifted the camera and she looked over for one quiet second."
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-033",
@@ -967,9 +957,7 @@
     "journalEntryId": null,
     "thumbWidth": 1200,
     "thumbHeight": 800,
-    "location": "Jeju, Korea",
-    "title": "Cafe morning, Jeju",
-    "story": "A roadside cafe with all the windows open to the sea wind. The kind of place where you order a single cup and stay an hour. The orange peel and the glass jars caught me before the coffee did."
+    "location": "Jeju, Korea"
   },
   {
     "id": "korea-041",
@@ -1089,9 +1077,7 @@
     "journalEntryId": null,
     "thumbWidth": 800,
     "thumbHeight": 1200,
-    "title": "Oslo Morning",
-    "location": "Oslo, Norway",
-    "story": "This frame felt like the first deep breath of the day. The light was soft, the street was nearly still, and the whole scene carried that brief calm before the city properly begins."
+    "location": "Oslo, Norway"
   },
   {
     "id": "oslo-046",
@@ -1512,9 +1498,7 @@
     "journalEntryId": null,
     "thumbWidth": 1200,
     "thumbHeight": 800,
-    "location": "Taiwan",
-    "title": "Afternoon in Taiwan",
-    "story": "The kind of light that looks easy to shoot but actually hides everything in shadow if you don't watch your meter. Held for half a second, exposed for the highlights, let the rest fall where it wanted."
+    "location": "Taiwan"
   },
   {
     "id": "taiwan-064",
@@ -2210,8 +2194,6 @@
     "journalEntryId": null,
     "thumbWidth": 800,
     "thumbHeight": 1200,
-    "title": "Tokyo at Closing Time",
-    "location": "Tokyo, Japan",
-    "story": "Tokyo can feel loud from a distance, but this moment was the opposite. It was the kind of evening where the glow from windows does most of the talking and the street keeps the rest to itself."
+    "location": "Tokyo, Japan"
   }
 ]
