@@ -145,8 +145,7 @@ body::after {
   max-height: 520px;
   padding: 46px 64px;
   overflow: hidden;
-  border-radius: 6px;
-  background: #f2f0eb;
+  background: transparent;
   perspective: 1200px;
 }
 
@@ -198,6 +197,7 @@ body::after {
   justify-content: center;
   overflow: hidden;
   padding: 42px 34px;
+  cursor: pointer;
 }
 
 .featured-book-eyebrow {
@@ -252,6 +252,7 @@ body::after {
 
 .featured-book-cta {
   color: var(--text);
+  cursor: pointer;
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.22em;
@@ -302,6 +303,15 @@ body::after {
   margin-top: -22px;
   position: relative;
   z-index: 2;
+}
+
+.featured-book-desktop .featured-book-dots {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  flex-direction: column;
+  margin-top: 0;
+  transform: translateY(-50%);
 }
 
 .featured-book-dots button {
@@ -405,7 +415,12 @@ body::after {
     font-size: 10px;
   }
   .featured-book-mobile .featured-book-dots {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-direction: row;
     margin-top: 18px;
+    transform: none;
   }
   .featured-book-mobile-hint {
     margin-top: 10px;

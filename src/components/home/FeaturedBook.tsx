@@ -124,6 +124,16 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
 
           <motion.article
             className="featured-book-text-page"
+            role="button"
+            tabIndex={0}
+            aria-label={`Turn page from ${active.title}`}
+            onClick={() => turnPage(-TURN_THRESHOLD - 1)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                turnPage(-TURN_THRESHOLD - 1);
+              }
+            }}
             style={
               reducedMotion
                 ? undefined
@@ -141,7 +151,11 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
                 <span key={item}>{item}</span>
               ))}
             </div>
-            <Link className="featured-book-cta" href="/gallery">
+            <Link
+              className="featured-book-cta"
+              href="/gallery"
+              onClick={(event) => event.stopPropagation()}
+            >
               View All Photos
             </Link>
             <motion.div
@@ -158,7 +172,10 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
               dragElastic={0.08}
               style={{ x: reducedMotion ? 0 : dragX }}
               onDragEnd={handleCornerDrag}
-              onClick={() => turnPage(-TURN_THRESHOLD - 1)}
+              onClick={(event) => {
+                event.stopPropagation();
+                turnPage(-TURN_THRESHOLD - 1);
+              }}
             />
           </motion.article>
         </motion.div>
@@ -179,7 +196,7 @@ export default function FeaturedBook({ photos }: FeaturedBookProps) {
         </div>
         {nextPhoto && photos.length > 1 && (
           <p className="featured-book-hint" aria-hidden="true">
-            drag corner →
+            click page →
           </p>
         )}
       </div>
