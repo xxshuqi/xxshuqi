@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=DM+Sans:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -50,11 +50,11 @@ body::after {
 
 /* Typography utilities */
 .font-display {
-  font-family: "DM Sans", system-ui, sans-serif;
+  font-family: "Libre Caslon Display", Georgia, serif;
 }
 
 .font-prose {
-  font-family: "DM Sans", system-ui, sans-serif;
+  font-family: "Crimson Pro", Georgia, serif;
 }
 
 /* Subtle underline link style */

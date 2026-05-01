@@ -26,7 +26,7 @@ export default function Footer() {
           letterSpacing: "0.15em",
           textTransform: "uppercase",
           color: "var(--text-faint)",
-          fontFamily: "DM Sans, system-ui, sans-serif",
+          fontFamily: "Libre Caslon Display, Georgia, serif",
         }}
       >
         Photo Diary

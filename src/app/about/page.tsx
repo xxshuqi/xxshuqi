@@ -32,7 +32,7 @@ export default function AboutPage() {
             <h1
               className="about-heading"
               style={{
-                fontFamily: "DM Sans, system-ui, sans-serif",
+                fontFamily: "Libre Caslon Display, Georgia, serif",
                 fontSize: "52px",
                 fontWeight: 400,
                 letterSpacing: "-0.02em",
@@ -45,7 +45,7 @@ export default function AboutPage() {
 
             <div
               style={{
-                fontFamily: "DM Sans, system-ui, sans-serif",
+                fontFamily: "Crimson Pro, Georgia, serif",
                 fontSize: "19px",
                 fontWeight: 300,
                 lineHeight: 1.85,
@@ -57,7 +57,7 @@ export default function AboutPage() {
                   {para}
                 </p>
               ))}
-              <p style={{ textAlign: "right", marginTop: "2em", color: "var(--text-light)" }}>
+              <p style={{ textAlign: "right", fontStyle: "italic", marginTop: "2em", color: "var(--text-light)" }}>
                 ShuQi, The Wandering Bunny 🐰
               </p>
             </div>

@@ -130,7 +130,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         {photo.title && (
           <h2
             style={{
-              fontFamily: "DM Sans, system-ui, sans-serif",
+              fontFamily: "Libre Caslon Display, Georgia, serif",
               fontSize: "40px",
               fontWeight: 400,
               letterSpacing: "-0.02em",
@@ -146,7 +146,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         {photo.caption && (
           <p
             style={{
-              fontFamily: "DM Sans, system-ui, sans-serif",
+              fontFamily: "Crimson Pro, Georgia, serif",
               fontSize: "28px",
               fontWeight: 300,
               lineHeight: 1.4,

@@ -296,7 +296,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
           <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
             <h1
               style={{
-                fontFamily: "DM Sans, system-ui, sans-serif",
+                fontFamily: "Libre Caslon Display, Georgia, serif",
                 fontSize: "52px",
                 fontWeight: 400,
                 letterSpacing: "-0.02em",
@@ -400,7 +400,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                       <h2
                         style={{
                           fontFamily:
-                            "DM Sans, system-ui, sans-serif",
+                            "Libre Caslon Display, Georgia, serif",
                           fontSize: "36px",
                           fontWeight: 400,
                           letterSpacing: "-0.02em",
@@ -493,7 +493,8 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                 >
                   <h2
                     style={{
-                      fontFamily: "DM Sans, system-ui, sans-serif",
+                      fontFamily: "Libre Caslon Display, Georgia, serif",
+                      fontStyle: "italic",
                       fontSize: "22px",
                       fontWeight: 400,
                       letterSpacing: "-0.01em",
@@ -546,7 +547,8 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                 >
                   <h2
                     style={{
-                      fontFamily: "DM Sans, system-ui, sans-serif",
+                      fontFamily: "Libre Caslon Display, Georgia, serif",
+                      fontStyle: "italic",
                       fontSize: "22px",
                       fontWeight: 400,
                       letterSpacing: "-0.01em",
@@ -678,7 +680,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                     {currentPhoto.title && (
                       <h2
                         style={{
-                          fontFamily: "DM Sans, system-ui, sans-serif",
+                          fontFamily: "Libre Caslon Display, Georgia, serif",
                           fontSize: "34px",
                           fontWeight: 400,
                           letterSpacing: "-0.02em",
@@ -708,7 +710,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                     {(currentPhoto.story || currentPhoto.caption) && (
                       <p
                         style={{
-                          fontFamily: "DM Sans, system-ui, sans-serif",
+                          fontFamily: "Crimson Pro, Georgia, serif",
                           fontSize: "19px",
                           lineHeight: 1.7,
                           color: "rgba(255,255,255,0.78)",

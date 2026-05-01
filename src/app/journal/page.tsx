@@ -29,7 +29,7 @@ export default function JournalPage() {
         >
           <h1
             style={{
-              fontFamily: "DM Sans, system-ui, sans-serif",
+              fontFamily: "Libre Caslon Display, Georgia, serif",
               fontSize: "52px",
               fontWeight: 400,
               letterSpacing: "-0.02em",
@@ -44,7 +44,7 @@ export default function JournalPage() {
             <>
               <p
                 style={{
-                  fontFamily: "DM Sans, system-ui, sans-serif",
+                  fontFamily: "Crimson Pro, Georgia, serif",
                   fontSize: "22px",
                   lineHeight: 1.7,
                   color: "var(--text-mid)",
@@ -73,7 +73,7 @@ export default function JournalPage() {
             <>
               <p
                 style={{
-                  fontFamily: "DM Sans, system-ui, sans-serif",
+                  fontFamily: "Crimson Pro, Georgia, serif",
                   fontSize: "20px",
                   lineHeight: 1.7,
                   color: "var(--text-mid)",
@@ -132,7 +132,7 @@ export default function JournalPage() {
                             <h2
                               style={{
                                 fontFamily:
-                                  "DM Sans, system-ui, sans-serif",
+                                  "Libre Caslon Display, Georgia, serif",
                                 fontSize: "26px",
                                 fontWeight: 400,
                                 color: "var(--text)",
@@ -146,8 +146,9 @@ export default function JournalPage() {
                             {entry.subtitle && (
                               <p
                                 style={{
-                                  fontFamily: "DM Sans, system-ui, sans-serif",
+                                  fontFamily: "Crimson Pro, Georgia, serif",
                                   fontSize: "15px",
+                                  fontStyle: "italic",
                                   color: "var(--text-light)",
                                   fontWeight: 300,
                                 }}

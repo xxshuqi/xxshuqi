@@ -93,7 +93,7 @@ export default async function JournalEntryPage({ params }: PageProps) {
 
             <h1
               style={{
-                fontFamily: "DM Sans, system-ui, sans-serif",
+                fontFamily: "Libre Caslon Display, Georgia, serif",
                 fontSize: "clamp(36px, 5vw, 56px)",
                 fontWeight: 400,
                 letterSpacing: "-0.02em",
@@ -107,8 +107,9 @@ export default async function JournalEntryPage({ params }: PageProps) {
             {entry.subtitle && (
               <p
                 style={{
-                  fontFamily: "DM Sans, system-ui, sans-serif",
+                  fontFamily: "Crimson Pro, Georgia, serif",
                   fontSize: "20px",
+                  fontStyle: "italic",
                   color: "var(--text-mid)",
                   marginBottom: "24px",
                   lineHeight: 1.5,
@@ -133,7 +134,7 @@ export default async function JournalEntryPage({ params }: PageProps) {
           {/* Body */}
           <div
             style={{
-              fontFamily: "DM Sans, system-ui, sans-serif",
+              fontFamily: "Crimson Pro, Georgia, serif",
               fontSize: "19px",
               fontWeight: 300,
               lineHeight: 1.85,
