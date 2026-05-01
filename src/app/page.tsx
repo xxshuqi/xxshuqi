@@ -1,7 +1,13 @@
 import { getSettings, SectionConfig } from "@/lib/settings";
 import { getPhotos, getJournalEntries } from "@/lib/data";
+import {
+  buildPhotoSrcSet,
+  getPhotoAlt,
+  getThumbIntrinsicSize,
+} from "@/lib/photoMedia";
 import Hero from "@/components/home/Hero";
-import FeaturedStory from "@/components/home/FeaturedStory";
+import FeaturedBook from "@/components/home/FeaturedBook";
+import type { FeaturedPhoto } from "@/components/home/FeaturedBook";
 import PhotoGrid from "@/components/home/PhotoGrid";
 import FilmStrip from "@/components/home/FilmStrip";
 import JournalPreview from "@/components/home/JournalPreview";
@@ -24,9 +30,33 @@ export default function HomePage() {
   const count = (id: SectionConfig["id"], fallback: number) =>
     sections.find((s) => s.id === id)?.count ?? fallback;
 
-  const featuredPhoto = visible("featured")
-    ? (allPhotos.find((p) => p.featured) ?? null)
-    : null;
+  const featuredPhotos = visible("featured")
+    ? [
+        ...allPhotos.filter((p) => p.featured),
+        ...allPhotos.filter((p) => !p.featured && p.title && p.story),
+      ]
+        .filter((photo) => photo.title && photo.story)
+        .map((photo): FeaturedPhoto => {
+          const intrinsic = getThumbIntrinsicSize(photo);
+
+          return {
+            id: photo.id,
+            imageUrl: photo.thumbUrl,
+            srcSet: buildPhotoSrcSet(photo),
+            width: intrinsic.width,
+            height: intrinsic.height,
+            alt: getPhotoAlt(photo, "Featured photo"),
+            filmSimulation: (photo.filmSim ?? "Classic Negative").toUpperCase(),
+            title: photo.title ?? "",
+            quote: photo.story ?? "",
+            camera: photo.camera ?? "",
+            aperture: photo.aperture ?? "",
+            shutter: photo.shutter ?? "",
+            galleryUrl: `/gallery?photo=${photo.id}`,
+          };
+        })
+        .slice(0, 5)
+    : [];
 
   const recentPhotos = visible("grid")
     ? allPhotos.slice(0, count("grid", 8))
@@ -74,7 +104,7 @@ export default function HomePage() {
               style={{ padding: `100px ${HOME_SIDE_PADDING} ${HOME_SECTION_SPACING}` }}
             >
               <SectionLabel number={sectionNumber("featured")} label="Featured" />
-              <FeaturedStory photo={featuredPhoto} />
+              <FeaturedBook photos={featuredPhotos} />
             </section>
           </ScrollReveal>
         );
