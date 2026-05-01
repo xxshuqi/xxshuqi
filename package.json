@@ -9,6 +9,7 @@
     "backfill:photos": "node scripts/backfill-photo-metadata.mjs"
   },
   "dependencies": {
+    "cobe": "^2.0.1",
     "framer-motion": "^11.13.1",
     "next": "^16.2.3",
     "react": "^18.3.1",

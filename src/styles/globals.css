@@ -526,6 +526,14 @@ body::after {
     padding: 40px 24px 80px !important;
   }
 
+  /* Journeys: tighten padding on mobile */
+  .journeys-section {
+    padding: 40px 20px 80px !important;
+  }
+  .journeys-thumbs {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
   /* About page: stack photo above content on mobile */
   .about-grid {
     grid-template-columns: 1fr !important;
