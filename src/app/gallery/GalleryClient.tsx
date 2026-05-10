@@ -16,8 +16,24 @@ interface GalleryClientProps {
   photos: PhotoAsset[];
 }
 
-const PLACE_CATEGORIES = [
+const THEME_FILTERS = [
   "all",
+  "people",
+  "streets",
+  "horizons",
+  "stillness",
+] as const;
+const VALID_THEMES = [...THEME_FILTERS] as const;
+
+const THEME_BLURBS: Record<(typeof THEME_FILTERS)[number], string> = {
+  all: "Every frame, in no particular order.",
+  people: "Strangers, friends, the moments between them.",
+  streets: "Walking. Looking up. Looking around.",
+  horizons: "Where the land lets go of the sky.",
+  stillness: "Quiet things, held in light.",
+};
+
+const PLACE_CATEGORIES = [
   "copenhagen",
   "hokkaido",
   "korea",
@@ -28,35 +44,43 @@ const PLACE_CATEGORIES = [
   "tokyo",
 ] as const;
 const RANDOM_CATEGORY = "random";
-const VALID_CATEGORIES = [...PLACE_CATEGORIES, RANDOM_CATEGORY] as const;
+const ALL_PLACES = [...PLACE_CATEGORIES, RANDOM_CATEGORY] as const;
 
-function normalizeCategory(value: string | null): (typeof VALID_CATEGORIES)[number] {
-  return VALID_CATEGORIES.includes(value as (typeof VALID_CATEGORIES)[number])
-    ? (value as (typeof VALID_CATEGORIES)[number])
+function normalizeTheme(value: string | null): (typeof VALID_THEMES)[number] {
+  return VALID_THEMES.includes(value as (typeof VALID_THEMES)[number])
+    ? (value as (typeof VALID_THEMES)[number])
     : "all";
+}
+
+function normalizeLocation(value: string | null): string | null {
+  if (!value) return null;
+  return ALL_PLACES.includes(value as (typeof ALL_PLACES)[number]) ? value : null;
 }
 
 function readGalleryQuery() {
   const params = new URLSearchParams(window.location.search);
   return {
-    category: normalizeCategory(params.get("location")),
+    theme: normalizeTheme(params.get("theme")),
+    location: normalizeLocation(params.get("location")),
     photoId: params.get("photo"),
   };
 }
 
 export default function GalleryClient({ photos }: GalleryClientProps) {
-  const [activeCategory, setActiveCategory] =
-    useState<(typeof VALID_CATEGORIES)[number]>("all");
+  const [activeTheme, setActiveTheme] =
+    useState<(typeof VALID_THEMES)[number]>("all");
+  const [activeLocation, setActiveLocation] = useState<string | null>(null);
   const [targetPhotoId, setTargetPhotoId] = useState<string | null>(null);
   const [lightboxId, setLightboxId] = useState<string | null>(null);
   const [lightboxBusy, setLightboxBusy] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const busyTimeoutRef = useRef<number | null>(null);
 
-  const filtered =
-    activeCategory === "all"
-      ? photos
-      : photos.filter((photo) => photo.category === activeCategory);
+  const filtered = photos.filter((photo) => {
+    if (activeTheme !== "all" && photo.theme !== activeTheme) return false;
+    if (activeLocation && photo.category !== activeLocation) return false;
+    return true;
+  });
 
   const landscapePhotos = filtered.filter((photo) => photo.width > photo.height);
   const portraitPhotos = filtered.filter((photo) => photo.width <= photo.height);
@@ -80,14 +104,15 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
     }, duration);
   }, []);
 
-  const updateCategory = useCallback(
-    (category: string) => {
-      const nextCategory = normalizeCategory(category);
+  const updateTheme = useCallback(
+    (theme: string) => {
+      const nextTheme = normalizeTheme(theme);
       const nextParams = new URLSearchParams(window.location.search);
-      if (nextCategory === "all") {
-        nextParams.delete("location");
+      nextParams.delete("location");
+      if (nextTheme === "all") {
+        nextParams.delete("theme");
       } else {
-        nextParams.set("location", nextCategory);
+        nextParams.set("theme", nextTheme);
       }
       const nextQuery = nextParams.toString();
       const nextUrl = nextQuery
@@ -95,11 +120,23 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
         : window.location.pathname;
 
       window.history.pushState(null, "", nextUrl);
-      setActiveCategory(nextCategory);
+      setActiveTheme(nextTheme);
+      setActiveLocation(null);
       setTargetPhotoId(nextParams.get("photo"));
     },
     []
   );
+
+  const clearLocation = useCallback(() => {
+    const nextParams = new URLSearchParams(window.location.search);
+    nextParams.delete("location");
+    const nextQuery = nextParams.toString();
+    const nextUrl = nextQuery
+      ? `${window.location.pathname}?${nextQuery}`
+      : window.location.pathname;
+    window.history.pushState(null, "", nextUrl);
+    setActiveLocation(null);
+  }, []);
 
   const openLightbox = useCallback(
     (photoId: string) => {
@@ -130,7 +167,8 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
   useEffect(() => {
     const syncFromQuery = () => {
       const nextQuery = readGalleryQuery();
-      setActiveCategory(nextQuery.category);
+      setActiveTheme(nextQuery.theme);
+      setActiveLocation(nextQuery.location);
       setTargetPhotoId(nextQuery.photoId);
     };
 
@@ -150,7 +188,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
       }
     }, 150);
     return () => window.clearTimeout(timer);
-  }, [activeCategory, targetPhotoId]);
+  }, [activeTheme, targetPhotoId]);
 
   useEffect(() => {
     if (lightboxId && filtered.every((photo) => photo.id !== lightboxId)) {
@@ -193,13 +231,27 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
   }, []);
 
   const titleSuffix = useMemo(() => {
-    if (activeCategory === "all") return "All Photos";
-    if (activeCategory === RANDOM_CATEGORY) return "Random";
-    return activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
-  }, [activeCategory]);
+    if (activeLocation) {
+      return activeLocation.charAt(0).toUpperCase() + activeLocation.slice(1);
+    }
+    if (activeTheme === "all") return "All Photos";
+    return activeTheme.charAt(0).toUpperCase() + activeTheme.slice(1);
+  }, [activeLocation, activeTheme]);
+
+  const themeBlurb = activeLocation
+    ? `Photos from ${activeLocation.charAt(0).toUpperCase() + activeLocation.slice(1)}.`
+    : THEME_BLURBS[activeTheme];
 
   const PhotoCard = useCallback(
-    ({ photo, sizes }: { photo: PhotoAsset; sizes: string }) => (
+    ({
+      photo,
+      sizes,
+      aspectRatio,
+    }: {
+      photo: PhotoAsset;
+      sizes: string;
+      aspectRatio?: string;
+    }) => (
       <ScrollReveal>
         <div id={`photo-${photo.id}`}>
           <div
@@ -210,7 +262,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
               overflow: "hidden",
               background:
                 "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
-              aspectRatio: `${photo.width} / ${photo.height}`,
+              aspectRatio: aspectRatio ?? `${photo.width} / ${photo.height}`,
               cursor: lightboxBusy ? "default" : "pointer",
               pointerEvents: lightboxBusy ? "none" : "auto",
             }}
@@ -235,22 +287,6 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
               }}
             />
           </div>
-
-          {photo.caption && (
-            <p
-              style={{
-                fontSize: "13px",
-                color: "var(--text-light)",
-                marginTop: "6px",
-                fontWeight: 300,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {photo.caption}
-            </p>
-          )}
         </div>
       </ScrollReveal>
     ),
@@ -293,7 +329,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
             flexWrap: "wrap",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px", maxWidth: "560px" }}>
             <h1
               style={{
                 fontFamily: "Libre Caslon Display, Georgia, serif",
@@ -305,50 +341,72 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
             >
               {titleSuffix}
             </h1>
-
-            <button
-              onClick={() => updateCategory(RANDOM_CATEGORY)}
+            <p
               style={{
-                alignSelf: "flex-start",
-                background: "none",
-                border: "1px solid var(--border)",
-                cursor: "pointer",
-                fontSize: "10px",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color:
-                  activeCategory === RANDOM_CATEGORY ? "var(--text)" : "var(--text-light)",
-                padding: "10px 14px",
-                transition: "color 0.2s ease, border-color 0.2s ease",
+                fontFamily: "Crimson Pro, Georgia, serif",
+                fontSize: "16px",
+                fontWeight: 300,
+                fontStyle: "italic",
+                color: "var(--text-mid)",
+                lineHeight: 1.4,
+                margin: 0,
               }}
             >
-              Random
-            </button>
+              {themeBlurb}
+            </p>
           </div>
 
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            {PLACE_CATEGORIES.map((category) => (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "12px" }}>
+            <div style={{ display: "flex", gap: "22px", flexWrap: "wrap", justifyContent: "flex-end" }}>
+              {THEME_FILTERS.map((theme) => (
+                <button
+                  key={theme}
+                  onClick={() => updateTheme(theme)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "10px",
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color:
+                      activeTheme === theme && !activeLocation
+                        ? "var(--text)"
+                        : "var(--text-faint)",
+                    borderBottom:
+                      activeTheme === theme && !activeLocation
+                        ? "1px solid var(--text)"
+                        : "1px solid transparent",
+                    paddingBottom: "3px",
+                    transition: "color 0.2s ease",
+                  }}
+                >
+                  {theme}
+                </button>
+              ))}
+            </div>
+            {activeLocation && (
               <button
-                key={category}
-                onClick={() => updateCategory(category)}
+                onClick={clearLocation}
                 style={{
                   background: "none",
-                  border: "none",
+                  border: "1px solid var(--border)",
                   cursor: "pointer",
                   fontSize: "10px",
-                  letterSpacing: "0.2em",
+                  letterSpacing: "0.22em",
                   textTransform: "uppercase",
-                  color:
-                    activeCategory === category ? "var(--text)" : "var(--text-faint)",
-                  borderBottom:
-                    activeCategory === category ? "1px solid var(--text)" : "none",
-                  paddingBottom: "2px",
-                  transition: "color 0.2s ease",
+                  color: "var(--text)",
+                  padding: "8px 12px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
                 }}
+                aria-label={`Clear ${activeLocation} filter`}
               >
-                {category}
+                <span>{activeLocation}</span>
+                <span style={{ color: "var(--text-light)" }}>×</span>
               </button>
-            ))}
+            )}
           </div>
         </div>
 
@@ -361,122 +419,11 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
               fontSize: "14px",
             }}
           >
-            No photos in this category yet
+            No photos in this theme yet
           </div>
-        ) : activeCategory === "all" ? (
-          <motion.div
-            key="all-chapters"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            {[...PLACE_CATEGORIES.filter((c) => c !== "all"), RANDOM_CATEGORY].map(
-              (loc) => {
-                const chapter = filtered.filter((p) => p.category === loc);
-                if (chapter.length === 0) return null;
-                const chapterLandscape = chapter.filter(
-                  (p) => p.width > p.height
-                );
-                const chapterPortrait = chapter.filter(
-                  (p) => p.width <= p.height
-                );
-                const chapterTitle =
-                  loc.charAt(0).toUpperCase() + loc.slice(1);
-                return (
-                  <section
-                    key={loc}
-                    style={{ marginBottom: "100px" }}
-                    aria-label={`${chapterTitle} photos`}
-                  >
-                    {/* Location chapter header */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "baseline",
-                        gap: "24px",
-                        marginBottom: "40px",
-                      }}
-                    >
-                      <h2
-                        style={{
-                          fontFamily:
-                            "Libre Caslon Display, Georgia, serif",
-                          fontSize: "36px",
-                          fontWeight: 400,
-                          letterSpacing: "-0.02em",
-                          color: "var(--text)",
-                          lineHeight: 1,
-                        }}
-                      >
-                        {chapterTitle}
-                      </h2>
-                      <div
-                        style={{
-                          flex: 1,
-                          height: "1px",
-                          background: "var(--text)",
-                          opacity: 0.6,
-                        }}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "DM Sans, system-ui, sans-serif",
-                          fontSize: "11px",
-                          color: "var(--text-light)",
-                          fontVariantNumeric: "tabular-nums",
-                          letterSpacing: "0.1em",
-                        }}
-                      >
-                        {String(chapter.length).padStart(2, "0")} photos
-                      </span>
-                    </div>
-
-                    {chapterLandscape.length > 0 && (
-                      <div
-                        className="photo-grid-3col"
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(3, 1fr)",
-                          gap: "12px",
-                          marginBottom:
-                            chapterPortrait.length > 0 ? "12px" : "0",
-                        }}
-                      >
-                        {chapterLandscape.map((photo) => (
-                          <PhotoCard
-                            key={photo.id}
-                            photo={photo}
-                            sizes="(max-width: 768px) 50vw, 33vw"
-                          />
-                        ))}
-                      </div>
-                    )}
-                    {chapterPortrait.length > 0 && (
-                      <div
-                        className="photo-grid-4col"
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(4, 1fr)",
-                          gap: "12px",
-                        }}
-                      >
-                        {chapterPortrait.map((photo) => (
-                          <PhotoCard
-                            key={photo.id}
-                            photo={photo}
-                            sizes="(max-width: 768px) 50vw, 25vw"
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </section>
-                );
-              }
-            )}
-          </motion.div>
         ) : (
           <motion.div
-            key={activeCategory}
+            key={activeTheme}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
@@ -494,7 +441,6 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                   <h2
                     style={{
                       fontFamily: "Libre Caslon Display, Georgia, serif",
-                      fontStyle: "italic",
                       fontSize: "22px",
                       fontWeight: 400,
                       letterSpacing: "-0.01em",
@@ -520,7 +466,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                   className="photo-grid-3col"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
                     gap: "12px",
                   }}
                 >
@@ -548,7 +494,6 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                   <h2
                     style={{
                       fontFamily: "Libre Caslon Display, Georgia, serif",
-                      fontStyle: "italic",
                       fontSize: "22px",
                       fontWeight: 400,
                       letterSpacing: "-0.01em",
@@ -574,7 +519,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                   className="photo-grid-4col"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, 1fr)",
+                    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
                     gap: "12px",
                   }}
                 >

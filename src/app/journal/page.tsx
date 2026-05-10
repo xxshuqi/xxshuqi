@@ -148,7 +148,6 @@ export default function JournalPage() {
                                 style={{
                                   fontFamily: "Crimson Pro, Georgia, serif",
                                   fontSize: "15px",
-                                  fontStyle: "italic",
                                   color: "var(--text-light)",
                                   fontWeight: 300,
                                 }}

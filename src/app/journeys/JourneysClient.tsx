@@ -459,7 +459,6 @@ export default function JourneysClient({ photos }: JourneysClientProps) {
             style={{
               fontFamily: "Crimson Pro, Georgia, serif",
               fontSize: "20px",
-              fontStyle: "italic",
               color: "var(--text-mid)",
               lineHeight: 1.5,
             }}

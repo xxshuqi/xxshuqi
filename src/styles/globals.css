@@ -258,7 +258,6 @@ body::after {
   color: var(--text-mid);
   font-family: "Crimson Pro", Georgia, serif;
   font-size: 19px;
-  font-style: italic;
   font-weight: 300;
   line-height: 1.45;
 }

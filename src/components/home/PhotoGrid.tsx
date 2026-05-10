@@ -96,19 +96,6 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
                 />
               </motion.div>
             </motion.div>
-            {photo.caption && (
-              <p
-                style={{
-                  fontSize: "11px",
-                  color: "var(--text-light)",
-                  fontWeight: 300,
-                  marginTop: "6px",
-                  lineHeight: 1.5,
-                }}
-              >
-                {photo.caption}
-              </p>
-            )}
           </Link>
         </motion.div>
       ))}

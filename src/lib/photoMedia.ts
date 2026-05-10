@@ -9,6 +9,7 @@ export interface PhotoAsset {
   thumbHeight?: number;
   caption?: string | null;
   category?: string | null;
+  theme?: string | null;
   camera?: string | null;
   lens?: string | null;
   aperture?: string | null;

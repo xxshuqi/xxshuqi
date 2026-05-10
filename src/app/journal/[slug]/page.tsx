@@ -109,7 +109,6 @@ export default async function JournalEntryPage({ params }: PageProps) {
                 style={{
                   fontFamily: "Crimson Pro, Georgia, serif",
                   fontSize: "20px",
-                  fontStyle: "italic",
                   color: "var(--text-mid)",
                   marginBottom: "24px",
                   lineHeight: 1.5,
