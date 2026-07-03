@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import createGlobe from "cobe";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import SectionLabel from "@/components/ui/SectionLabel";
 import {
   HOME_BASE,
   LOCATIONS,
@@ -417,55 +416,84 @@ export default function JourneysClient({ photos }: JourneysClientProps) {
     : 0;
 
   return (
-    <div style={{ paddingTop: "52px" }}>
+    <div>
       <section
         className="journeys-section"
-        style={{ padding: "60px 80px 100px" }}
+        style={{ padding: "154px clamp(24px, 3vw, 54px) 96px" }}
       >
-        <SectionLabel number="06" label="Journeys" />
+        <header className="page-intro">
+          <h1>Places I keep.</h1>
+        </header>
 
-        {/* Editorial intro */}
-        <div
+        {/* Accessibility fallback list — always rendered so screen readers
+            and no-JS visitors get a usable index. */}
+        <nav
+          aria-label="Locations"
           style={{
-            marginTop: "20px",
-            marginBottom: "32px",
-            maxWidth: "640px",
+            marginTop: "-12px",
+            marginBottom: "54px",
           }}
         >
-          <p
+          <h2
             style={{
               fontSize: "10px",
               letterSpacing: "0.3em",
               textTransform: "uppercase",
-              color: "var(--accent)",
-              marginBottom: "12px",
-            }}
-          >
-            The Map
-          </p>
-          <h1
-            style={{
-              fontFamily: "Libre Caslon Display, Georgia, serif",
-              fontSize: "clamp(40px, 5.5vw, 64px)",
-              fontWeight: 400,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.05,
+              color: "var(--text-faint)",
               marginBottom: "16px",
+              fontWeight: 400,
             }}
           >
-            Where I&apos;ve been
-          </h1>
-          <p
+            All Locations
+          </h2>
+          <ul
             style={{
-              fontFamily: "Crimson Pro, Georgia, serif",
-              fontSize: "20px",
-              color: "var(--text-mid)",
-              lineHeight: 1.5,
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "16px 28px",
             }}
           >
-            Click a photo to see more.
-          </p>
-        </div>
+            {LOCATIONS.map((loc) => {
+              const count = photosBySlug.get(loc.slug)?.length ?? 0;
+              return (
+                <li key={loc.slug}>
+                  <Link
+                    href={`/gallery?location=${loc.slug}`}
+                    style={{
+                      fontFamily: "var(--font-text)",
+                      fontSize: "10px",
+                      fontWeight: 400,
+                      letterSpacing: "0.22em",
+                      textTransform: "uppercase",
+                      color: "var(--text)",
+                      textDecoration: "none",
+                      borderBottom: "1px solid transparent",
+                      paddingBottom: "1px",
+                      transition: "border-color 0.2s ease",
+                    }}
+                  >
+                    {loc.name.toUpperCase()}{" "}
+                    <span
+                      style={{
+                        fontFamily: "var(--font-text)",
+                        fontSize: "10px",
+                        fontWeight: 400,
+                        color: "var(--text-faint)",
+                        letterSpacing: "0.14em",
+                        marginLeft: "6px",
+                      }}
+                    >
+                      {String(count).padStart(2, "0")}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
         {/* Globe stage */}
         <div
@@ -612,7 +640,7 @@ export default function JourneysClient({ photos }: JourneysClientProps) {
                       style={{
                         marginTop: "6px",
                         fontFamily:
-                          "Libre Caslon Display, Georgia, serif",
+                          "var(--font-display)",
                         fontSize: isMobile ? "11px" : "13px",
                         color: "#222",
                         textAlign: "center",
@@ -697,7 +725,7 @@ export default function JourneysClient({ photos }: JourneysClientProps) {
               </p>
               <h2
                 style={{
-                  fontFamily: "Libre Caslon Display, Georgia, serif",
+                  fontFamily: "var(--font-display)",
                   fontSize: "36px",
                   fontWeight: 400,
                   letterSpacing: "-0.02em",
@@ -769,72 +797,6 @@ export default function JourneysClient({ photos }: JourneysClientProps) {
           )}
         </AnimatePresence>
 
-        {/* Accessibility fallback list — always rendered so screen readers
-            and no-JS visitors get a usable index. */}
-        <nav
-          aria-label="Locations"
-          style={{
-            marginTop: "60px",
-            paddingTop: "32px",
-            borderTop: "1px solid var(--border)",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: "var(--text-faint)",
-              marginBottom: "16px",
-              fontWeight: 400,
-            }}
-          >
-            All Locations
-          </h2>
-          <ul
-            style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "16px 28px",
-            }}
-          >
-            {LOCATIONS.map((loc) => {
-              const count = photosBySlug.get(loc.slug)?.length ?? 0;
-              return (
-                <li key={loc.slug}>
-                  <Link
-                    href={`/gallery?location=${loc.slug}`}
-                    style={{
-                      fontFamily: "Libre Caslon Display, Georgia, serif",
-                      fontSize: "16px",
-                      color: "var(--text)",
-                      textDecoration: "none",
-                      borderBottom: "1px solid transparent",
-                      paddingBottom: "1px",
-                      transition: "border-color 0.2s ease",
-                    }}
-                  >
-                    {loc.name}{" "}
-                    <span
-                      style={{
-                        fontFamily: "DM Sans, system-ui, sans-serif",
-                        fontSize: "11px",
-                        color: "var(--text-faint)",
-                        letterSpacing: "0.05em",
-                        marginLeft: "4px",
-                      }}
-                    >
-                      {String(count).padStart(2, "0")}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
       </section>
     </div>
   );

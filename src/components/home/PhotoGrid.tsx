@@ -53,52 +53,76 @@ export default function PhotoGrid({ photos }: PhotoGridProps) {
       variants={container}
       initial="hidden"
       // Fires the stagger on mount instead of waiting for an IntersectionObserver
-      // event. Recent Work is often visible-ish on first paint; whileInView was
+      // event. This section is often visible-ish on first paint; whileInView was
       // leaving thumbnails stuck at opacity:0 when the section was already in view.
       animate="show"
       className="photo-mosaic-grid"
     >
-      {photos.map((photo) => (
-        <motion.div key={photo.id} variants={item} className="photo-mosaic-item">
-          <Link href={`/gallery?photo=${photo.id}`} style={{ display: "block", textDecoration: "none" }}>
-            <motion.div
-              whileHover="hovered"
-              className="photo-mosaic-frame"
-              style={{
-                position: "relative",
-                overflow: "hidden",
-                background:
-                  "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
-              }}
+      {photos.map((photo, index) => {
+        const label = photo.location ?? photo.category ?? photo.theme ?? "Frame";
+
+        return (
+          <motion.div
+            key={photo.id}
+            variants={item}
+            className={`photo-mosaic-item photo-mosaic-item-${index + 1}`}
+          >
+            <Link
+              href={`/gallery?photo=${photo.id}`}
+              aria-label={`Open ${getPhotoAlt(photo, "photo")} in gallery`}
+              className="photo-mosaic-link"
             >
               <motion.div
-                variants={{
-                  hovered: { scale: 1.05, filter: "saturate(1.15) brightness(1.06) contrast(1.05)" },
+                whileHover="hovered"
+                className="photo-mosaic-frame"
+                style={{
+                  position: "relative",
+                  overflow: "hidden",
+                  background:
+                    "linear-gradient(135deg, #c5d8e3 0%, #9bb8c9 50%, #7a9aad 100%)",
                 }}
-                initial={{ filter: "saturate(1) brightness(1) contrast(1)" }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={photo.thumbUrl}
-                  srcSet={buildPhotoSrcSet(photo)}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1199px) 50vw, 33vw"
-                  alt={getPhotoAlt(photo, "Photo")}
-                  width={getThumbIntrinsicSize(photo).width}
-                  height={getThumbIntrinsicSize(photo).height}
-                  loading="lazy"
-                  decoding="async"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
+                <motion.div
+                  variants={{
+                    hovered: {
+                      scale: 1.05,
+                      filter: "saturate(1.15) brightness(1.06) contrast(1.05)",
+                    },
                   }}
-                />
+                  initial={{ filter: "saturate(1) brightness(1) contrast(1)" }}
+                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photo.originalUrl}
+                    srcSet={buildPhotoSrcSet(photo)}
+                    sizes={
+                      index === 0
+                        ? "(max-width: 768px) 100vw, 48vw"
+                        : "(max-width: 768px) 50vw, 24vw"
+                    }
+                    alt={getPhotoAlt(photo, "Photo")}
+                    width={getThumbIntrinsicSize(photo).width}
+                    height={getThumbIntrinsicSize(photo).height}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "block",
+                      objectFit: "cover",
+                    }}
+                  />
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </Link>
-        </motion.div>
-      ))}
+              <div className="photo-mosaic-caption" aria-hidden="true">
+                <span>{label}</span>
+              </div>
+            </Link>
+          </motion.div>
+        );
+      })}
     </motion.div>
   );
 }

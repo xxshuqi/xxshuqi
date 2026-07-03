@@ -13,7 +13,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  title = "Bunnies.",
+  title = "The Wandering Bunny",
   tagline = "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
   bgUrl = null,
   bgAnimation = "kenburns",
@@ -43,7 +43,7 @@ export default function Hero({
         justifyContent: "center",
         paddingLeft: "80px",
         paddingRight: "80px",
-        paddingTop: "52px",
+        paddingTop: 0,
         position: "relative",
         overflow: "hidden",
         // Fujifilm gradient shows instantly while hero image loads
@@ -66,6 +66,7 @@ export default function Hero({
               alt=""
               fill
               priority
+              unoptimized
               sizes="100vw"
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjNWQ4ZTMiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzliYjhjOSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzdhOWFhZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+PC9zdmc+"
@@ -143,7 +144,7 @@ export default function Hero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontFamily: "Libre Caslon Display, Georgia, serif",
+              fontFamily: "var(--font-display)",
               fontSize: "clamp(52px, 8vw, 96px)",
               fontWeight: 400,
               lineHeight: 0.95,

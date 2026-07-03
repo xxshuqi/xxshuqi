@@ -55,6 +55,7 @@ export default function PhotoCard({
           src={photo.thumbUrl}
           alt={photo.caption ?? "Photo"}
           fill
+          unoptimized
           sizes="(max-width: 768px) 50vw, 25vw"
           style={{
             objectFit: "cover",

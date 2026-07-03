@@ -49,12 +49,12 @@ export const DEFAULT_SETTINGS: HomepageSettings = {
   sections: [
     { id: "hero", label: "Hero", visible: true },
     { id: "featured", label: "Featured", visible: true },
-    { id: "grid", label: "Photo Grid", visible: true, count: 14 },
+    { id: "grid", label: "Selected Frames", visible: true, count: 6 },
     { id: "filmstrip", label: "Film Strip", visible: true, count: 12 },
     { id: "journal", label: "Journal", visible: true, count: 3 },
   ],
   hero: {
-    title: "Bunnies.",
+    title: "The Wandering Bunny",
     tagline:
       "A personal photo diary. Slow moments, quiet streets, and honest light, captured on Fujifilm.",
     bgPhotoId: null,

@@ -2,176 +2,76 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-
-const links = [
-  { href: "/gallery", label: "Gallery" },
-  { href: "/journeys", label: "Journeys" },
-  { href: "/journal", label: "Journal" },
-  { href: "/about", label: "About" },
-];
-
-function HamburgerIcon() {
-  return (
-    <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true">
-      <rect width="20" height="1.5" fill="currentColor" />
-      <rect y="6.25" width="20" height="1.5" fill="currentColor" />
-      <rect y="12.5" width="20" height="1.5" fill="currentColor" />
-    </svg>
-  );
-}
+import { useEffect, useState } from "react";
+import { LayoutGroup, motion } from "framer-motion";
+import AnimatedBunny from "./AnimatedBunny";
 
 export default function Nav() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
-  // Close on route change
-  useEffect(() => { setOpen(false); }, [pathname]);
-
-  // Lock body scroll while menu is open
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [open]);
+    const handleScroll = () => {
+      setHidden(window.scrollY > 96);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <>
-      <nav
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          height: "52px",
-          borderBottom: "1px solid var(--border)",
-          background: "rgba(255,255,255,0.92)",
-          backdropFilter: "blur(8px)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingLeft: "32px",
-          paddingRight: "32px",
-        }}
-      >
-        <Link
-          href="/"
-          style={{
-            fontFamily: "Libre Caslon Display, Georgia, serif",
-            fontSize: "16px",
-            letterSpacing: "0.06em",
-            color: "var(--text)",
-            textDecoration: "none",
-          }}
-        >
-          The Wandering Bunny
-        </Link>
+    <motion.nav
+      className="site-menu"
+      aria-label="Site navigation"
+      initial={{ x: "-50%", y: "42vh", opacity: 0, scale: 0.94 }}
+      animate={{
+        x: "-50%",
+        y: hidden ? -120 : 0,
+        opacity: hidden ? 0 : 1,
+        scale: hidden ? 0.96 : 1,
+      }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link href="/" className="site-menu-mark" aria-label="The Wandering Bunny home">
+        <AnimatedBunny />
+      </Link>
 
-        {/* Desktop links - hidden on mobile via CSS */}
-        <div
-          className="nav-desktop-links"
-          style={{ display: "flex", gap: "36px", alignItems: "center" }}
-        >
-          {links.map(({ href, label }) => {
-            const active = pathname.startsWith(href);
-            return (
-              <Link
-                key={href}
-                href={href}
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: active ? "var(--text)" : "var(--text-light)",
-                  textDecoration: "none",
-                  fontWeight: 400,
-                  transition: "color 0.2s ease",
-                }}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Hamburger button - shown only on mobile via CSS */}
-        <button
-          className="nav-hamburger-btn"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          style={{
-            display: "none", // shown via CSS on mobile
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "var(--text)",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "4px",
-            fontSize: "22px",
-            lineHeight: 1,
-          }}
-        >
-          {open ? "×" : <HamburgerIcon />}
-        </button>
-      </nav>
-
-      {/* Mobile full-screen menu overlay */}
-      {open && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 99,
-            background: "#fff",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            paddingLeft: "40px",
-            paddingRight: "40px",
-            paddingTop: "52px",
-          }}
-        >
-          {links.map(({ href, label }, i) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={() => setOpen(false)}
-              style={{
-                fontFamily: "Libre Caslon Display, Georgia, serif",
-                fontSize: "clamp(36px, 10vw, 52px)",
-                fontWeight: 400,
-                color: "var(--text)",
-                textDecoration: "none",
-                padding: "20px 0",
-                borderBottom: i < links.length - 1 ? "1px solid var(--border)" : "none",
-                letterSpacing: "-0.01em",
-                display: "block",
-              }}
-            >
-              {label}
-            </Link>
-          ))}
-
-          <div style={{ marginTop: "48px", display: "flex", gap: "24px" }}>
-            {["Gallery", "Journal", "About"].map((_, i) => null)}
-          </div>
-
-          <p
-            style={{
-              position: "absolute",
-              bottom: "40px",
-              left: "40px",
-              fontSize: "10px",
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              color: "var(--text-faint)",
-            }}
+      <LayoutGroup>
+        <div className="site-menu-links">
+          <Link
+            href="/gallery"
+            className="site-menu-link"
+            data-active={pathname.startsWith("/gallery")}
+            aria-current={pathname.startsWith("/gallery") ? "page" : undefined}
           >
-            The Wandering Bunny · 2026
-          </p>
+            {pathname.startsWith("/gallery") && (
+              <motion.span
+                className="site-menu-active-indicator"
+                layoutId="site-menu-active-indicator"
+                transition={{ type: "spring", stiffness: 420, damping: 34 }}
+              />
+            )}
+            <span className="site-menu-link-label">Gallery</span>
+          </Link>
+
+          <Link
+            href="/about"
+            className="site-menu-link"
+            data-active={pathname.startsWith("/about")}
+            aria-current={pathname.startsWith("/about") ? "page" : undefined}
+          >
+            {pathname.startsWith("/about") && (
+              <motion.span
+                className="site-menu-active-indicator"
+                layoutId="site-menu-active-indicator"
+                transition={{ type: "spring", stiffness: 420, damping: 34 }}
+              />
+            )}
+            <span className="site-menu-link-label">About Me</span>
+          </Link>
         </div>
-      )}
-    </>
+      </LayoutGroup>
+    </motion.nav>
   );
 }

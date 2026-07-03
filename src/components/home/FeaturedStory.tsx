@@ -128,7 +128,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         {photo.title && (
           <h2
             style={{
-              fontFamily: "Libre Caslon Display, Georgia, serif",
+              fontFamily: "var(--font-display)",
               fontSize: "40px",
               fontWeight: 400,
               letterSpacing: "-0.02em",
@@ -144,7 +144,7 @@ export default function FeaturedStory({ photo }: FeaturedStoryProps) {
         {photo.caption && (
           <p
             style={{
-              fontFamily: "Crimson Pro, Georgia, serif",
+              fontFamily: "var(--font-prose)",
               fontSize: "28px",
               fontWeight: 300,
               lineHeight: 1.4,

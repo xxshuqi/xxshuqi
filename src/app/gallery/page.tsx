@@ -1,12 +1,7 @@
-import { Suspense } from "react";
 import { getPhotos } from "@/lib/data";
-import GalleryClient from "./GalleryClient";
+import EvfPortfolio from "@/components/home/EvfPortfolio";
 
 export default function GalleryPage() {
   const photos = getPhotos();
-  return (
-    <Suspense fallback={null}>
-      <GalleryClient photos={photos} />
-    </Suspense>
-  );
+  return <EvfPortfolio photos={photos} />;
 }

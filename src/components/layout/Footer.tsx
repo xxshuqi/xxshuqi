@@ -1,6 +1,7 @@
 export default function Footer() {
   return (
     <footer
+      className="site-footer"
       style={{
         borderTop: "1px solid var(--border)",
         padding: "40px 32px",
@@ -18,18 +19,7 @@ export default function Footer() {
           color: "var(--text-faint)",
         }}
       >
-        The Wandering Bunny · Fujifilm · 2026
-      </span>
-      <span
-        style={{
-          fontSize: "11px",
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: "var(--text-faint)",
-          fontFamily: "Libre Caslon Display, Georgia, serif",
-        }}
-      >
-        Photo Diary
+        The Wandering Bunny · 2026
       </span>
     </footer>
   );

@@ -67,7 +67,7 @@ export default function JournalPreview({ entries }: JournalPreviewProps) {
               <div>
                 <h3
                   style={{
-                    fontFamily: "Libre Caslon Display, Georgia, serif",
+                    fontFamily: "var(--font-display)",
                     fontSize: "20px",
                     fontWeight: 400,
                     color: "var(--text)",
