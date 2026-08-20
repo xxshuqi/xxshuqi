@@ -388,7 +388,7 @@ body,
   width: 100%;
   height: 100%;
   align-items: center;
-  gap: clamp(76px, 5vw, 118px);
+  gap: clamp(104px, 6.6vw, 148px);
   overflow-x: auto;
   overflow-y: hidden;
   padding: 80px 7vw;

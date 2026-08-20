@@ -164,6 +164,7 @@ export default function EvfPortfolio({
   const lastWheelRef = useRef(0);
   const lastNativeInputRef = useRef(0);
   const lastWrittenRef = useRef<number | null>(null);
+  const lastDirectionRef = useRef(0);
   const photoNodesRef = useRef<HTMLElement[]>([]);
   const currentIndexRef = useRef(0);
   const hoveredRef = useRef<EvfPhoto | null>(null);
@@ -266,14 +267,8 @@ export default function EvfPortfolio({
     const roll = rollRef.current;
     if (!roll || total <= 1) return 0;
 
-    const nodes = getPhotoNodes();
-    const secondNode = nodes[1];
-    if (!secondNode) return 0;
-
-    const secondFrameCenter =
-      secondNode.offsetLeft + secondNode.offsetWidth / 2 - roll.clientWidth / 2;
-    return Math.max(96, secondFrameCenter * 0.52);
-  }, [getPhotoNodes, total]);
+    return Math.max(160, getFrameScrollLeft(1) + 32);
+  }, [getFrameScrollLeft, total]);
 
   const runMotionFrame = useCallback(
     (now: number) => {
@@ -335,6 +330,7 @@ export default function EvfPortfolio({
           const openingThreshold = getOpeningSnapThreshold();
           targetRef.current =
             bestIndex <= 1 &&
+            lastDirectionRef.current < 0 &&
             roll.scrollLeft <= openingThreshold &&
             targetRef.current <= openingThreshold
               ? 0
@@ -465,6 +461,7 @@ export default function EvfPortfolio({
         ? event.deltaY
         : event.deltaX;
       targetRef.current += dominant * WHEEL_GAIN;
+      lastDirectionRef.current = Math.sign(dominant) || lastDirectionRef.current;
       const openingThreshold = getOpeningSnapThreshold();
       if (dominant < 0 && targetRef.current <= openingThreshold) {
         targetRef.current = 0;
@@ -475,6 +472,8 @@ export default function EvfPortfolio({
 
     const handleScroll = () => {
       if (Math.abs(roll.scrollLeft - (lastWrittenRef.current ?? roll.scrollLeft)) > TOUCH_ADOPT_TOLERANCE) {
+        lastDirectionRef.current =
+          Math.sign(roll.scrollLeft - targetRef.current) || lastDirectionRef.current;
         targetRef.current = roll.scrollLeft;
         const now = performance.now();
         lastNativeInputRef.current = now;
