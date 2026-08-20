@@ -12,6 +12,7 @@ export interface PhotoAsset {
   theme?: string | null;
   camera?: string | null;
   lens?: string | null;
+  lensModel?: string | null;
   aperture?: string | null;
   shutter?: string | null;
   iso?: string | null;

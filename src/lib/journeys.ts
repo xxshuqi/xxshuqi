@@ -4,7 +4,7 @@ export interface JourneyLocation {
   country: string;
   lat: number;
   lng: number;
-  coverPhotoId: string;
+  coverPhotoId: string | null;
   /** Stable rotation seed in degrees, range -6..+6 */
   polaroidTilt: number;
   /** Optional offset to nudge polaroid away from the pin when locations cluster */
@@ -23,7 +23,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Denmark",
     lat: 55.6761,
     lng: 12.5683,
-    coverPhotoId: "copenhagen-025",
+    coverPhotoId: null,
     polaroidTilt: -4,
   },
   {
@@ -32,7 +32,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Norway",
     lat: 59.9139,
     lng: 10.7522,
-    coverPhotoId: "oslo-045",
+    coverPhotoId: null,
     polaroidTilt: 5,
     // Oslo is close to Stockholm — nudge polaroid up so they don't collide
     offset: { x: -30, y: -10 },
@@ -43,7 +43,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Sweden",
     lat: 59.3293,
     lng: 18.0686,
-    coverPhotoId: "stockholm-058",
+    coverPhotoId: null,
     polaroidTilt: -3,
     offset: { x: 30, y: 10 },
   },
@@ -53,7 +53,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Thailand",
     lat: 13.7563,
     lng: 100.5018,
-    coverPhotoId: "thailand-077",
+    coverPhotoId: null,
     polaroidTilt: 4,
   },
   {
@@ -62,7 +62,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Taiwan",
     lat: 25.033,
     lng: 121.5654,
-    coverPhotoId: "taiwan-063",
+    coverPhotoId: null,
     polaroidTilt: -5,
   },
   {
@@ -71,7 +71,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "South Korea",
     lat: 33.4996,
     lng: 126.5312,
-    coverPhotoId: "korea-032",
+    coverPhotoId: null,
     polaroidTilt: 3,
     // Pull south-east so the polaroid doesn't cover Tokyo
     offset: { x: -40, y: 20 },
@@ -82,7 +82,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Japan",
     lat: 35.6762,
     lng: 139.6503,
-    coverPhotoId: "tokyo-092",
+    coverPhotoId: null,
     polaroidTilt: -2,
     offset: { x: 30, y: -10 },
   },
@@ -92,7 +92,7 @@ export const LOCATIONS: JourneyLocation[] = [
     country: "Japan",
     lat: 43.0618,
     lng: 141.3545,
-    coverPhotoId: "hokkaido-029",
+    coverPhotoId: null,
     polaroidTilt: 6,
     offset: { x: 30, y: -25 },
   },

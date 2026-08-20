@@ -554,7 +554,9 @@ export default function JourneysClient({ photos }: JourneysClientProps) {
             const opacity = show
               ? 0.4 + 0.6 * Math.min(1, m.facingFactor * 1.4)
               : 0;
-            const photo = photosById[m.loc.coverPhotoId];
+            const photo = m.loc.coverPhotoId
+              ? photosById[m.loc.coverPhotoId]
+              : undefined;
             return (
               <div
                 key={m.loc.slug}

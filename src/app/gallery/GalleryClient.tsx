@@ -601,7 +601,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
 
                     <ExifBadge
                       camera={currentPhoto.camera}
-                      lens={currentPhoto.lens}
+                      lens={currentPhoto.lensModel || currentPhoto.lens}
                       aperture={currentPhoto.aperture}
                       shutter={currentPhoto.shutter}
                       iso={currentPhoto.iso}

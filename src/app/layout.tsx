@@ -3,7 +3,6 @@ import "@/styles/globals.css";
 import PublicShell from "@/components/layout/PublicShell";
 
 const SITE_URL = "https://thewanderingbunny.com";
-const DEFAULT_OG_IMAGE = "/uploads/originals/tokyo-092.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -17,21 +16,12 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "The Wandering Bunny",
-    images: [
-      {
-        url: DEFAULT_OG_IMAGE,
-        width: 2400,
-        height: 1600,
-        alt: "Mt. Fuji from Lake Yamanaka",
-      },
-    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "The Wandering Bunny — Photo Portfolio",
     description:
       "A Fujifilm photo portfolio framed as an electronic viewfinder.",
-    images: [DEFAULT_OG_IMAGE],
   },
 };
 

@@ -13,6 +13,7 @@ interface Photo {
   caption?: string | null;
   camera?: string | null;
   lens?: string | null;
+  lensModel?: string | null;
   aperture?: string | null;
   shutter?: string | null;
   iso?: string | null;
@@ -104,7 +105,7 @@ export default function PhotoCard({
           {showExif && (
             <ExifBadge
               camera={photo.camera}
-              lens={photo.lens}
+              lens={photo.lensModel || photo.lens}
               aperture={photo.aperture}
               shutter={photo.shutter}
               iso={photo.iso}

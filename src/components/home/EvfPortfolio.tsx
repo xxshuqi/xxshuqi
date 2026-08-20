@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   useCallback,
   useEffect,
@@ -18,10 +19,10 @@ type EvfPhoto = PhotoAsset & {
   i: number;
   num: string;
   orientation: "landscape" | "portrait";
-  mm: string;
-  ap: string;
-  sh: string;
-  isoValue: string;
+  mm: string | null;
+  ap: string | null;
+  sh: string | null;
+  isoValue: string | null;
 };
 
 type ContactState = false | "open" | "closing";
@@ -43,21 +44,45 @@ const SNAP_DIFF_PX = 8;
 const TOUCH_ADOPT_TOLERANCE = 1.5;
 const TOUCH_ACTIVE_MS = 80;
 const METER_WIDTH = 130;
+const FRAME_EDGE_INSET = 18;
+const EDGE_SCENE_BLEND = 0.42;
+const LIGHTBOX_TITLES: Record<string, string> = {
+  "random-001": "The Traveller",
+  "random-002": "The Wandering Couple",
+  "random-003": "Malaysian Vendors",
+  "random-004": "Woman Behind Glass",
+  "random-005": "Straw Hats, Grey Sea",
+  "random-006": "Pentax on Rust",
+  "random-007": "Light on Black Water",
+  "random-008": "The Couple",
+  "random-009": "Field Through the Window",
+  "random-010": "Alley No. 5 Butler 2",
+  "random-011": "Alley No. 5 Butler",
+  "thailand-001": "Behind the Buddha",
+  "thailand-002": "Thai Buddha",
+  "thailand-003": "Resting in the Green",
+};
 
 function compactLens(lens?: string | null) {
-  if (!lens) return "35mm";
+  if (!lens) return null;
   const prime = lens.match(/(\d+(?:\.\d+)?)\s*mm/i);
-  return prime ? `${Math.round(Number(prime[1]))}mm` : "35mm";
+  return prime ? `${Number(prime[1])}mm` : lens;
 }
 
 function compactShutter(shutter?: string | null) {
-  if (!shutter) return "1/500";
+  if (!shutter) return null;
   return shutter.replace(/s$/i, "");
 }
 
 function compactIso(iso?: string | null) {
-  if (!iso) return "640";
+  if (!iso) return null;
   return iso.replace(/iso/i, "").trim();
+}
+
+function compactFilmSim(filmSim?: string | null) {
+  if (!filmSim) return null;
+  if (/classic\s+negative/i.test(filmSim)) return "CLASSIC NEG.";
+  return filmSim.toUpperCase();
 }
 
 function toEvfPhotos(photos: PhotoAsset[]): EvfPhoto[] {
@@ -67,19 +92,49 @@ function toEvfPhotos(photos: PhotoAsset[]): EvfPhoto[] {
     num: String(index + 1).padStart(3, "0"),
     orientation: photo.width > photo.height ? "landscape" : "portrait",
     mm: compactLens(photo.lens),
-    ap: photo.aperture || "f/2.8",
+    ap: photo.aperture || null,
     sh: compactShutter(photo.shutter),
     isoValue: compactIso(photo.iso),
   }));
 }
 
-function exifLine(photo?: EvfPhoto | null) {
-  if (!photo) return "35mm  f/2.8  1/500  ISO 640  AWB";
-  return `${photo.mm}  ${photo.ap}  ${photo.sh}  ISO ${photo.isoValue}  AWB`;
+function exposureParts(photo?: EvfPhoto | null) {
+  if (!photo) return [];
+  return [
+    photo.mm,
+    photo.ap,
+    photo.sh,
+    photo.isoValue ? `ISO ${photo.isoValue}` : null,
+  ].filter(Boolean);
 }
 
-function lightboxMeta(photo: EvfPhoto) {
-  return `FRM ${photo.num} · ${photo.mm} ${photo.ap} ${photo.sh} ISO ${photo.isoValue} · CLASSIC NEG.`;
+function exifLine(photo?: EvfPhoto | null) {
+  const parts = exposureParts(photo);
+  return parts.length ? `${parts.join("  ")}  AWB` : "";
+}
+
+function shortExifLine(photo?: EvfPhoto | null) {
+  if (!photo) return "";
+  return [photo.mm, photo.ap, photo.sh].filter(Boolean).join(" ");
+}
+
+function lightboxTitle(photo: EvfPhoto) {
+  return photo.title?.trim() || LIGHTBOX_TITLES[photo.id] || "Quiet Frame";
+}
+
+function lightboxHeading(photo: EvfPhoto) {
+  return `FRM ${photo.num} · ${lightboxTitle(photo)}`;
+}
+
+function lightboxExposureLine(photo: EvfPhoto) {
+  const parts = exposureParts(photo);
+  const filmSim = compactFilmSim(photo.filmSim);
+  return [parts.join(" "), filmSim].filter(Boolean).join(" · ");
+}
+
+function equipmentLine(photo?: EvfPhoto | null) {
+  if (!photo) return null;
+  return [photo.camera, photo.lensModel].filter(Boolean).join(" · ") || null;
 }
 
 function BatteryIcon() {
@@ -98,6 +153,7 @@ export default function EvfPortfolio({
 }: EvfPortfolioProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
   const rollRef = useRef<HTMLDivElement | null>(null);
   const exifRef = useRef<HTMLDivElement | null>(null);
   const needleRef = useRef<HTMLSpanElement | null>(null);
@@ -120,6 +176,7 @@ export default function EvfPortfolio({
   const [cur, setCur] = useState(1);
 
   const frames = useMemo(() => toEvfPhotos(photos), [photos]);
+  const hasFrames = frames.length > 0;
   const total = frames.length || 1;
   const activePath = view === "about" || pathname === "/about" ? "about" : "gallery";
 
@@ -138,15 +195,20 @@ export default function EvfPortfolio({
       }
 
       if (exifRef.current) {
+        if (!hasFrames) {
+          exifRef.current.textContent = "";
+          return;
+        }
+
         const activePhoto = isMobileRef.current
           ? frames[safeIndex] ?? frames[0]
           : exifPhoto ?? hoveredRef.current ?? frames[safeIndex] ?? frames[0];
         exifRef.current.textContent = isMobileRef.current && activePhoto
-          ? `${activePhoto.mm} ${activePhoto.ap} ${activePhoto.sh}`
+          ? shortExifLine(activePhoto)
           : exifLine(activePhoto);
       }
     },
-    [frames, total]
+    [frames, hasFrames, total]
   );
 
   const getPhotoNodes = useCallback(() => {
@@ -159,6 +221,59 @@ export default function EvfPortfolio({
     }
     return photoNodesRef.current;
   }, [frames.length]);
+
+  const getFrameScrollLeft = useCallback(
+    (index: number) => {
+      const roll = rollRef.current;
+      if (!roll) return 0;
+
+      const maxScroll = Math.max(roll.scrollWidth - roll.clientWidth, 0);
+      const nodes = getPhotoNodes();
+      const safeIndex = Math.min(nodes.length - 1, Math.max(0, index));
+      const node = nodes[safeIndex];
+
+      if (!node) {
+        const ratio = total <= 1 ? 0 : safeIndex / (total - 1);
+        return ratio * maxScroll;
+      }
+
+      let nextLeft = node.offsetLeft + node.offsetWidth / 2 - roll.clientWidth / 2;
+
+      const firstNode = nodes[0];
+      const lastNode = nodes[nodes.length - 1];
+
+      if (safeIndex === 0 && firstNode) {
+        const edgeLeft = firstNode.offsetLeft - FRAME_EDGE_INSET;
+        if (nextLeft > edgeLeft) {
+          nextLeft = edgeLeft + (nextLeft - edgeLeft) * EDGE_SCENE_BLEND;
+        }
+      }
+
+      if (safeIndex >= nodes.length - 2 && lastNode) {
+        const edgeLeft =
+          lastNode.offsetLeft + lastNode.offsetWidth + FRAME_EDGE_INSET - roll.clientWidth;
+        if (nextLeft < edgeLeft) {
+          nextLeft = edgeLeft - (edgeLeft - nextLeft) * EDGE_SCENE_BLEND;
+        }
+      }
+
+      return Math.max(0, Math.min(maxScroll, nextLeft));
+    },
+    [getPhotoNodes, total]
+  );
+
+  const getOpeningSnapThreshold = useCallback(() => {
+    const roll = rollRef.current;
+    if (!roll || total <= 1) return 0;
+
+    const nodes = getPhotoNodes();
+    const secondNode = nodes[1];
+    if (!secondNode) return 0;
+
+    const secondFrameCenter =
+      secondNode.offsetLeft + secondNode.offsetWidth / 2 - roll.clientWidth / 2;
+    return Math.max(96, secondFrameCenter * 0.52);
+  }, [getPhotoNodes, total]);
 
   const runMotionFrame = useCallback(
     (now: number) => {
@@ -189,7 +304,6 @@ export default function EvfPortfolio({
         const viewportCenter = roll.scrollLeft + roll.clientWidth / 2;
         const halfViewport = roll.clientWidth / 2;
         let bestIndex = 0;
-        let bestCenter = 0;
         let bestDistance = Infinity;
 
         const distances = nodes.map((node, index) => {
@@ -198,7 +312,6 @@ export default function EvfPortfolio({
           if (distance < bestDistance) {
             bestDistance = distance;
             bestIndex = index;
-            bestCenter = center;
           }
           return halfViewport > 0 ? distance / halfViewport : 0;
         });
@@ -206,9 +319,7 @@ export default function EvfPortfolio({
         if (FOCUS_PULL) {
           nodes.forEach((node, index) => {
             const t = Math.max(0, distances[index] - 0.32);
-            node.style.filter = t < 0.01
-              ? "none"
-              : `blur(${Math.min(2.4, t * 3).toFixed(2)}px)`;
+            node.style.filter = "none";
             node.style.transform = `scale(${(1 - Math.min(0.045, t * 0.07)).toFixed(3)})`;
             node.style.opacity = (1 - Math.min(0.18, t * 0.25)).toFixed(2);
           });
@@ -221,7 +332,13 @@ export default function EvfPortfolio({
           now - lastWheelRef.current > (isMobileRef.current ? TOUCH_SNAP_IDLE_MS : SNAP_IDLE_MS) &&
           Math.abs(diff) < SNAP_DIFF_PX
         ) {
-          targetRef.current = Math.max(0, Math.min(maxScroll, bestCenter - halfViewport));
+          const openingThreshold = getOpeningSnapThreshold();
+          targetRef.current =
+            bestIndex <= 1 &&
+            roll.scrollLeft <= openingThreshold &&
+            targetRef.current <= openingThreshold
+              ? 0
+              : getFrameScrollLeft(bestIndex);
           snappedRef.current = true;
         }
 
@@ -231,7 +348,15 @@ export default function EvfPortfolio({
 
       rafRef.current = window.requestAnimationFrame(runMotionFrame);
     },
-    [contact, getPhotoNodes, light, updateHud, view]
+    [
+      contact,
+      getFrameScrollLeft,
+      getOpeningSnapThreshold,
+      getPhotoNodes,
+      light,
+      updateHud,
+      view,
+    ]
   );
 
   const scrollToFrame = useCallback(
@@ -239,8 +364,8 @@ export default function EvfPortfolio({
       const roll = rollRef.current;
       if (!roll) return;
       const maxScroll = Math.max(roll.scrollWidth - roll.clientWidth, 0);
-      const ratio = total <= 1 ? 0 : index / (total - 1);
-      const nextLeft = ratio * maxScroll;
+      const nextLeft = getFrameScrollLeft(index);
+      const ratio = maxScroll > 0 ? nextLeft / maxScroll : 0;
       targetRef.current = nextLeft;
       roll.scrollTo({ left: nextLeft, behavior });
       lastWrittenRef.current = nextLeft;
@@ -248,7 +373,7 @@ export default function EvfPortfolio({
       lastWheelRef.current = 0;
       updateHud(index, ratio);
     },
-    [total, updateHud]
+    [getFrameScrollLeft, updateHud]
   );
 
   const triggerShutter = useCallback((action: () => void) => {
@@ -313,7 +438,7 @@ export default function EvfPortfolio({
         const roll = rollRef.current;
         if (!roll) return;
         const maxScroll = Math.max(roll.scrollWidth - roll.clientWidth, 0);
-        const pos = (photo.i / Math.max(1, total - 1)) * maxScroll;
+        const pos = getFrameScrollLeft(photo.i);
         roll.scrollLeft = pos;
         targetRef.current = pos;
         lastWrittenRef.current = pos;
@@ -322,7 +447,7 @@ export default function EvfPortfolio({
         updateHud(photo.i, maxScroll > 0 ? pos / maxScroll : 0);
       });
     },
-    [toggleContact, total, updateHud]
+    [getFrameScrollLeft, toggleContact, updateHud]
   );
 
   useEffect(() => {
@@ -340,6 +465,10 @@ export default function EvfPortfolio({
         ? event.deltaY
         : event.deltaX;
       targetRef.current += dominant * WHEEL_GAIN;
+      const openingThreshold = getOpeningSnapThreshold();
+      if (dominant < 0 && targetRef.current <= openingThreshold) {
+        targetRef.current = 0;
+      }
       lastWheelRef.current = performance.now();
       snappedRef.current = false;
     };
@@ -361,7 +490,7 @@ export default function EvfPortfolio({
       roll.removeEventListener("wheel", handleWheel);
       roll.removeEventListener("scroll", handleScroll);
     };
-  }, [contact, light, view]);
+  }, [contact, getOpeningSnapThreshold, light, view]);
 
   useEffect(() => {
     updateHud(currentIndexRef.current, 0);
@@ -423,7 +552,7 @@ export default function EvfPortfolio({
     view,
   ]);
 
-  const frameDigits = String(cur).padStart(3, "0").split("");
+  const frameDigits = String(hasFrames ? cur : 0).padStart(3, "0").split("");
   const digitList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   return (
@@ -520,18 +649,29 @@ export default function EvfPortfolio({
                       }}
                       aria-label={`Open frame ${photo.num}`}
                     >
-                      <span className="evf-frame-num">{photo.num}</span>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={photo.thumbUrl}
-                        srcSet={buildPhotoSrcSet(photo)}
-                        alt={getPhotoAlt(photo, "Photo")}
-                        width={intrinsic.width}
-                        height={intrinsic.height}
-                        sizes="(max-width: 760px) 74vw, 60vw"
-                        loading={photo.i < 4 ? "eager" : "lazy"}
-                        decoding="async"
-                      />
+                      <motion.span
+                        className="evf-frame-inner"
+                        initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.985 }}
+                        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+                        viewport={{ amount: 0.48, once: false }}
+                        transition={{
+                          duration: 0.52,
+                          ease: [0.22, 0.9, 0.32, 1],
+                        }}
+                      >
+                        <span className="evf-frame-num">{photo.num}</span>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={photo.thumbUrl}
+                          srcSet={buildPhotoSrcSet(photo)}
+                          alt={getPhotoAlt(photo, "Photo")}
+                          width={intrinsic.width}
+                          height={intrinsic.height}
+                          sizes="(max-width: 760px) 74vw, 60vw"
+                          loading={photo.i < 4 ? "eager" : "lazy"}
+                          decoding="async"
+                        />
+                      </motion.span>
                     </button>
                   );
                 })}
@@ -552,7 +692,7 @@ export default function EvfPortfolio({
           </div>
         </div>
         <div ref={exifRef} className="evf-exif" aria-live="polite">
-          {exifLine(frames[0])}
+          {frames[0] ? exifLine(frames[0]) : ""}
         </div>
         <div className="evf-counter">
           <button
@@ -580,7 +720,7 @@ export default function EvfPortfolio({
                 </span>
               </span>
             ))}
-            <span className="evf-frame-counter-total">/{String(total).padStart(3, "0")}</span>
+            <span className="evf-frame-counter-total">/{String(frames.length).padStart(3, "0")}</span>
           </strong>
         </div>
       </footer>
@@ -623,10 +763,23 @@ export default function EvfPortfolio({
                 decoding="async"
               />
               <figcaption>
-                <span className="evf-lightbox-meta-full">{lightboxMeta(light)}</span>
-                <span className="evf-lightbox-meta-short">
-                  {`FRM ${light.num} · ${light.mm} ${light.ap} ${light.sh} ISO ${light.isoValue}`}
+                <span className="evf-lightbox-meta-primary">
+                  {lightboxHeading(light)}
                 </span>
+                {(lightboxExposureLine(light) || equipmentLine(light)) && (
+                  <span className="evf-lightbox-meta-cycle">
+                    {lightboxExposureLine(light) && (
+                      <span className="evf-lightbox-meta-exposure">
+                        {lightboxExposureLine(light)}
+                      </span>
+                    )}
+                    {equipmentLine(light) && (
+                      <span className="evf-lightbox-meta-equipment">
+                        {equipmentLine(light)}
+                      </span>
+                    )}
+                  </span>
+                )}
               </figcaption>
             </figure>
           </div>
