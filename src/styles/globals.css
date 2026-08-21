@@ -1477,13 +1477,14 @@ body,
   }
 
   .evf-frame-card img[data-render-orientation="landscape"] {
-    width: min(90vw, 600px);
-    max-width: 90vw;
+    width: min(92vw, 600px);
+    max-width: 92vw;
     height: auto;
   }
 
   .evf-frame-card[data-orientation="portrait"] img {
-    height: 52svh;
+    max-width: 82vw;
+    height: 55svh;
   }
 
   .evf-lightbox {
