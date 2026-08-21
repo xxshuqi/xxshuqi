@@ -7,12 +7,10 @@ const SITE_URL = "https://thewanderingbunny.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "The Wandering Bunny — Photo Portfolio",
-  description:
-    "A Fujifilm photo portfolio framed as an electronic viewfinder.",
+  description: "A minimalist Fujifilm photo portfolio.",
   openGraph: {
     title: "The Wandering Bunny — Photo Portfolio",
-    description:
-      "A Fujifilm photo portfolio framed as an electronic viewfinder.",
+    description: "A minimalist Fujifilm photo portfolio.",
     type: "website",
     url: SITE_URL,
     siteName: "The Wandering Bunny",
@@ -20,8 +18,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "The Wandering Bunny — Photo Portfolio",
-    description:
-      "A Fujifilm photo portfolio framed as an electronic viewfinder.",
+    description: "A minimalist Fujifilm photo portfolio.",
   },
 };
 
@@ -40,7 +37,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Rock+3D&family=Inconsolata:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
       </head>

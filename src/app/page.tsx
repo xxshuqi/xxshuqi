@@ -1,8 +1,21 @@
-import { getPhotos } from "@/lib/data";
-import EvfPortfolio from "@/components/home/EvfPortfolio";
+"use client";
 
-export default function HomePage() {
-  const photos = getPhotos();
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-  return <EvfPortfolio photos={photos} />;
+export default function RootPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/portfolio/");
+  }, [router]);
+
+  return (
+    <>
+      <meta httpEquiv="refresh" content="0; url=/portfolio/" />
+      <noscript>
+        <a href="/portfolio/">Continue to Portfolio</a>
+      </noscript>
+    </>
+  );
 }
