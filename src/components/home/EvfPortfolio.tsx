@@ -86,8 +86,9 @@ function compactFilmSim(filmSim?: string | null) {
 
 function setRenderedOrientation(image: HTMLImageElement) {
   if (!image.naturalWidth || !image.naturalHeight) return;
-  image.dataset.renderOrientation =
-    image.naturalWidth > image.naturalHeight ? "landscape" : "portrait";
+  const renderOrientation = image.naturalWidth > image.naturalHeight ? "landscape" : "portrait";
+  image.dataset.renderOrientation = renderOrientation;
+  image.closest<HTMLElement>(".evf-frame-card")?.setAttribute("data-render-orientation", renderOrientation);
 }
 
 function toEvfPhotos(photos: PhotoAsset[]): EvfPhoto[] {
@@ -760,6 +761,7 @@ export default function EvfPortfolio({
                       type="button"
                       className="evf-frame-card"
                       data-orientation={photo.orientation}
+                      data-render-orientation={photo.orientation}
                       onClick={() => openLightbox(photo)}
                 onMouseEnter={() => {
                   if (isMobileRef.current) return;

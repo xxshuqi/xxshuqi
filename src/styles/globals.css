@@ -440,6 +440,7 @@ body,
   cursor: zoom-in;
   font-family: inherit;
   padding: 0;
+  text-align: left;
   contain: layout paint style;
   will-change: transform, filter;
 }
@@ -454,6 +455,9 @@ body,
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+}
+
+.evf-frame-inner {
   transform-origin: 50% 50%;
   will-change: opacity, transform;
 }
@@ -464,6 +468,7 @@ body,
   font-variant-numeric: tabular-nums;
   letter-spacing: 2.5px;
   line-height: 1;
+  text-align: left;
 }
 
 .evf-frame-exif {
@@ -1007,6 +1012,7 @@ body,
     align-items: center;
     scroll-snap-align: center;
   }
+
 }
 
 @media (max-width: 640px) {
@@ -1477,8 +1483,8 @@ body,
   }
 
   .evf-frame-card img[data-render-orientation="landscape"] {
-    width: min(92vw, 600px);
-    max-width: 92vw;
+    width: 100%;
+    max-width: 100%;
     height: auto;
   }
 
@@ -1597,6 +1603,8 @@ body,
   }
 
   .evf-frame-num {
+    display: block;
+    min-height: 9px;
     font-size: 9px;
   }
 
