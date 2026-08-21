@@ -43,7 +43,6 @@ const TOUCH_SNAP_IDLE_MS = 260;
 const SNAP_DIFF_PX = 8;
 const TOUCH_ADOPT_TOLERANCE = 1.5;
 const TOUCH_ACTIVE_MS = 80;
-const METER_WIDTH = 130;
 const FRAME_EDGE_INSET = 18;
 const EDGE_SCENE_BLEND = 0.42;
 const LIGHTBOX_TITLES: Record<string, string> = {
@@ -83,6 +82,12 @@ function compactFilmSim(filmSim?: string | null) {
   if (!filmSim) return null;
   if (/classic\s+negative/i.test(filmSim)) return "CLASSIC NEG.";
   return filmSim.toUpperCase();
+}
+
+function setRenderedOrientation(image: HTMLImageElement) {
+  if (!image.naturalWidth || !image.naturalHeight) return;
+  image.dataset.renderOrientation =
+    image.naturalWidth > image.naturalHeight ? "landscape" : "portrait";
 }
 
 function toEvfPhotos(photos: PhotoAsset[]): EvfPhoto[] {
@@ -157,6 +162,7 @@ export default function EvfPortfolio({
   const rollRef = useRef<HTMLDivElement | null>(null);
   const exifRef = useRef<HTMLDivElement | null>(null);
   const needleRef = useRef<HTMLSpanElement | null>(null);
+  const meterTrackRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const contactTimerRef = useRef<number | null>(null);
   const targetRef = useRef(0);
@@ -170,10 +176,13 @@ export default function EvfPortfolio({
   const hoveredRef = useRef<EvfPhoto | null>(null);
   const hoverPauseRef = useRef(false);
   const isMobileRef = useRef(false);
+  const isPortraitFeedRef = useRef(false);
   const [view, setView] = useState<EvfView>(initialView);
   const [contact, setContact] = useState<ContactState>(false);
   const [light, setLight] = useState<EvfPhoto | null>(null);
   const [shutter, setShutter] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [portraitAtStart, setPortraitAtStart] = useState(true);
   const [cur, setCur] = useState(1);
 
   const frames = useMemo(() => toEvfPhotos(photos), [photos]);
@@ -188,7 +197,9 @@ export default function EvfPortfolio({
       currentIndexRef.current = safeIndex;
 
       if (needleRef.current && progress != null) {
-        needleRef.current.style.transform = `translate3d(${progress * METER_WIDTH}px, 0, 0) translateX(-50%)`;
+        const trackWidth = meterTrackRef.current?.getBoundingClientRect().width ?? 0;
+        const safeProgress = Math.max(0, Math.min(1, progress));
+        needleRef.current.style.transform = `translate3d(${safeProgress * trackWidth}px, 0, 0) translateX(-50%)`;
       }
 
       if (safeIndex !== previousIndex) {
@@ -270,11 +281,56 @@ export default function EvfPortfolio({
     return Math.max(160, getFrameScrollLeft(1) + 32);
   }, [getFrameScrollLeft, total]);
 
+  const getFrameScrollTop = useCallback(
+    (index: number) => {
+      const roll = rollRef.current;
+      if (!roll) return 0;
+
+      const maxScroll = Math.max(roll.scrollHeight - roll.clientHeight, 0);
+      const nodes = getPhotoNodes();
+      const safeIndex = Math.min(nodes.length - 1, Math.max(0, index));
+      const node = nodes[safeIndex];
+
+      if (!node) {
+        const ratio = total <= 1 ? 0 : safeIndex / (total - 1);
+        return ratio * maxScroll;
+      }
+
+      const nextTop = node.offsetTop + node.offsetHeight / 2 - roll.clientHeight / 2;
+      return Math.max(0, Math.min(maxScroll, nextTop));
+    },
+    [getPhotoNodes, total]
+  );
+
   const runMotionFrame = useCallback(
     (now: number) => {
       const roll = rollRef.current;
 
       if (roll && view === "gallery" && !contact && !light) {
+        if (isPortraitFeedRef.current) {
+          const nodes = getPhotoNodes();
+          const maxScroll = Math.max(roll.scrollHeight - roll.clientHeight, 0);
+          const viewportCenter = roll.scrollTop + roll.clientHeight / 2;
+          let bestIndex = 0;
+          let bestDistance = Infinity;
+
+          nodes.forEach((node, index) => {
+            const center = node.offsetTop + node.offsetHeight / 2;
+            const distance = Math.abs(center - viewportCenter);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              bestIndex = index;
+            }
+            node.style.filter = "none";
+            node.style.opacity = "";
+            node.style.transform = "none";
+          });
+
+          updateHud(bestIndex, maxScroll > 0 ? roll.scrollTop / maxScroll : 0);
+          rafRef.current = window.requestAnimationFrame(runMotionFrame);
+          return;
+        }
+
         const maxScroll = Math.max(roll.scrollWidth - roll.clientWidth, 0);
 
         if (AUTO_DRIFT && !hoverPauseRef.current) {
@@ -359,6 +415,16 @@ export default function EvfPortfolio({
     (index: number, behavior: ScrollBehavior = "auto") => {
       const roll = rollRef.current;
       if (!roll) return;
+
+      if (isPortraitFeedRef.current) {
+        const maxScroll = Math.max(roll.scrollHeight - roll.clientHeight, 0);
+        const nextTop = getFrameScrollTop(index);
+        const ratio = maxScroll > 0 ? nextTop / maxScroll : 0;
+        roll.scrollTo({ top: nextTop, behavior });
+        updateHud(index, ratio);
+        return;
+      }
+
       const maxScroll = Math.max(roll.scrollWidth - roll.clientWidth, 0);
       const nextLeft = getFrameScrollLeft(index);
       const ratio = maxScroll > 0 ? nextLeft / maxScroll : 0;
@@ -369,7 +435,7 @@ export default function EvfPortfolio({
       lastWheelRef.current = 0;
       updateHud(index, ratio);
     },
-    [getFrameScrollLeft, updateHud]
+    [getFrameScrollLeft, getFrameScrollTop, updateHud]
   );
 
   const triggerShutter = useCallback((action: () => void) => {
@@ -391,7 +457,9 @@ export default function EvfPortfolio({
   }, [light, triggerShutter]);
 
   useEffect(() => {
-    const query = window.matchMedia("(max-width: 640px), (pointer: coarse)");
+    const query = window.matchMedia(
+      "(orientation: portrait) and (pointer: coarse), (max-width: 640px) and (orientation: portrait)"
+    );
     const syncMobile = () => {
       isMobileRef.current = query.matches;
       updateHud(currentIndexRef.current);
@@ -401,6 +469,29 @@ export default function EvfPortfolio({
     query.addEventListener("change", syncMobile);
     return () => query.removeEventListener("change", syncMobile);
   }, [updateHud]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 760px) and (orientation: portrait)");
+    const syncPortraitFeed = () => {
+      isPortraitFeedRef.current = query.matches;
+      photoNodesRef.current = [];
+      setPortraitAtStart(!query.matches || (rollRef.current?.scrollTop ?? 0) < 24);
+    };
+
+    syncPortraitFeed();
+    query.addEventListener("change", syncPortraitFeed);
+    return () => query.removeEventListener("change", syncPortraitFeed);
+  }, []);
+
+  useEffect(() => {
+    const roll = rollRef.current;
+    if (!roll) return;
+
+    const images = Array.from(roll.querySelectorAll<HTMLImageElement>(".evf-frame-card img"));
+    images.forEach((image) => {
+      if (image.complete) setRenderedOrientation(image);
+    });
+  }, [frames]);
 
   const stepFrame = useCallback(
     (direction: -1 | 1) => {
@@ -433,17 +524,22 @@ export default function EvfPortfolio({
       window.requestAnimationFrame(() => {
         const roll = rollRef.current;
         if (!roll) return;
-        const maxScroll = Math.max(roll.scrollWidth - roll.clientWidth, 0);
-        const pos = getFrameScrollLeft(photo.i);
-        roll.scrollLeft = pos;
-        targetRef.current = pos;
-        lastWrittenRef.current = pos;
+        const verticalFeed = isPortraitFeedRef.current;
+        const maxScroll = verticalFeed
+          ? Math.max(roll.scrollHeight - roll.clientHeight, 0)
+          : Math.max(roll.scrollWidth - roll.clientWidth, 0);
+        const pos = verticalFeed ? getFrameScrollTop(photo.i) : getFrameScrollLeft(photo.i);
+        roll.scrollTo(verticalFeed ? { top: pos } : { left: pos });
+        if (!verticalFeed) {
+          targetRef.current = pos;
+          lastWrittenRef.current = pos;
+        }
         snappedRef.current = false;
         lastWheelRef.current = 0;
         updateHud(photo.i, maxScroll > 0 ? pos / maxScroll : 0);
       });
     },
-    [getFrameScrollLeft, toggleContact, updateHud]
+    [getFrameScrollLeft, getFrameScrollTop, toggleContact, updateHud]
   );
 
   useEffect(() => {
@@ -456,6 +552,7 @@ export default function EvfPortfolio({
 
     const handleWheel = (event: WheelEvent) => {
       if (contact || light || view !== "gallery") return;
+      if (isPortraitFeedRef.current) return;
       event.preventDefault();
       const dominant = Math.abs(event.deltaY) > Math.abs(event.deltaX)
         ? event.deltaY
@@ -471,6 +568,11 @@ export default function EvfPortfolio({
     };
 
     const handleScroll = () => {
+      if (isPortraitFeedRef.current) {
+        const nextAtStart = roll.scrollTop < 24;
+        setPortraitAtStart((atStart) => atStart === nextAtStart ? atStart : nextAtStart);
+        return;
+      }
       if (Math.abs(roll.scrollLeft - (lastWrittenRef.current ?? roll.scrollLeft)) > TOUCH_ADOPT_TOLERANCE) {
         lastDirectionRef.current =
           Math.sign(roll.scrollLeft - targetRef.current) || lastDirectionRef.current;
@@ -555,7 +657,13 @@ export default function EvfPortfolio({
   const digitList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   return (
-    <div className="evf-site" data-view={view} data-contact={contact || undefined}>
+    <div
+      className="evf-site"
+      data-view={view}
+      data-contact={contact || undefined}
+      data-mobile-menu={mobileNavOpen ? "open" : undefined}
+      data-portrait-at-start={portraitAtStart ? "true" : undefined}
+    >
       <div className="evf-frame" aria-hidden="true" />
       <div className="evf-corner evf-corner-tl" aria-hidden="true" />
       <div className="evf-corner evf-corner-tr" aria-hidden="true" />
@@ -564,21 +672,45 @@ export default function EvfPortfolio({
 
       <header className="evf-top-hud">
         <div className="evf-nav-group">
-          <Link className="evf-wordmark" href="/gallery" onClick={() => setView("gallery")}>
+          <button
+            type="button"
+            className="evf-menu-toggle"
+            aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={mobileNavOpen}
+            onClick={() => setMobileNavOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <Link
+            className="evf-wordmark"
+            href="/gallery"
+            onClick={() => {
+              setView("gallery");
+              setMobileNavOpen(false);
+            }}
+          >
             THE WANDERING BUNNY
           </Link>
           <nav className="evf-nav" aria-label="Primary navigation">
             <Link
               href="/gallery"
               data-active={activePath === "gallery"}
-              onClick={() => setView("gallery")}
+              onClick={() => {
+                setView("gallery");
+                setMobileNavOpen(false);
+              }}
             >
               Gallery
             </Link>
             <Link
               href="/about"
               data-active={activePath === "about"}
-              onClick={() => setView("about")}
+              onClick={() => {
+                setView("about");
+                setMobileNavOpen(false);
+              }}
             >
               About
             </Link>
@@ -605,7 +737,7 @@ export default function EvfPortfolio({
             <section
               key="gallery"
               className="evf-gallery"
-              aria-label="Horizontal photo filmstrip"
+              aria-label="Photo gallery"
             >
               <div
                 ref={rollRef}
@@ -669,7 +801,11 @@ export default function EvfPortfolio({
                           sizes="(max-width: 760px) 74vw, 60vw"
                           loading={photo.i < 4 ? "eager" : "lazy"}
                           decoding="async"
+                          onLoad={(event) => {
+                            setRenderedOrientation(event.currentTarget);
+                          }}
                         />
+                        <span className="evf-frame-exif">{shortExifLine(photo)}</span>
                       </motion.span>
                     </button>
                   );
@@ -686,7 +822,7 @@ export default function EvfPortfolio({
             <span>0</span>
             <span>+3</span>
           </div>
-          <div className="evf-meter-track">
+          <div ref={meterTrackRef} className="evf-meter-track">
             <span ref={needleRef} className="evf-meter-needle" />
           </div>
         </div>

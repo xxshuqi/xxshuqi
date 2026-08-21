@@ -193,7 +193,8 @@ body,
   position: fixed;
   inset: 16px;
   z-index: 40;
-  border: 1px solid var(--evf-frame-line);
+  border-top: 1px solid var(--evf-frame-line);
+  border-bottom: 1px solid var(--evf-frame-line);
   pointer-events: none;
 }
 
@@ -259,6 +260,7 @@ body,
 }
 
 .evf-top-hud a,
+.evf-top-hud button,
 .evf-bottom-hud button {
   pointer-events: auto;
 }
@@ -277,6 +279,28 @@ body,
 
 .evf-nav-group {
   gap: 30px;
+}
+
+.evf-menu-toggle {
+  display: none;
+  width: 30px;
+  height: 30px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  color: var(--evf-ink);
+  cursor: pointer;
+  padding: 0;
+}
+
+.evf-menu-toggle span {
+  display: block;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
 }
 
 .evf-wordmark {
@@ -440,6 +464,10 @@ body,
   font-variant-numeric: tabular-nums;
   letter-spacing: 2.5px;
   line-height: 1;
+}
+
+.evf-frame-exif {
+  display: none;
 }
 
 .evf-frame-card img {
@@ -694,7 +722,7 @@ body,
 .evf-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 70;
+  z-index: 90;
   display: grid;
   place-items: center;
   background: var(--evf-lightbox-bg);
@@ -802,7 +830,7 @@ body,
 .evf-shutter {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 100;
   background: #000;
   pointer-events: none;
   animation: shutterBlink 0.5s ease both;
@@ -959,6 +987,28 @@ body,
   }
 }
 
+@media (max-width: 760px) and (orientation: portrait) {
+  .evf-roll {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 52px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: 86px 0 100px;
+    scroll-padding-block: 80px;
+    scroll-snap-type: y proximity;
+    touch-action: pan-y;
+  }
+
+  .evf-frame-card {
+    width: 100%;
+    align-items: center;
+    scroll-snap-align: center;
+  }
+}
+
 @media (max-width: 640px) {
   :root {
     --evf-digit-height: 12px;
@@ -1031,7 +1081,18 @@ body,
   }
 
   .evf-camera-readout {
-    display: none;
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    display: flex;
+    gap: 7px;
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .evf-chip {
+    display: inline-flex;
+    padding: 2px 4px;
   }
 
   .evf-roll {
@@ -1061,19 +1122,38 @@ body,
   }
 
   .evf-meter {
-    display: none;
+    display: flex;
+    width: 66px;
+    flex: 0 0 66px;
+    gap: 3px;
+  }
+
+  .evf-meter-labels,
+  .evf-meter-track {
+    width: 60px;
+  }
+
+  .evf-meter-labels {
+    font-size: 7px;
+    letter-spacing: 0.5px;
   }
 
   .evf-contact-toggle {
     display: inline-flex;
-    min-width: 44px;
+    min-width: 64px;
     height: 44px;
     border: 0;
-    font-size: 9px;
+    font-size: 0;
     font-weight: 700;
     letter-spacing: 1.4px;
     text-transform: uppercase;
     padding: 0;
+  }
+
+  .evf-contact-toggle::after {
+    content: "C — SHEET";
+    font-size: 7px;
+    letter-spacing: 1px;
   }
 
   .evf-site[data-contact="open"] .evf-contact-toggle::before,
@@ -1086,6 +1166,16 @@ body,
     font-size: 0;
   }
 
+  .evf-site[data-contact="open"] .evf-contact-toggle::after,
+  .evf-site[data-contact="closing"] .evf-contact-toggle::after {
+    content: "CLOSE";
+  }
+
+  .evf-site[data-contact="open"] .evf-contact-toggle::before,
+  .evf-site[data-contact="closing"] .evf-contact-toggle::before {
+    content: none;
+  }
+
   .evf-contact-hint {
     display: none;
   }
@@ -1094,23 +1184,23 @@ body,
     flex: 1 1 auto;
     max-width: none;
     min-width: 0;
-    font-size: 8px;
-    letter-spacing: 1.5px;
+    font-size: 7.5px;
+    letter-spacing: 1.2px;
     text-align: center;
     white-space: nowrap;
   }
 
   .evf-counter {
     flex: 0 0 auto;
-    min-width: 92px;
-    gap: 8px;
-    font-size: 8px;
-    letter-spacing: 1.5px;
+    min-width: 118px;
+    gap: 4px;
+    font-size: 7px;
+    letter-spacing: 1px;
   }
 
   .evf-counter strong {
-    font-size: 9px;
-    letter-spacing: 1.5px;
+    font-size: 8px;
+    letter-spacing: 1px;
   }
 
   .evf-frame-counter-label {
@@ -1184,6 +1274,390 @@ body,
   .evf-about a,
   .evf-about-contact {
     font-size: 9px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 760px) and (orientation: portrait) {
+  .evf-chip {
+    display: inline-flex;
+  }
+
+  .evf-meter {
+    display: flex;
+    width: 104px;
+    flex: 0 0 104px;
+  }
+
+  .evf-meter-labels,
+  .evf-meter-track {
+    width: 90px;
+  }
+
+  .evf-meter-labels {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .evf-contact-toggle {
+    min-width: 84px;
+    border: 0;
+    font-size: 0;
+    letter-spacing: 1px;
+  }
+
+  .evf-contact-toggle::after {
+    content: "C — SHEET";
+    font-size: 8px;
+  }
+
+  .evf-site[data-contact="open"] .evf-contact-toggle::before,
+  .evf-site[data-contact="closing"] .evf-contact-toggle::before {
+    content: none;
+  }
+
+  .evf-site[data-contact="open"] .evf-contact-toggle::after,
+  .evf-site[data-contact="closing"] .evf-contact-toggle::after {
+    content: "CLOSE";
+  }
+
+  .evf-contact-hint {
+    display: none;
+  }
+
+  .evf-counter {
+    min-width: 146px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 430px) and (orientation: portrait) {
+  .evf-wordmark {
+    max-width: 100px;
+    font-size: 9.5px;
+    letter-spacing: 1.25px;
+  }
+
+  .evf-nav {
+    left: 45%;
+    gap: 2px;
+  }
+
+  .evf-nav a {
+    min-width: 40px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .evf-camera-readout {
+    gap: 6px;
+    font-size: 6.5px;
+    letter-spacing: 0.8px;
+  }
+}
+
+@media (max-width: 760px) and (orientation: portrait) {
+  /* Give the first and last frames a composed resting scene in the vertical feed. */
+  .evf-roll {
+    padding-top: calc(50svh - 24vh - 16px);
+    padding-bottom: max(180px, 14svh);
+  }
+
+  .evf-site[data-portrait-at-start="true"] .evf-frame-card:nth-child(2) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .evf-frame-card:nth-child(2) {
+    transition: opacity 0.36s ease;
+  }
+
+  .evf-nav-group {
+    gap: 8px;
+  }
+
+  .evf-menu-toggle {
+    display: inline-flex;
+    flex: 0 0 30px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .evf-wordmark {
+    max-width: none;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    line-height: 1;
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+  }
+
+  .evf-nav {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    border: 0;
+    background: var(--evf-bg);
+    opacity: 0;
+    padding: 84px 28px 28px;
+    pointer-events: none;
+    transform: scale(0.985);
+    transition: opacity 0.28s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.34s;
+    visibility: hidden;
+    z-index: 1;
+  }
+
+  .evf-site[data-mobile-menu="open"] .evf-nav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    transition-delay: 0s;
+    visibility: visible;
+  }
+
+  .evf-nav a {
+    display: block;
+    min-width: 0;
+    min-height: 0;
+    font-size: 15px;
+    letter-spacing: 3px;
+    padding: 12px 0;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .evf-site[data-mobile-menu="open"] .evf-nav a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .evf-site[data-mobile-menu="open"] .evf-nav a:nth-child(1) {
+    transition-delay: 0.08s;
+  }
+
+  .evf-site[data-mobile-menu="open"] .evf-nav a:nth-child(2) {
+    transition-delay: 0.14s;
+  }
+
+  .evf-nav a[data-active="true"]::after {
+    right: 0;
+    bottom: 7px;
+    left: 0;
+  }
+
+  .evf-frame-exif {
+    display: none;
+  }
+
+  .evf-bottom-hud .evf-exif {
+    display: block;
+    position: absolute;
+    left: 50%;
+    width: min(56vw, 240px);
+    transform: translateX(-50%);
+    font-size: 9px;
+    letter-spacing: 1.15px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .evf-bottom-hud .evf-contact-toggle {
+    display: none;
+  }
+
+  .evf-bottom-hud .evf-counter {
+    min-width: auto;
+  }
+
+  .evf-frame-card img[data-render-orientation="landscape"] {
+    width: min(90vw, 600px);
+    max-width: 90vw;
+    height: auto;
+  }
+
+  .evf-frame-card[data-orientation="portrait"] img {
+    height: 52svh;
+  }
+
+  .evf-lightbox {
+    padding: 24px 18px;
+  }
+
+  .evf-lightbox figure {
+    width: 100%;
+    max-height: calc(100svh - 48px);
+    justify-content: center;
+  }
+
+  .evf-lightbox img {
+    max-width: calc(100vw - 36px);
+    max-height: calc(100svh - 160px);
+  }
+}
+
+/* Keep the EVF gallery composition on phones held sideways. */
+@media (max-width: 900px) and (orientation: landscape) {
+  :root {
+    --evf-digit-height: 13px;
+  }
+
+  .evf-frame {
+    inset: 16px;
+  }
+
+  .evf-corner {
+    width: 18px;
+    height: 18px;
+  }
+
+  .evf-corner-tl {
+    top: 11px;
+    left: 11px;
+  }
+
+  .evf-corner-tr {
+    top: 11px;
+    right: 11px;
+  }
+
+  .evf-corner-bl {
+    bottom: 11px;
+    left: 11px;
+  }
+
+  .evf-corner-br {
+    right: 11px;
+    bottom: 11px;
+  }
+
+  .evf-top-hud,
+  .evf-bottom-hud {
+    height: 60px;
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+
+  .evf-nav-group {
+    gap: 30px;
+  }
+
+  .evf-wordmark {
+    max-width: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .evf-nav {
+    top: calc(50% + 4px);
+    gap: 18px;
+  }
+
+  .evf-nav a {
+    min-width: 0;
+    min-height: 0;
+    display: inline;
+    font-size: 10px;
+    letter-spacing: 3px;
+    padding: 0 0 5px;
+  }
+
+  .evf-nav a[data-active="true"]::after {
+    right: 3px;
+    bottom: 0;
+    left: 0;
+  }
+
+  .evf-camera-readout {
+    display: flex;
+    gap: 14px;
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .evf-chip {
+    display: inline;
+  }
+
+  .evf-roll {
+    gap: clamp(104px, 6.6vw, 148px);
+    padding: 80px 7vw;
+  }
+
+  .evf-frame-card {
+    gap: 8px;
+  }
+
+  .evf-frame-num {
+    font-size: 9px;
+  }
+
+  .evf-frame-card[data-orientation="landscape"] img,
+  .evf-frame-card[data-orientation="portrait"] img {
+    height: 68vh;
+  }
+
+  .evf-bottom-hud {
+    align-items: center;
+    padding-bottom: 0;
+  }
+
+  .evf-meter {
+    display: flex;
+  }
+
+  .evf-exif {
+    flex: 1;
+    max-width: none;
+    font-size: 9.5px;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+
+  .evf-counter {
+    min-width: 190px;
+    gap: 12px;
+    font-size: 8.5px;
+    letter-spacing: 2px;
+  }
+
+  .evf-counter strong {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .evf-contact-toggle {
+    display: none;
+  }
+
+  .evf-contact-hint {
+    display: inline;
+  }
+
+  .evf-contact-sheet {
+    padding: 84px 44px 80px;
+  }
+
+  .evf-contact-grid {
+    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    gap: 10px;
+  }
+
+  .evf-contact-grid img {
+    height: 104px;
+  }
+
+  .evf-about {
+    width: min(520px, calc(100vw - 72px));
+    max-width: none;
+    padding: 0;
   }
 }
 
