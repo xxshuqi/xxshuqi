@@ -28,6 +28,8 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg);
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -37,6 +39,7 @@ body {
   font-weight: 300;
   position: relative;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 .site-main {
@@ -178,8 +181,9 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: var(--topbar-height);
+    height: calc(var(--topbar-height) + env(safe-area-inset-top, 0px));
     padding: 0 20px;
+    padding-top: env(safe-area-inset-top, 0px);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
   }
@@ -243,7 +247,7 @@ body::after {
 
   .site-content {
     margin-left: 0;
-    padding-top: var(--topbar-height);
+    padding-top: calc(var(--topbar-height) + env(safe-area-inset-top, 0px));
   }
 }
 
