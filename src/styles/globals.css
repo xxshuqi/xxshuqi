@@ -176,6 +176,12 @@ body::after {
 }
 
 @media (max-width: 760px) {
+  :root {
+    /* env(safe-area-inset-top) is 0 in Safari's normal browser mode, so it
+       needs a real floor to actually cover the strip under the status bar. */
+    --topbar-pad-top: max(env(safe-area-inset-top, 0px), 28px);
+  }
+
   /* Sits above the topbar and never moves, so the status-bar strip stays
      solid even while the topbar slides or Safari lags a fixed repaint. */
   .safe-area-cap {
@@ -185,7 +191,7 @@ body::after {
     right: 0;
     z-index: 95;
     display: block;
-    height: env(safe-area-inset-top, 0px);
+    height: var(--topbar-pad-top);
     background: var(--bg);
     pointer-events: none;
     transform: translateZ(0);
@@ -193,7 +199,7 @@ body::after {
 
   .sidebar-topbar {
     position: fixed;
-    top: env(safe-area-inset-top, 0px);
+    top: var(--topbar-pad-top);
     left: 0;
     right: 0;
     z-index: 90;
@@ -272,7 +278,7 @@ body::after {
 
   .site-content {
     margin-left: 0;
-    padding-top: calc(var(--topbar-height) + env(safe-area-inset-top, 0px));
+    padding-top: calc(var(--topbar-height) + var(--topbar-pad-top));
   }
 }
 
