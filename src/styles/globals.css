@@ -156,10 +156,6 @@ body::after {
   display: none;
 }
 
-.safe-area-cap {
-  display: none;
-}
-
 .sidebar-menu-toggle {
   display: none;
 }
@@ -182,54 +178,33 @@ body::after {
     --topbar-pad-top: max(env(safe-area-inset-top, 0px), 28px);
   }
 
+  .site-shell {
+    /* Column stack on mobile so the sticky header sits at the top of the
+       document flow with the content scrolling below it. */
+    flex-direction: column;
+  }
+
   .sidebar-topbar {
-    position: fixed;
+    /* Sticky, NOT fixed. A sticky header is painted together with the page
+       content, so it repositions in lock-step when iOS Safari shows/hides
+       its address bar. A fixed header lags that transition and opens a gap
+       above it where page photos show through — the root cause of the
+       "see-through gap" we kept hitting. */
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 90;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* Fold the safe-area inset into the header itself: the background then
-       reaches the top edge and covers the status-bar strip, while the title
-       and menu button stay centred in the --topbar-height band below it. */
+    /* Safe-area inset folded into the header so its background reaches the
+       top edge and covers the status-bar strip; the title and menu button
+       stay centred in the --topbar-height band below the inset. */
     height: calc(var(--topbar-height) + var(--topbar-pad-top));
     padding: var(--topbar-pad-top) 20px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    /* Promote the header to its own GPU compositor layer so iOS Safari
-       repaints it in lock-step with momentum / rubber-band scrolling
-       instead of late — which is what lets photo content flash through
-       the top strip. translateZ(0) + will-change: transform pins the
-       layer; backface-visibility keeps it from being re-rasterised. */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    will-change: transform;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-
-  /* Non-animating opaque cap over the notch / status-bar strip. Even if
-     the header layer above repaints late during scroll bounce, this
-     simple always-solid layer guarantees no photo ever shows through the
-     safe-area band at the very top edge. Sits above the header (z 90) but
-     below the drawer (z 88 is lower — cap is fine at 95) so it never
-     intercepts taps on the title/menu, which live below the pad-top band. */
-  .safe-area-cap {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--topbar-pad-top);
-    z-index: 95;
-    background: var(--bg);
-    pointer-events: none;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
   }
 
   .sidebar-topbar-title {
@@ -291,7 +266,8 @@ body::after {
 
   .site-content {
     margin-left: 0;
-    padding-top: calc(var(--topbar-height) + var(--topbar-pad-top));
+    /* No top padding needed — the sticky header occupies real space in the
+       document flow, so content already starts below it. */
   }
 }
 
@@ -468,6 +444,10 @@ body::after {
 .lightbox {
   position: fixed;
   inset: 0;
+  /* Dynamic viewport height tracks the visible area as iOS Safari's toolbar
+     shows/hides, so the overlay covers edge-to-edge with no top/bottom gap
+     (the background scroll is also locked while it's open — see Lightbox.tsx). */
+  height: 100dvh;
   z-index: 200;
   display: grid;
   place-items: center;
