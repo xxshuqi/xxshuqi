@@ -83,6 +83,10 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Opaque cap over the iOS status-bar strip. Never animates, so photo
+          content can never bleed through it while the topbar slides. */}
+      <div className="safe-area-cap" aria-hidden="true" />
+
       <motion.div
         className="sidebar-topbar"
         animate={{ y: topbarHidden ? "-100%" : "0%" }}

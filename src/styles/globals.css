@@ -164,6 +164,10 @@ body::after {
   display: none;
 }
 
+.safe-area-cap {
+  display: none;
+}
+
 .site-content {
   flex: 1;
   min-width: 0;
@@ -172,20 +176,41 @@ body::after {
 }
 
 @media (max-width: 760px) {
-  .sidebar-topbar {
+  /* Sits above the topbar and never moves, so the status-bar strip stays
+     solid even while the topbar slides or Safari lags a fixed repaint. */
+  .safe-area-cap {
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    z-index: 95;
+    display: block;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--bg);
+    pointer-events: none;
+    transform: translateZ(0);
+  }
+
+  .sidebar-topbar {
+    position: fixed;
+    top: env(safe-area-inset-top, 0px);
     left: 0;
     right: 0;
     z-index: 90;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: calc(var(--topbar-height) + env(safe-area-inset-top, 0px));
+    height: var(--topbar-height);
     padding: 0 20px;
-    padding-top: env(safe-area-inset-top, 0px);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
+    /* Keep it on its own compositor layer: iOS Safari otherwise repaints
+       fixed elements late during momentum scroll, letting content flash
+       through above them. (Framer Motion owns `transform` here, so the
+       promotion has to come from will-change.) */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
   }
 
   .sidebar-topbar-title {
