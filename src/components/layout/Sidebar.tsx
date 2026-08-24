@@ -56,9 +56,15 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Always-sticky mobile header. Its own padding-top covers the
-          status-bar / safe-area strip, so the header background reaches the
-          very top edge — no separate cap element, no blank band on scroll. */}
+      {/* Always-static opaque cap over the notch / status-bar strip. A
+          separate simple layer so the safe-area band stays solid even if
+          the header layer repaints late during iOS momentum / rubber-band
+          scroll. Mobile-only (display:none ≥761px). */}
+      <div className="safe-area-cap" aria-hidden="true" />
+
+      {/* Always-sticky mobile header, GPU-promoted so it repaints in
+          lock-step with scroll. Its own padding-top covers the status-bar
+          strip; the cap above backstops it during scroll bounce. */}
       <div className="sidebar-topbar">
         <Link href="/portfolio" className="sidebar-topbar-title" onClick={() => setOpen(false)}>
           The Wandering Bunny

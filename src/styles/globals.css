@@ -156,6 +156,10 @@ body::after {
   display: none;
 }
 
+.safe-area-cap {
+  display: none;
+}
+
 .sidebar-menu-toggle {
   display: none;
 }
@@ -194,6 +198,36 @@ body::after {
     padding: var(--topbar-pad-top) 20px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
+    /* Promote the header to its own GPU compositor layer so iOS Safari
+       repaints it in lock-step with momentum / rubber-band scrolling
+       instead of late — which is what lets photo content flash through
+       the top strip. translateZ(0) + will-change: transform pins the
+       layer; backface-visibility keeps it from being re-rasterised. */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Non-animating opaque cap over the notch / status-bar strip. Even if
+     the header layer above repaints late during scroll bounce, this
+     simple always-solid layer guarantees no photo ever shows through the
+     safe-area band at the very top edge. Sits above the header (z 90) but
+     below the drawer (z 88 is lower — cap is fine at 95) so it never
+     intercepts taps on the title/menu, which live below the pad-top band. */
+  .safe-area-cap {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--topbar-pad-top);
+    z-index: 95;
+    background: var(--bg);
+    pointer-events: none;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
