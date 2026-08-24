@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-
-const SCROLL_TOP_THRESHOLD = 8;
-const SCROLL_DELTA_THRESHOLD = 4;
+import { useState } from "react";
 
 const SOCIAL_LINKS = {
   instagram: "https://www.instagram.com/xxshuqi/",
@@ -34,29 +30,6 @@ function XiaohongshuIcon() {
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [topbarHidden, setTopbarHidden] = useState(false);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (open) return;
-      const currentY = window.scrollY;
-      const delta = currentY - lastScrollY.current;
-
-      if (currentY < SCROLL_TOP_THRESHOLD) {
-        setTopbarHidden(false);
-      } else if (delta > SCROLL_DELTA_THRESHOLD) {
-        setTopbarHidden(true);
-      } else if (delta < -SCROLL_DELTA_THRESHOLD) {
-        setTopbarHidden(false);
-      }
-
-      lastScrollY.current = currentY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [open]);
 
   const socials = (
     <div className="sidebar-socials">
@@ -83,15 +56,10 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Opaque cap over the iOS status-bar strip. Never animates, so photo
-          content can never bleed through it while the topbar slides. */}
-      <div className="safe-area-cap" aria-hidden="true" />
-
-      <motion.div
-        className="sidebar-topbar"
-        animate={{ y: topbarHidden ? "-100%" : "0%" }}
-        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      >
+      {/* Always-sticky mobile header. Its own padding-top covers the
+          status-bar / safe-area strip, so the header background reaches the
+          very top edge — no separate cap element, no blank band on scroll. */}
+      <div className="sidebar-topbar">
         <Link href="/portfolio" className="sidebar-topbar-title" onClick={() => setOpen(false)}>
           The Wandering Bunny
         </Link>
@@ -105,7 +73,7 @@ export default function Sidebar() {
           <span />
           <span />
         </button>
-      </motion.div>
+      </div>
 
       <aside className="sidebar" data-open={open}>
         <div className="sidebar-inner">
