@@ -49,9 +49,15 @@ body {
   min-height: 100dvh;
 }
 
-/* Film grain overlay */
+/* Film grain overlay — TEMPORARILY DISABLED (probe-2).
+   Single-variable test: a full-viewport position:fixed layer with
+   mix-blend-mode forces the page into one composited layer group on iOS
+   Safari, a known source of stale-tile repaint artifacts. Layout metrics all
+   read 0 on-device, so the seam is a paint problem, not a layout one — this
+   is the prime suspect. If the seam goes away, rebuild the grain without
+   mix-blend-mode (pre-multiplied PNG at low opacity looks near-identical). */
 body::after {
-  content: "";
+  content: none;
   position: fixed;
   inset: 0;
   pointer-events: none;

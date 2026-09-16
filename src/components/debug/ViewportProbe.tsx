@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 
 // Bumped by hand on each debug deploy so a screenshot proves which build the
 // phone actually loaded (rules out Safari serving a cached page).
-const BUILD = "probe-1";
+const BUILD = "probe-2-nograin";
 
 type Row = { k: string; v: string; bad?: boolean };
 
@@ -64,7 +64,10 @@ export default function ViewportProbe() {
             ? "STILL COVER" : "clean",
           bad: /viewport-fit/.test(document.querySelector('meta[name=viewport]')?.getAttribute("content") || "") },
         { k: "--pad-top", v: padTop, bad: padTop !== "0px" && padTop !== "(unset)" },
-        { k: "grain", v: getComputedStyle(document.body, "::after").mixBlendMode },
+        { k: "grain", v: (() => {
+          const a = getComputedStyle(document.body, "::after");
+          return a.content === "none" ? "OFF" : `on/${a.mixBlendMode}`;
+        })() },
         { k: "intro h", v: intro ? getComputedStyle(intro).height : "unmounted" },
         { k: "—", v: "—" },
         { k: "innerH", v: String(window.innerHeight) },
