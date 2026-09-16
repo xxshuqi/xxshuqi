@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "@/styles/globals.css";
 import PublicShell from "@/components/layout/PublicShell";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const SITE_URL = "https://thewanderingbunny.com";
 
@@ -69,6 +71,10 @@ export default function RootLayout({
       </head>
       <body>
         <PublicShell>{children}</PublicShell>
+        {/* Both are Vercel-only: they post to /_vercel/*, which exists only on
+            Vercel. Harmless elsewhere — the beacon 404s and nothing breaks. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
