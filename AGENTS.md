@@ -3,7 +3,7 @@
 ## What this is
 
 A static photo portfolio for **thewanderingbunny.com**. Next.js App Router
-compiled to plain HTML/CSS/JS via `output: "export"`, deployed to GitHub Pages.
+compiled to plain HTML/CSS/JS via `output: "export"`, deployed to Vercel.
 
 **There is no server, no database, and no admin panel.** Photos are files on
 disk; their metadata lives in a JSON file committed to the repo. Adding a photo
@@ -332,23 +332,70 @@ that file** — verification breaks with it.
 
 ## Deployment
 
-Push to `main` → `.github/workflows/deploy.yml` → `npm ci` → `npm run build` →
-`upload-pages-artifact` from `./out` → GitHub Pages → **thewanderingbunny.com**.
+Hosted on **Vercel**. Push to `main` → Vercel builds → **thewanderingbunny.com**.
 About two minutes.
 
-`out/` is gitignored; CI rebuilds it. A local `npm run build` is for checking
-only — it is never what ships.
+It was on GitHub Pages until September 2026. `.github/workflows/deploy.yml` is
+still there and still runs, deliberately: it keeps `xxshuqi.github.io` warm as a
+rollback. Point the Namecheap A record back at GitHub's four IPs
+(185.199.108–111.153) and the old host takes over within minutes. Delete the
+workflow once that safety net is no longer wanted.
 
-**Pushing to `main` deploys to the live public site. There is no staging.**
-`git revert` + push is the rollback, also about two minutes.
+`out/` is gitignored; the build regenerates it. A local `npm run build` is for
+checking only — it is never what ships.
+
+**Pushing to `main` deploys to the live public site. There is no staging** —
+though Vercel now builds every branch to its own preview URL, so non-`main`
+work can be looked at before it goes live. `git revert` + push is the rollback.
+
+### DNS — read before touching it
+
+The domain is registered at Namecheap and **its DNS stays there**. Only the A
+record points at Vercel:
+
+```
+A      @      76.76.21.21
+CNAME  www    cname.vercel-dns.com
+```
+
+**Do not switch to Vercel's nameservers.** Vercel's dashboard recommends it and
+marks the current ones with a ✘, but the domain also carries Namecheap email
+forwarding — five `eforward*.registrar-servers.com` MX records and an SPF TXT
+record. Moving the nameservers drops all of them and email forwarding stops
+that minute. The A-record method is fully supported; the ✘ is cosmetic.
+
+### vercel.json — both rules are load-bearing
+
+Neither was needed on GitHub Pages, and both fail silently rather than loudly:
+
+- **The Search Console rewrite.** `trailingSlash: true` makes Vercel serve
+  `google887…html` at `/google887…/` and 404 the `.html` path Google actually
+  requests. Without the rewrite the property quietly un-verifies. GitHub Pages
+  served the raw path, so this never came up before.
+- **The `/portfolio` redirects.** Both the bare and trailing-slash forms are
+  listed, because `trailingSlash` rewrites `/portfolio` to `/portfolio/` before
+  vercel.json is reached — the bare source alone never matches. This is the real
+  301 that GitHub Pages could only do as a meta refresh.
+
+### Analytics
+
+`@vercel/analytics` and `@vercel/speed-insights` are mounted in the root layout.
+Web Analytics is enabled and free. **Speed Insights is not** — the CLI offers
+only the Plus tier, which needs Pro, so the component is inert. Real-user Core
+Web Vitals are available free in Google Search Console under Experience → Core
+Web Vitals, which is the same class of data.
 
 ```bash
 npm install              # node_modules is not kept on disk between sessions
 npm run dev              # :3000
 npm run build            # static export to out/
 npm start                # npx serve out — preview the built output
+npm run optimise:images  # regenerate thumbnails — see Adding photos
 npm run backfill:photos  # one-off EXIF/metadata maintenance
 ```
+
+Vercel CLI commands must be run **from this directory**, not from `PhotoBook/` —
+the `.vercel` link lives here and the CLI only searches upwards.
 
 **`dev` deliberately does not pass `--webpack`.** It used to, which meant dev
 ran webpack while `next build` ran Turbopack. Once the data-loading page moved
