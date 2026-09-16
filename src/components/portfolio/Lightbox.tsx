@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import type { DisplayPhoto } from "@/lib/photoDisplay";
 import { equipmentLine, lightboxExposureLine, lightboxHeading } from "@/lib/photoDisplay";
 import { getPhotoAlt } from "@/lib/photoMedia";
 import { useScrollLock } from "@/lib/useScrollLock";
+
+// The same curve the rest of the site animates on — see PortfolioClient and
+// the CSS transitions in globals.css.
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 interface LightboxProps {
   photo: DisplayPhoto;
@@ -12,6 +17,10 @@ interface LightboxProps {
 }
 
 export default function Lightbox({ photo, onClose }: LightboxProps) {
+  // Respects the OS "reduce motion" setting — the site already honours it in
+  // CSS, so the lightbox should not be the one place that ignores it.
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -28,8 +37,27 @@ export default function Lightbox({ photo, onClose }: LightboxProps) {
   const equipment = equipmentLine(photo);
 
   return (
-    <div className="lightbox" onClick={onClose}>
-      <figure>
+    <motion.div
+      className="lightbox"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.28, ease: "easeOut" }}
+    >
+      <motion.figure
+        // The backdrop fades on its own timing; the photo lifts in slightly
+        // slower and a touch later, so it reads as arriving rather than as the
+        // whole overlay appearing at once.
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.94, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 4 }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.52,
+          ease: EASE,
+          delay: reduceMotion ? 0 : 0.04,
+        }}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={photo.originalUrl}
@@ -38,7 +66,15 @@ export default function Lightbox({ photo, onClose }: LightboxProps) {
           height={photo.height}
           decoding="async"
         />
-        <figcaption>
+        <motion.figcaption
+          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.4,
+            ease: EASE,
+            delay: reduceMotion ? 0 : 0.22,
+          }}
+        >
           <span className="lightbox-meta-primary">{lightboxHeading(photo)}</span>
           {(exposure || equipment) && (
             <span className="lightbox-meta-cycle">
@@ -46,8 +82,8 @@ export default function Lightbox({ photo, onClose }: LightboxProps) {
               {equipment && <span className="lightbox-meta-equipment">{equipment}</span>}
             </span>
           )}
-        </figcaption>
-      </figure>
-    </div>
+        </motion.figcaption>
+      </motion.figure>
+    </motion.div>
   );
 }

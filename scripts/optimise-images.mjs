@@ -83,6 +83,24 @@ for (const photo of photos) {
   photo.thumbWidth = meta.width;
   photo.thumbHeight = meta.height;
 
+  // Deliberately does NOT touch photo.width / photo.height.
+  //
+  // Five photos (leo-capri-001, leo-capri-003, random-001, random-002,
+  // random-004) are recorded as 2400x1600 landscape while the file carries an
+  // EXIF orientation flag that makes it render 1600x2400 portrait. .rotate()
+  // above honours that flag, so their thumbnails are portrait and disagree
+  // with what photos.json claims.
+  //
+  // Correcting them is a one-line change — and it reshuffles the entire grid,
+  // because the masonry balances columns on height / width from these fields.
+  // FRM 001 is one of them, so the very first photo moves. The hand-tuned
+  // ATTACH_AFTER and MOBILE_SWAP_PAIRS in PortfolioClient were chosen against
+  // the current arrangement, and two of them (003, 084) are these same photos.
+  //
+  // So the wrong numbers are load-bearing for a curated layout. Left as they
+  // are on purpose. If you ever do correct them, expect to re-tune those two
+  // lists and to review the whole grid.
+
   after += fs.statSync(jpegPath).size;
   webpTotal += fs.statSync(webpPath).size;
   webpSmallTotal += fs.statSync(webpSmallPath).size;
