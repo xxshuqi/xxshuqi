@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { Photo } from "@/lib/data";
 import { toDisplayPhotos, type DisplayPhoto } from "@/lib/photoDisplay";
 import { buildThumbSources, getPhotoAlt, getThumbIntrinsicSize } from "@/lib/photoMedia";
 import Lightbox from "./Lightbox";
 
+const SHUTTER_DELAY_MS = 170;
+const SHUTTER_TOTAL_MS = 540;
 const WIDE_COLUMN_COUNT = 3;
 const NARROW_COLUMN_COUNT = 2;
 const WIDE_BREAKPOINT_PX = 1201;
@@ -155,12 +157,20 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
     return result;
   }, [frames, columnCount, gapRatio]);
   const [light, setLight] = useState<DisplayPhoto | null>(null);
-  // Opens straight away. There used to be a black shutter blink here with a
-  // 170ms delay in front of it; the lightbox now animates itself in, so the
-  // delay would just read as a dead pause before anything happened.
-  const openLightbox = useCallback((photo: DisplayPhoto) => setLight(photo), []);
+  const [shutter, setShutter] = useState(false);
 
-  const closeLightbox = useCallback(() => setLight(null), []);
+  const triggerShutter = useCallback((action: () => void) => {
+    setShutter(true);
+    window.setTimeout(action, SHUTTER_DELAY_MS);
+    window.setTimeout(() => setShutter(false), SHUTTER_TOTAL_MS);
+  }, []);
+
+  const openLightbox = useCallback(
+    (photo: DisplayPhoto) => triggerShutter(() => setLight(photo)),
+    [triggerShutter]
+  );
+
+  const closeLightbox = useCallback(() => triggerShutter(() => setLight(null)), [triggerShutter]);
 
   return (
     <div className="portfolio-page">
@@ -207,15 +217,8 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
         ))}
       </motion.div>
 
-      {/* AnimatePresence keeps the lightbox mounted long enough for its exit
-          animation to play; without it, closing just unmounts instantly.
-          The key is required, not decorative: without one AnimatePresence
-          cannot tell that the child left, so the exit never completes, the
-          component is never unmounted, and useScrollLock's cleanup never runs
-          — leaving body pinned at position: fixed after the lightbox is gone. */}
-      <AnimatePresence>
-        {light && <Lightbox key={light.id} photo={light} onClose={closeLightbox} />}
-      </AnimatePresence>
+      {light && <Lightbox photo={light} onClose={closeLightbox} />}
+      {shutter && <div className="lightbox-shutter" />}
     </div>
   );
 }

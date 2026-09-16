@@ -1,69 +1,58 @@
 "use client";
 
-import { useEffect, useLayoutEffect } from "react";
-
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+import { useEffect } from "react";
 
 /**
- * Stops the page scrolling while `locked` is true.
+ * Pins <body> at its current scroll offset while `locked` is true, and restores
+ * both the styles and the scroll position when it goes false.
  *
- * Locks with `overflow: hidden` on <html>, which freezes scrolling **without
- * touching the scroll position**. Nothing is saved and nothing is restored, so
- * there is no moment where the page sits at the wrong offset — the class of bug
- * that made closing the lightbox jolt.
+ * This exists for iOS Safari. A full-viewport `position: fixed` overlay is sized
+ * to the *layout* viewport, but once the toolbars retract the *visible* area is
+ * taller — measured on device, 742 against 850. The overlay then stops short of
+ * the bottom of the screen and whatever is painted behind it shows through in
+ * the leftover band. That was the grey strip under the open nav drawer, and the
+ * same mechanism produced the seam above the sticky header.
  *
- * ── What this replaced, and why ─────────────────────────────────────────────
+ * Pinning the body takes it out of flow, so the document collapses to viewport
+ * height. With nothing left to scroll, Safari restores its toolbars, the layout
+ * viewport matches the visual viewport again, and a fixed overlay covers the
+ * screen edge to edge.
  *
- * This used to pin <body> with `position: fixed; top: -scrollY`. That is the
- * common recipe, and it works, but releasing it is inherently two steps: clear
- * the styles, which drops the document to scroll 0 because the negative offset
- * was the only thing holding the position, then scroll back. Those two steps
- * can straddle a painted frame and the page visibly jolts — measured at ~10 CSS
- * px off a screen recording, settling back about 300ms later.
- *
- * Moving the cleanup to useLayoutEffect (before paint) did not fix it, and
- * neither did disabling scroll anchoring. The technique itself is the problem:
- * any approach that destroys the scroll offset and puts it back has a window
- * where the two disagree. Not destroying it removes the window entirely.
- *
- * The trade: `overflow: hidden` is less absolute than a pinned body on iOS
- * Safari, where touch scrolling can still get through in some cases. That was
- * the original reason for the pin — a scrollable page moves Safari's toolbars,
- * which resizes the visual viewport under a fixed overlay. That risk is much
- * smaller now: the film grain no longer sits in a full-viewport fixed layer
- * (see globals.css), which was the actual trigger for the seam, and .lightbox
- * sizes itself with 100dvh so it tracks the visible area on its own.
- *
- * A page that scrolls slightly behind an overlay is a small cosmetic problem.
- * A page that jumps every single time you close one is not.
+ * Used by both the lightbox and the mobile nav drawer — keep it in one place so
+ * a fix to this rather subtle workaround applies to both.
  */
 export function useScrollLock(locked: boolean) {
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     if (!locked) return;
 
-    const root = document.documentElement;
     const { body } = document;
-
-    // Hiding the scrollbar reclaims its width and shifts the layout sideways.
-    // Harmless on macOS, where scrollbars overlay; visible on Windows and Linux
-    // as a jump in the other axis, which is what we are here to avoid.
-    const scrollbarWidth = window.innerWidth - root.clientWidth;
-
+    const scrollY = window.scrollY;
     const previous = {
-      overflow: root.style.overflow,
-      paddingRight: body.style.paddingRight,
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
     };
 
-    root.style.overflow = "hidden";
-    if (scrollbarWidth > 0) {
-      const current = parseFloat(getComputedStyle(body).paddingRight) || 0;
-      body.style.paddingRight = `${current + scrollbarWidth}px`;
-    }
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
 
     return () => {
-      root.style.overflow = previous.overflow;
-      body.style.paddingRight = previous.paddingRight;
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.left = previous.left;
+      body.style.right = previous.right;
+      body.style.width = previous.width;
+      body.style.overflow = previous.overflow;
+      // Restoring the styles alone drops the page back to the top, because the
+      // negative offset was the only thing holding the position.
+      window.scrollTo(0, scrollY);
     };
   }, [locked]);
 }
