@@ -14,21 +14,29 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
 };
 
+const SITE_TITLE = "The Wandering Bunny: Life Through My Lens";
+
+// Search engines pad a thin description with whatever text they can scrape off
+// the page — the old 38-character one was getting the <title> and the wordmark
+// appended to it in results. Roughly 150 characters is the space on offer.
+const SITE_DESCRIPTION =
+  "Taking photos and documenting life is my love language. A collection of places, people, and everyday moments I’ve met along the way.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "The Wandering Bunny — Photo Portfolio",
-  description: "A minimalist Fujifilm photo portfolio.",
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   openGraph: {
-    title: "The Wandering Bunny — Photo Portfolio",
-    description: "A minimalist Fujifilm photo portfolio.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     type: "website",
     url: SITE_URL,
     siteName: "The Wandering Bunny",
   },
   twitter: {
     card: "summary",
-    title: "The Wandering Bunny — Photo Portfolio",
-    description: "A minimalist Fujifilm photo portfolio.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 
