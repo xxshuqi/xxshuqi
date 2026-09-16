@@ -112,15 +112,46 @@ nothing reads them. **Array order determines display order.**
 
 ### Adding photos
 
-1. Full-size file into `public/uploads/originals/`, a ~1200px copy into
-   `public/uploads/thumbnails/` named `thumb-<filename>`.
+1. Full-size file into `public/uploads/originals/`.
 2. Append an entry to `photos.json`. `width`/`height` must be the real pixel
    dimensions — the masonry balances columns by aspect ratio, so wrong numbers
-   produce lopsided columns.
-3. Commit and push. CI rebuilds and deploys.
+   produce lopsided columns. `thumbUrl` is `/uploads/thumbnails/thumb-<filename>`
+   even though that file does not exist yet.
+3. `npm run optimise:images` — generates every thumbnail variant and fills in
+   `thumbWidth`/`thumbHeight`. **Don't hand-make thumbnails.**
+4. Commit and push. CI rebuilds and deploys.
 
 `npm run backfill:photos` re-reads EXIF via `exiftool` and applies a hardcoded
 `STORY_PATCHES` table. One-off maintenance, not part of the build.
+
+### Image sizes — why the grid is fast
+
+The grid renders each photo about **341 CSS px** wide, so it never needs a large
+file. `scripts/optimise-thumbnails.mjs` regenerates three variants per photo
+from the original:
+
+| File | Width | Who gets it |
+|---|---|---|
+| `thumb-<name>-600.webp` | 600px | Phones, 1x displays — ~42KB each |
+| `thumb-<name>.webp` | 900px | 2x laptops and wide screens — ~96KB each |
+| `thumb-<name>.jpg` | 900px | Browsers without WebP |
+
+Served through `<picture>` in `PortfolioClient`, with `buildThumbSources()`
+deriving the WebP paths from `thumbUrl` by filename convention.
+
+Two things here are load-bearing:
+
+- **The original is deliberately absent from the grid srcset.** It used to sit
+  there at 2400w, and on a wide retina screen the browser would correctly pick
+  it — an 872KB file for a 341px slot. The original is for the lightbox only.
+- **`GRID_SIZES` in `PortfolioClient` must match the real column widths.** It is
+  what tells the browser which candidate to take; a wrong value silently over-
+  or under-fetches every image on the page. Change the grid padding or gap and
+  you must revisit it — the same warning as `computeLayoutMetrics()`.
+
+Before this, thumbnails were stored at a very high JPEG quality: 800x1200
+frames at 400KB, 23.9MB for the 94-photo grid. Now a phone pulls 5.4MB for the
+whole grid and 42KB per visible photo.
 
 ---
 

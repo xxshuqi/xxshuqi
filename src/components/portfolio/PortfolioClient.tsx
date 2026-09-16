@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import type { Photo } from "@/lib/data";
 import { toDisplayPhotos, type DisplayPhoto } from "@/lib/photoDisplay";
-import { buildPhotoSrcSet, getPhotoAlt, getThumbIntrinsicSize } from "@/lib/photoMedia";
+import { buildThumbSources, getPhotoAlt, getThumbIntrinsicSize } from "@/lib/photoMedia";
 import Lightbox from "./Lightbox";
 
 const SHUTTER_DELAY_MS = 170;
@@ -14,6 +14,11 @@ const NARROW_COLUMN_COUNT = 2;
 const WIDE_BREAKPOINT_PX = 1201;
 const MOBILE_BREAKPOINT_PX = 760;
 const SIDEBAR_WIDTH_PX = 260;
+
+// Must stay in step with the column widths below — it is what tells the browser
+// which srcset candidate to pick, and a wrong value silently over- or
+// under-fetches every image on the page.
+const GRID_SIZES = "(max-width: 640px) 46vw, (max-width: 1100px) 30vw, 22vw";
 
 // A couple of trailing frames are pinned to sit right after another frame's
 // column, keeping the last few images evenly spread regardless of screen size.
@@ -179,6 +184,7 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
           <div className="portfolio-column" key={columnIndex}>
             {column.map((photo) => {
               const intrinsic = getThumbIntrinsicSize(photo);
+              const sources = buildThumbSources(photo);
               const index = Number(photo.num) - 1;
               return (
                 <button
@@ -190,17 +196,19 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
                   aria-label={`Open ${getPhotoAlt(photo, "photo")}`}
                 >
                   <span className="portfolio-image-wrap">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo.thumbUrl}
-                      srcSet={buildPhotoSrcSet(photo)}
-                      alt={getPhotoAlt(photo, "Photo")}
-                      width={intrinsic.width}
-                      height={intrinsic.height}
-                      sizes="(max-width: 640px) 46vw, (max-width: 1100px) 30vw, 22vw"
-                      loading={index < 6 ? "eager" : "lazy"}
-                      decoding="async"
-                    />
+                    <picture>
+                      <source type="image/webp" srcSet={sources.webpSrcSet} sizes={GRID_SIZES} />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={sources.jpegSrc}
+                        alt={getPhotoAlt(photo, "Photo")}
+                        width={intrinsic.width}
+                        height={intrinsic.height}
+                        sizes={GRID_SIZES}
+                        loading={index < 6 ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                    </picture>
                   </span>
                 </button>
               );

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out",
-    "backfill:photos": "node scripts/backfill-photo-metadata.mjs"
+    "backfill:photos": "node scripts/backfill-photo-metadata.mjs",
+    "optimise:images": "node scripts/optimise-thumbnails.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.13.1",
@@ -20,6 +21,7 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
+    "sharp": "^0.35.4",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

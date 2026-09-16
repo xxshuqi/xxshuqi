@@ -22,23 +22,24 @@ export interface PhotoAsset {
   story?: string | null;
 }
 
-export function buildPhotoSrcSet(
-  photo: Pick<PhotoAsset, "thumbUrl" | "originalUrl" | "thumbWidth" | "width">
-): string {
-  const candidates = [
-    { url: photo.thumbUrl, width: photo.thumbWidth ?? photo.width },
-    { url: photo.originalUrl, width: photo.width },
-  ]
-    .filter((candidate) => Boolean(candidate.url && candidate.width))
-    .filter(
-      (candidate, index, list) =>
-        list.findIndex(
-          (item) => item.url === candidate.url && item.width === candidate.width
-        ) === index
-    )
-    .sort((a, b) => a.width - b.width);
-
-  return candidates.map(({ url, width }) => `${url} ${width}w`).join(", ");
+/**
+ * Sources for one grid thumbnail.
+ *
+ * Deliberately does NOT offer the original. It used to sit in the srcset at
+ * 2400w, and on a wide retina screen the browser would duly pick it — an 872KB
+ * file to fill a slot about 341 CSS px across. The original is for the
+ * lightbox; the grid never needs it.
+ *
+ * The WebP paths are derived from thumbUrl rather than stored per photo, so
+ * adding a photo stays a two-field edit. scripts/optimise-thumbnails.mjs writes
+ * exactly these names.
+ */
+export function buildThumbSources(photo: Pick<PhotoAsset, "thumbUrl">) {
+  const base = photo.thumbUrl.replace(/\.jpe?g$/i, "");
+  return {
+    webpSrcSet: `${base}-600.webp 600w, ${base}.webp 900w`,
+    jpegSrc: photo.thumbUrl,
+  };
 }
 
 export function getThumbIntrinsicSize(
