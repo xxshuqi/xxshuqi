@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 
 // Bumped by hand on each debug deploy so a screenshot proves which build the
 // phone actually loaded (rules out Safari serving a cached page).
-const BUILD = "probe-2-nograin";
+const BUILD = "probe-3-grain";
 
 type Row = { k: string; v: string; bad?: boolean };
 

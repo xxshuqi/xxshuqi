@@ -49,22 +49,23 @@ body {
   min-height: 100dvh;
 }
 
-/* Film grain overlay — TEMPORARILY DISABLED (probe-2).
-   Single-variable test: a full-viewport position:fixed layer with
-   mix-blend-mode forces the page into one composited layer group on iOS
-   Safari, a known source of stale-tile repaint artifacts. Layout metrics all
-   read 0 on-device, so the seam is a paint problem, not a layout one — this
-   is the prime suspect. If the seam goes away, rebuild the grain without
-   mix-blend-mode (pre-multiplied PNG at low opacity looks near-identical). */
+/* Film grain overlay.
+   Deliberately NO mix-blend-mode. A full-viewport position:fixed layer that
+   blends with its backdrop forces iOS Safari to composite the whole page as
+   one layer group, which left stale tiles behind as the toolbars animated —
+   that was the see-through strip above the header and below the fold, and it
+   survived five commits that all tried to fix it as a layout problem.
+   Dropping the blend mode costs almost nothing visually: multiply against
+   white returns the source unchanged, and --bg is #ffffff, so the blend was
+   already a no-op everywhere except directly over a photo. */
 body::after {
-  content: none;
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   opacity: 0.35;
-  mix-blend-mode: multiply;
 }
 
 ::selection {
