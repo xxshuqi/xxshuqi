@@ -1,10 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
+    { "source": "/portfolio", "destination": "/", "permanent": true },
+    { "source": "/portfolio/", "destination": "/", "permanent": true }
+  ],
+  "rewrites": [
     {
-      "source": "/portfolio",
-      "destination": "/",
-      "permanent": true
+      "source": "/google887fdcf0f170348d.html",
+      "destination": "/google887fdcf0f170348d/"
     }
   ]
 }

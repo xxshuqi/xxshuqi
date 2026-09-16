@@ -40,3 +40,4 @@ next-env.d.ts
 
 # Photos are committed to the repo for static GitHub Pages hosting
 # Add new photos to public/uploads/ and update public/data/photos.json
+.env*
