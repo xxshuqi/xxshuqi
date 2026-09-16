@@ -83,7 +83,7 @@ export default function Sidebar() {
           safe-area inset, which is 0 in Safari's browser mode and only
           non-zero when the site runs standalone from the Home Screen. */}
       <div className="sidebar-topbar">
-        <Link href="/portfolio" className="sidebar-topbar-title" onClick={() => setOpen(false)}>
+        <Link href="/" className="sidebar-topbar-title" onClick={() => setOpen(false)}>
           The Wandering Bunny
         </Link>
         <button
@@ -100,15 +100,16 @@ export default function Sidebar() {
 
       <aside className="sidebar" data-open={open}>
         <div className="sidebar-inner">
-          <Link href="/portfolio" className="sidebar-title" onClick={() => setOpen(false)}>
+          <Link href="/" className="sidebar-title" onClick={() => setOpen(false)}>
             The Wandering Bunny
           </Link>
 
           <nav className="sidebar-nav" aria-label="Primary navigation">
             <Link
-              href="/portfolio"
+              href="/"
               className="sidebar-link"
-              data-active={pathname?.startsWith("/portfolio")}
+              /* /portfolio/ still resolves, as a redirect, so keep it active there too. */
+              data-active={pathname === "/" || pathname?.startsWith("/portfolio")}
               onClick={() => setOpen(false)}
             >
               Portfolio

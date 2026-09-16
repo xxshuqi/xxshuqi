@@ -1,4 +1,19 @@
+import type { Metadata } from "next";
 import SiteShell from "@/components/layout/SiteShell";
+
+const ABOUT_DESCRIPTION =
+  "ShuQi is a photography enthusiast in Kuala Lumpur who travels with her camera in tow, snapping down every story a town has to offer.";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: ABOUT_DESCRIPTION,
+  alternates: { canonical: "/about/" },
+  openGraph: {
+    title: "About · The Wandering Bunny",
+    description: ABOUT_DESCRIPTION,
+    url: "/about/",
+  },
+};
 
 export default function AboutPage() {
   return (

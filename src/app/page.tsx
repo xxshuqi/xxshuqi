@@ -1,21 +1,16 @@
-"use client";
+import { getPhotos } from "@/lib/data";
+import SiteShell from "@/components/layout/SiteShell";
+import PortfolioClient from "@/components/portfolio/PortfolioClient";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-export default function RootPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace("/portfolio/");
-  }, [router]);
+// The portfolio IS the home page. It used to live at /portfolio/ with a meta
+// refresh stub sitting here, which meant the site's own domain resolved to a
+// 9KB page whose only text was "Continue to Portfolio".
+export default function HomePage() {
+  const photos = getPhotos();
 
   return (
-    <>
-      <meta httpEquiv="refresh" content="0; url=/portfolio/" />
-      <noscript>
-        <a href="/portfolio/">Continue to Portfolio</a>
-      </noscript>
-    </>
+    <SiteShell>
+      <PortfolioClient photos={photos} />
+    </SiteShell>
   );
 }

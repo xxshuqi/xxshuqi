@@ -1,13 +1,13 @@
-import { getPhotos } from "@/lib/data";
-import SiteShell from "@/components/layout/SiteShell";
-import PortfolioClient from "@/components/portfolio/PortfolioClient";
+import type { Metadata } from "next";
+import RedirectTo from "@/components/layout/RedirectTo";
 
-export default function PortfolioPage() {
-  const photos = getPhotos();
+// Kept only so the old URL doesn't 404 — the portfolio now lives at the root.
+// The canonical points home so search engines fold this into "/" instead of
+// indexing it as a second copy. Safe to delete once it drops out of the index.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
-  return (
-    <SiteShell>
-      <PortfolioClient photos={photos} />
-    </SiteShell>
-  );
+export default function PortfolioRedirectPage() {
+  return <RedirectTo to="/" label="Continue to The Wandering Bunny" />;
 }

@@ -24,13 +24,21 @@ const SITE_DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_TITLE,
+  title: {
+    // Pages set a short `title` and get "About · The Wandering Bunny"; the home
+    // page uses `default` as-is. Before this every page shipped the same title.
+    default: SITE_TITLE,
+    template: "%s · The Wandering Bunny",
+  },
   description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     type: "website",
-    url: SITE_URL,
+    // Relative, so each page resolves its own against metadataBase. It was
+    // hardcoded to the site root, which made /about/ share to social as home.
+    url: "/",
     siteName: "The Wandering Bunny",
   },
   twitter: {
