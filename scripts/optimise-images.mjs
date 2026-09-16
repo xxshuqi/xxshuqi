@@ -1,4 +1,4 @@
-// Regenerates the grid thumbnails from the originals.
+// Regenerates every derived image on the site from its source.
 //
 // The originals ship thumbnails saved at a very high JPEG quality — 800x1200
 // frames weighing 400KB — so the grid pulled ~24MB to show 94 photos that each
@@ -18,6 +18,9 @@
 // Also rewrites thumbWidth/thumbHeight in photos.json, because those feed the
 // <img> width/height attributes that reserve layout space before the image
 // loads. Leaving them stale would reserve the wrong box and shift the grid.
+//
+// The About page portrait had the same problem at a smaller scale: 960x1200 at
+// 245KB for something that renders 300 CSS px wide. It is handled at the end.
 //
 // Run with: npm run optimise:images
 
@@ -88,6 +91,39 @@ for (const photo of photos) {
 }
 
 fs.writeFileSync(PHOTOS, `${JSON.stringify(photos, null, 2)}\n`);
+
+// ── About page portrait ────────────────────────────────────────────────────
+// Renders at 300px on desktop, up to 320px on mobile, so 960px covers a 3x
+// phone and 640px covers 2x.
+//
+// Unlike the grid, there is no separate original for this one — the JPEG is
+// both source and output. The buffer is read before anything is written so the
+// re-encode works off the file as it was, but running this repeatedly still
+// recompresses an already-compressed image. Replace the JPEG with a fresh
+// export if it ever needs regenerating from scratch.
+const ABOUT_DIR = path.join(ROOT, "public/uploads/about");
+const ABOUT_SRC = path.join(ABOUT_DIR, "shuqi-portrait.jpg");
+
+if (fs.existsSync(ABOUT_SRC)) {
+  const beforeAbout = fs.statSync(ABOUT_SRC).size;
+  const buf = fs.readFileSync(ABOUT_SRC);
+  const from = (width) =>
+    sharp(buf).rotate().resize({ width, withoutEnlargement: true });
+
+  const webp960 = path.join(ABOUT_DIR, "shuqi-portrait.webp");
+  const webp640 = path.join(ABOUT_DIR, "shuqi-portrait-640.webp");
+
+  await from(960).webp({ quality: WEBP_QUALITY }).toFile(webp960);
+  await from(640).webp({ quality: WEBP_QUALITY }).toFile(webp640);
+  await from(960).jpeg({ quality: JPEG_QUALITY, mozjpeg: true }).toFile(ABOUT_SRC);
+
+  console.log(
+    `about portrait        ${kb(beforeAbout)}  ->  ` +
+      `${kb(fs.statSync(webp640).size)} (640 webp) / ` +
+      `${kb(fs.statSync(webp960).size)} (960 webp) / ` +
+      `${kb(fs.statSync(ABOUT_SRC).size)} (jpeg fallback)`
+  );
+}
 
 console.log("\n");
 console.log(`photos processed      ${photos.length - skipped}`);

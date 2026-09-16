@@ -55,7 +55,7 @@ PhotoBook/
     │   ├── google887…html       # Search Console verification — DO NOT DELETE
     │   ├── data/photos.json     # 94 photos — the entire content model
     │   └── uploads/{originals,thumbnails,about}/
-    ├── scripts/backfill-photo-metadata.mjs
+    ├── scripts/{optimise-images,backfill-photo-metadata}.mjs
     └── src/
         ├── app/
         │   ├── layout.tsx       # <html>, fonts, all shared metadata
@@ -127,7 +127,7 @@ nothing reads them. **Array order determines display order.**
 ### Image sizes — why the grid is fast
 
 The grid renders each photo about **341 CSS px** wide, so it never needs a large
-file. `scripts/optimise-thumbnails.mjs` regenerates three variants per photo
+file. `scripts/optimise-images.mjs` regenerates three variants per photo
 from the original:
 
 | File | Width | Who gets it |
@@ -148,6 +148,12 @@ Two things here are load-bearing:
   what tells the browser which candidate to take; a wrong value silently over-
   or under-fetches every image on the page. Change the grid padding or gap and
   you must revisit it — the same warning as `computeLayoutMetrics()`.
+
+The About page portrait gets the same treatment — `shuqi-portrait-640.webp` /
+`shuqi-portrait.webp` / a JPEG fallback, 245KB down to 46KB for what renders
+300 CSS px wide. Note it has **no separate original**: the JPEG is both source
+and output, so repeated runs recompress an already-compressed image. Replace it
+with a fresh export if it ever needs rebuilding from scratch.
 
 Before this, thumbnails were stored at a very high JPEG quality: 800x1200
 frames at 400KB, 23.9MB for the 94-photo grid. Now a phone pulls 5.4MB for the

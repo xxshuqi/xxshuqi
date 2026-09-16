@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import SiteShell from "@/components/layout/SiteShell";
 
+// Mirrors .about-photo in globals.css: a fixed 300px rail on desktop, and
+// full-width capped at 320px below the 760px breakpoint. It decides which
+// srcset candidate the browser takes, so it has to track that CSS.
+const PORTRAIT_SIZES = "(max-width: 760px) 320px, 300px";
+
 const ABOUT_DESCRIPTION =
   "ShuQi is a photography enthusiast in Kuala Lumpur who travels with her camera in tow, snapping down every story a town has to offer.";
 
@@ -20,13 +25,21 @@ export default function AboutPage() {
     <SiteShell>
       <section className="about-page">
         <div className="about-photo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/uploads/about/shuqi-portrait.jpg"
-            alt="ShuQi"
-            width={960}
-            height={1200}
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcSet="/uploads/about/shuqi-portrait-640.webp 640w, /uploads/about/shuqi-portrait.webp 960w"
+              sizes={PORTRAIT_SIZES}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/uploads/about/shuqi-portrait.jpg"
+              alt="ShuQi"
+              width={960}
+              height={1200}
+              sizes={PORTRAIT_SIZES}
+            />
+          </picture>
         </div>
         <div className="about-text">
           <p>
