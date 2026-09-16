@@ -351,10 +351,6 @@ value.
   Stockholm, Taiwan, Thailand, some Random and Tokyo — culled from the gallery
   but still in the repo and still deployed. Deleting them will not shrink `.git`
   (history keeps them) but would cut 37MB from every deploy.
-- **`google887…html` exists twice**, at the repo root and in `public/`. Only the
-  `public/` copy is served; the root one does nothing.
-- **`public/about-photo.jpg`** is unreferenced — the About page uses
-  `/uploads/about/shuqi-portrait.jpg`.
 - **`tailwind.config.ts`** names fonts that are not loaded (see Styling).
 
 ---
