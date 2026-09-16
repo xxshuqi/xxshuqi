@@ -126,6 +126,10 @@ export default function Sidebar() {
 
             {socials}
           </nav>
+
+          <p className="sidebar-copyright">
+            © 2026 The Wandering Bunny. All rights reserved.
+          </p>
         </div>
       </aside>
 

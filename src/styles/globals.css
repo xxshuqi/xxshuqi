@@ -157,6 +157,20 @@ body::after {
   gap: 18px;
 }
 
+/* margin-top: auto pins this to the bottom of .sidebar-inner, which is a
+   full-height flex column — so it sits at the foot of the desktop rail and of
+   the mobile drawer without either needing its own rule. */
+.sidebar-copyright {
+  margin-top: auto;
+  padding-top: 32px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+
 .sidebar-social-link {
   display: inline-flex;
   color: var(--text-light);
