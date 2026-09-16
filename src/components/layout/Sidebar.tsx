@@ -58,8 +58,9 @@ export default function Sidebar() {
     <>
       {/* Mobile header — position: sticky (see globals.css). Because it's
           painted with the page content, it never lags iOS Safari's toolbar
-          transitions, so no gap opens above it. Its own padding-top covers
-          the status-bar / notch strip. */}
+          transitions, so no gap opens above it. Its padding-top is the
+          safe-area inset, which is 0 in Safari's browser mode and only
+          non-zero when the site runs standalone from the Home Screen. */}
       <div className="sidebar-topbar">
         <Link href="/portfolio" className="sidebar-topbar-title" onClick={() => setOpen(false)}>
           The Wandering Bunny

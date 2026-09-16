@@ -43,7 +43,10 @@ body {
 }
 
 .site-main {
+  /* dvh tracks the visible area as iOS Safari's toolbars show/hide; the vh
+     line above it is the fallback for browsers without dvh support. */
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* Film grain overlay */
@@ -81,6 +84,7 @@ body::after {
 .site-shell {
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .sidebar {
@@ -168,14 +172,18 @@ body::after {
   flex: 1;
   min-width: 0;
   margin-left: var(--sidebar-width);
-  min-height: 100vh;
+  /* No min-height here. As a stretch flex child it already fills .site-shell's
+     100dvh; adding its own 100vh double-counted the mobile header's 84px and
+     left dead space under the fold. */
 }
 
 @media (max-width: 760px) {
   :root {
-    /* env(safe-area-inset-top) is 0 in Safari's normal browser mode, so it
-       needs a real floor to actually cover the strip under the status bar. */
-    --topbar-pad-top: max(env(safe-area-inset-top, 0px), 28px);
+    /* Safari's own chrome already covers the status bar in normal browser
+       mode, where this inset is 0 — so no hardcoded floor. It only resolves
+       to a real value when the site is launched standalone from the Home
+       Screen, which is exactly when the padding is actually needed. */
+    --topbar-pad-top: env(safe-area-inset-top, 0px);
   }
 
   .site-shell {
@@ -342,6 +350,10 @@ body::after {
 .intro-overlay {
   position: fixed;
   inset: 0;
+  /* Matches .lightbox: iOS Safari sizes a fixed inset:0 box to the layout
+     viewport and doesn't resize it as the toolbars animate, which leaves a
+     strip at the bottom with the photo grid showing through. */
+  height: 100dvh;
   z-index: 999;
   display: flex;
   flex-direction: column;

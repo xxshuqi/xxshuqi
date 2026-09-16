@@ -7,7 +7,10 @@ const SITE_URL = "https://thewanderingbunny.com";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  viewportFit: "cover",
+  // No viewportFit: "cover". In Safari's normal browser mode its own chrome
+  // already covers the status bar and home indicator, so cover bought nothing
+  // but the full layout-viewport vs visual-viewport mismatch — which is what
+  // opened the see-through strips above the header and below the fold.
   themeColor: "#ffffff",
 };
 
