@@ -208,9 +208,13 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
       </motion.div>
 
       {/* AnimatePresence keeps the lightbox mounted long enough for its exit
-          animation to play; without it, closing just unmounts instantly. */}
+          animation to play; without it, closing just unmounts instantly.
+          The key is required, not decorative: without one AnimatePresence
+          cannot tell that the child left, so the exit never completes, the
+          component is never unmounted, and useScrollLock's cleanup never runs
+          — leaving body pinned at position: fixed after the lightbox is gone. */}
       <AnimatePresence>
-        {light && <Lightbox photo={light} onClose={closeLightbox} />}
+        {light && <Lightbox key={light.id} photo={light} onClose={closeLightbox} />}
       </AnimatePresence>
     </div>
   );
