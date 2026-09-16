@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import type { DisplayPhoto } from "@/lib/photoDisplay";
 import { equipmentLine, lightboxExposureLine, lightboxHeading } from "@/lib/photoDisplay";
 import { getPhotoAlt } from "@/lib/photoMedia";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 interface LightboxProps {
   photo: DisplayPhoto;
@@ -19,38 +20,9 @@ export default function Lightbox({ photo, onClose }: LightboxProps) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
-  // Lock the background scroll while the lightbox is open. On iOS Safari a
-  // scrollable page behind a fixed overlay lets the toolbar move and leaves
-  // strips of the page showing above/below the overlay. Pinning the body
-  // (position: fixed at the current offset) freezes it, so the fixed
-  // lightbox reliably covers the whole screen — restored + re-scrolled on close.
-  useEffect(() => {
-    const { body } = document;
-    const scrollY = window.scrollY;
-    const prev = {
-      position: body.style.position,
-      top: body.style.top,
-      left: body.style.left,
-      right: body.style.right,
-      width: body.style.width,
-      overflow: body.style.overflow,
-    };
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
-    body.style.overflow = "hidden";
-    return () => {
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.left = prev.left;
-      body.style.right = prev.right;
-      body.style.width = prev.width;
-      body.style.overflow = prev.overflow;
-      window.scrollTo(0, scrollY);
-    };
-  }, []);
+  // Pinned while open so iOS Safari restores its toolbars and this fixed
+  // overlay reaches the bottom of the screen. See useScrollLock.
+  useScrollLock(true);
 
   const exposure = lightboxExposureLine(photo);
   const equipment = equipmentLine(photo);

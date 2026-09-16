@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 const SOCIAL_LINKS = {
   instagram: "https://www.instagram.com/xxshuqi/",
@@ -30,6 +31,11 @@ function XiaohongshuIcon() {
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // The drawer and its scrim are full-viewport fixed overlays. Without this
+  // they stop at the layout viewport and leave a grey band of bare scrim along
+  // the bottom of the screen once Safari has retracted its toolbars.
+  useScrollLock(open);
 
   const socials = (
     <div className="sidebar-socials">
