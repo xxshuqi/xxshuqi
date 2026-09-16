@@ -50,17 +50,21 @@ body {
 }
 
 /* Film grain overlay.
-   Deliberately NO mix-blend-mode. A full-viewport position:fixed layer that
-   blends with its backdrop forces iOS Safari to composite the whole page as
-   one layer group, which left stale tiles behind as the toolbars animated —
-   that was the see-through strip above the header and below the fold, and it
-   survived five commits that all tried to fix it as a layout problem.
-   Dropping the blend mode costs almost nothing visually: multiply against
-   white returns the source unchanged, and --bg is #ffffff, so the blend was
-   already a no-op everywhere except directly over a photo. */
+   position: absolute, NOT fixed — this is load-bearing, do not change it back.
+   A full-viewport position:fixed layer is what opened the see-through strip on
+   iOS Safari. Measured on device: with the toolbars retracted the visual
+   viewport is 850 while the layout viewport (what 100vh and sticky top:0 use)
+   stays 742. Safari normally fills that 108px band with the page background,
+   but a full-viewport fixed layer suppresses that and raw content tiles show
+   through instead. Turning this layer off made the band disappear; turning it
+   back on brought it straight back, with and without mix-blend-mode — so the
+   trigger is the fixed layer itself, not how it blends.
+   Absolute against the relatively-positioned body covers the whole document,
+   so the grain scrolls with the content rather than sitting still. At a 300px
+   tile and this opacity the difference is not perceptible. */
 body::after {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
