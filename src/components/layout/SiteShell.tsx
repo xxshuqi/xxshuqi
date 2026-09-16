@@ -3,6 +3,7 @@
 import { useLayoutEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Sidebar from "./Sidebar";
+import ViewportProbe from "@/components/debug/ViewportProbe";
 
 const INTRO_STORAGE_KEY = "wanderingbunny-intro-shown";
 const HOLD_MS = 1800;
@@ -73,6 +74,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           </motion.div>
         )}
       </AnimatePresence>
+      <ViewportProbe />
     </div>
   );
 }
