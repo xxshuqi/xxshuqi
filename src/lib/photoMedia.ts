@@ -22,6 +22,8 @@ export interface PhotoAsset {
   story?: string | null;
 }
 
+export const LIGHTBOX_SIZES = "(max-width: 760px) calc(100vw - 36px), 86vw";
+
 /**
  * Sources for one grid thumbnail.
  *
@@ -39,6 +41,22 @@ export function buildThumbSources(photo: Pick<PhotoAsset, "thumbUrl">) {
   return {
     webpSrcSet: `${base}-600.webp 600w, ${base}.webp 900w`,
     jpegSrc: photo.thumbUrl,
+  };
+}
+
+/**
+ * Responsive, display-sized sources for the lightbox.
+ *
+ * The original remains the fallback, while browsers that support AVIF can
+ * avoid downloading a 2400px JPEG for an image constrained to the viewport.
+ */
+export function buildLightboxSources(photo: Pick<PhotoAsset, "originalUrl">) {
+  const filename = photo.originalUrl.split("/").pop() ?? "";
+  const stem = filename.replace(/\.[^.]+$/, "");
+  const base = `/uploads/lightbox/${stem}`;
+
+  return {
+    avifSrcSet: `${base}-1200.avif 1200w, ${base}-2000.avif 2000w`,
   };
 }
 

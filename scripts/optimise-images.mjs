@@ -7,10 +7,12 @@
 //   thumb-<name>-600.webp   600px wide  — phones and 1x displays
 //   thumb-<name>.webp       900px wide  — 2x laptops and wide screens
 //   thumb-<name>.jpg        900px wide  — fallback for browsers without WebP
+//   lightbox/<name>-1200.avif             — phones and standard displays
+//   lightbox/<name>-2000.avif             — retina and large displays
 //
-// No tier above 900. A 5K display would want ~1130px for these slots, but that
-// tier would have added ~26MB to the repo permanently to serve very few
-// visitors, and the grid links straight to the full original anyway.
+// No grid tier above 900. A 5K display would want ~1130px for these slots, but
+// that tier would have added ~26MB to the repo permanently to serve very few
+// visitors. The lightbox uses its own larger variants instead.
 //
 // Always regenerates from public/uploads/originals/ rather than from the
 // existing thumbnails, so nothing is recompressed twice.
@@ -23,15 +25,19 @@
 // 245KB for something that renders 300 CSS px wide. It is handled at the end.
 //
 // Run with: npm run optimise:images
+// Generate only the lightbox variants with:
+//   node scripts/optimise-images.mjs --lightbox-only
 
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 
 const ROOT = process.cwd();
+const LIGHTBOX_ONLY = process.argv.includes("--lightbox-only");
 const PHOTOS = path.join(ROOT, "public/data/photos.json");
 const ORIGINALS = path.join(ROOT, "public/uploads/originals");
 const THUMBS = path.join(ROOT, "public/uploads/thumbnails");
+const LIGHTBOX = path.join(ROOT, "public/uploads/lightbox");
 
 const WIDTH = 900;
 const WIDTH_SMALL = 600;
@@ -39,6 +45,11 @@ const WIDTH_SMALL = 600;
 // oversampled — quality can sit lower than it could for a full-size view.
 const WEBP_QUALITY = 75;
 const JPEG_QUALITY = 78;
+const LIGHTBOX_WIDTH_SMALL = 1200;
+const LIGHTBOX_WIDTH_LARGE = 2000;
+const AVIF_QUALITY = 55;
+
+fs.mkdirSync(LIGHTBOX, { recursive: true });
 
 const kb = (n) => `${Math.round(n / 1024)} KB`;
 const mb = (n) => `${(n / 1024 / 1024).toFixed(1)} MB`;
@@ -49,6 +60,8 @@ let before = 0;
 let after = 0;
 let webpTotal = 0;
 let webpSmallTotal = 0;
+let lightboxSmallTotal = 0;
+let lightboxLargeTotal = 0;
 let skipped = 0;
 
 for (const photo of photos) {
@@ -65,6 +78,15 @@ for (const photo of photos) {
   const jpegPath = path.join(THUMBS, thumbName);
   const webpPath = path.join(THUMBS, `${base}.webp`);
   const webpSmallPath = path.join(THUMBS, `${base}-${WIDTH_SMALL}.webp`);
+  const originalStem = path.parse(originalName).name;
+  const lightboxSmallPath = path.join(
+    LIGHTBOX,
+    `${originalStem}-${LIGHTBOX_WIDTH_SMALL}.avif`
+  );
+  const lightboxLargePath = path.join(
+    LIGHTBOX,
+    `${originalStem}-${LIGHTBOX_WIDTH_LARGE}.avif`
+  );
 
   if (fs.existsSync(jpegPath)) before += fs.statSync(jpegPath).size;
 
@@ -75,13 +97,23 @@ for (const photo of photos) {
   const resized = (width) =>
     source.clone().resize({ width, withoutEnlargement: true });
 
-  await resized(WIDTH).jpeg({ quality: JPEG_QUALITY, mozjpeg: true }).toFile(jpegPath);
-  await resized(WIDTH).webp({ quality: WEBP_QUALITY }).toFile(webpPath);
-  await resized(WIDTH_SMALL).webp({ quality: WEBP_QUALITY }).toFile(webpSmallPath);
+  if (!LIGHTBOX_ONLY) {
+    await resized(WIDTH).jpeg({ quality: JPEG_QUALITY, mozjpeg: true }).toFile(jpegPath);
+    await resized(WIDTH).webp({ quality: WEBP_QUALITY }).toFile(webpPath);
+    await resized(WIDTH_SMALL).webp({ quality: WEBP_QUALITY }).toFile(webpSmallPath);
+  }
+  await resized(LIGHTBOX_WIDTH_SMALL)
+    .avif({ quality: AVIF_QUALITY, effort: 4 })
+    .toFile(lightboxSmallPath);
+  await resized(LIGHTBOX_WIDTH_LARGE)
+    .avif({ quality: AVIF_QUALITY, effort: 4 })
+    .toFile(lightboxLargePath);
 
-  const meta = await sharp(jpegPath).metadata();
-  photo.thumbWidth = meta.width;
-  photo.thumbHeight = meta.height;
+  if (!LIGHTBOX_ONLY) {
+    const meta = await sharp(jpegPath).metadata();
+    photo.thumbWidth = meta.width;
+    photo.thumbHeight = meta.height;
+  }
 
   // Deliberately does NOT touch photo.width / photo.height.
   //
@@ -104,11 +136,15 @@ for (const photo of photos) {
   after += fs.statSync(jpegPath).size;
   webpTotal += fs.statSync(webpPath).size;
   webpSmallTotal += fs.statSync(webpSmallPath).size;
+  lightboxSmallTotal += fs.statSync(lightboxSmallPath).size;
+  lightboxLargeTotal += fs.statSync(lightboxLargePath).size;
 
   process.stdout.write(".");
 }
 
-fs.writeFileSync(PHOTOS, `${JSON.stringify(photos, null, 2)}\n`);
+if (!LIGHTBOX_ONLY) {
+  fs.writeFileSync(PHOTOS, `${JSON.stringify(photos, null, 2)}\n`);
+}
 
 // ── About page portrait ────────────────────────────────────────────────────
 // Renders at 300px on desktop, up to 320px on mobile, so 960px covers a 3x
@@ -122,7 +158,7 @@ fs.writeFileSync(PHOTOS, `${JSON.stringify(photos, null, 2)}\n`);
 const ABOUT_DIR = path.join(ROOT, "public/uploads/about");
 const ABOUT_SRC = path.join(ABOUT_DIR, "shuqi-portrait.jpg");
 
-if (fs.existsSync(ABOUT_SRC)) {
+if (!LIGHTBOX_ONLY && fs.existsSync(ABOUT_SRC)) {
   const beforeAbout = fs.statSync(ABOUT_SRC).size;
   const buf = fs.readFileSync(ABOUT_SRC);
   const from = (width) =>
@@ -148,6 +184,8 @@ console.log(`photos processed      ${photos.length - skipped}`);
 console.log(`JPEG fallbacks        ${mb(before)}  ->  ${mb(after)}`);
 console.log(`WebP 600 (phones)     ${mb(webpSmallTotal)}`);
 console.log(`WebP 900 (desktop)    ${mb(webpTotal)}`);
+console.log(`AVIF 1200 (lightbox)  ${mb(lightboxSmallTotal)}`);
+console.log(`AVIF 2000 (lightbox)  ${mb(lightboxLargeTotal)}`);
 console.log(
   `grid payload          ${mb(before)}  ->  ${mb(webpTotal)}   ` +
     `(-${Math.round(100 - (webpTotal / before) * 100)}%)`

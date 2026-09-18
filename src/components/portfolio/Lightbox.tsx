@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { DisplayPhoto } from "@/lib/photoDisplay";
 import { equipmentLine, lightboxExposureLine, lightboxHeading } from "@/lib/photoDisplay";
-import { getPhotoAlt } from "@/lib/photoMedia";
+import {
+  buildLightboxSources,
+  buildThumbSources,
+  getPhotoAlt,
+  getThumbIntrinsicSize,
+  LIGHTBOX_SIZES,
+} from "@/lib/photoMedia";
 import { useScrollLock } from "@/lib/useScrollLock";
 
 interface LightboxProps {
@@ -12,6 +18,8 @@ interface LightboxProps {
 }
 
 export default function Lightbox({ photo, onClose }: LightboxProps) {
+  const [isFullImageLoaded, setIsFullImageLoaded] = useState(false);
+
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -26,18 +34,47 @@ export default function Lightbox({ photo, onClose }: LightboxProps) {
 
   const exposure = lightboxExposureLine(photo);
   const equipment = equipmentLine(photo);
+  const fullSources = buildLightboxSources(photo);
+  const previewSources = buildThumbSources(photo);
+  const intrinsic = getThumbIntrinsicSize(photo);
 
   return (
     <div className="lightbox" onClick={onClose}>
       <figure>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={photo.originalUrl}
-          alt={getPhotoAlt(photo, "Photo")}
-          width={photo.width}
-          height={photo.height}
-          decoding="async"
-        />
+        <div className="lightbox-image-stage" data-loaded={isFullImageLoaded}>
+          <picture className="lightbox-image-preview" aria-hidden="true">
+            <source
+              type="image/webp"
+              srcSet={previewSources.webpSrcSet}
+              sizes={LIGHTBOX_SIZES}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={previewSources.jpegSrc}
+              alt=""
+              width={intrinsic.width}
+              height={intrinsic.height}
+            />
+          </picture>
+
+          <picture className="lightbox-image-full">
+            <source
+              type="image/avif"
+              srcSet={fullSources.avifSrcSet}
+              sizes={LIGHTBOX_SIZES}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo.originalUrl}
+              alt={getPhotoAlt(photo, "Photo")}
+              width={intrinsic.width}
+              height={intrinsic.height}
+              decoding="async"
+              fetchPriority="high"
+              onLoad={() => setIsFullImageLoaded(true)}
+            />
+          </picture>
+        </div>
         <figcaption>
           <span className="lightbox-meta-primary">{lightboxHeading(photo)}</span>
           {(exposure || equipment) && (

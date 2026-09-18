@@ -4,16 +4,46 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import type { Photo } from "@/lib/data";
 import { toDisplayPhotos, type DisplayPhoto } from "@/lib/photoDisplay";
-import { buildThumbSources, getPhotoAlt, getThumbIntrinsicSize } from "@/lib/photoMedia";
+import {
+  buildLightboxSources,
+  buildThumbSources,
+  getPhotoAlt,
+  getThumbIntrinsicSize,
+  LIGHTBOX_SIZES,
+} from "@/lib/photoMedia";
 import Lightbox from "./Lightbox";
 
-const SHUTTER_DELAY_MS = 170;
-const SHUTTER_TOTAL_MS = 540;
+// Paired with the shutterBlink animation in globals.css — TOTAL is when the
+// black layer is unmounted and has to outlast the 0.7s animation, and DELAY is
+// how far into the fade the lightbox is torn down on close, placed near the
+// darkest point so the swap happens behind the black rather than in front of it.
+const SHUTTER_DELAY_MS = 245;
+const SHUTTER_TOTAL_MS = 760;
 const WIDE_COLUMN_COUNT = 3;
 const NARROW_COLUMN_COUNT = 2;
 const WIDE_BREAKPOINT_PX = 1201;
 const MOBILE_BREAKPOINT_PX = 760;
 const SIDEBAR_WIDTH_PX = 260;
+
+const prefetchedLightboxImages = new Map<string, HTMLImageElement>();
+
+function prefetchLightboxImage(photo: DisplayPhoto) {
+  if (prefetchedLightboxImages.has(photo.id)) return;
+
+  const sources = buildLightboxSources(photo);
+  const image = new Image();
+  image.srcset = sources.avifSrcSet;
+  image.sizes = LIGHTBOX_SIZES;
+  image.src = photo.originalUrl;
+  // Decode here rather than letting the lightbox do it on display. The bytes
+  // landing is only half the wait — a 2000px AVIF still has to be decoded on
+  // the main thread, and left alone that happens after the shutter has already
+  // finished, which is exactly when it is visible as a stall. Rejections are
+  // ignored: a decode that loses its race with a cache eviction is no worse
+  // than not having prefetched at all.
+  void image.decode().catch(() => {});
+  prefetchedLightboxImages.set(photo.id, image);
+}
 
 // Must stay in step with the column widths below — it is what tells the browser
 // which srcset candidate to pick, and a wrong value silently over- or
@@ -159,14 +189,19 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
   const [light, setLight] = useState<DisplayPhoto | null>(null);
   const [shutter, setShutter] = useState(false);
 
-  const triggerShutter = useCallback((action: () => void) => {
+  const triggerShutter = useCallback((action: () => void, delay = SHUTTER_DELAY_MS) => {
     setShutter(true);
-    window.setTimeout(action, SHUTTER_DELAY_MS);
+    window.setTimeout(action, delay);
     window.setTimeout(() => setShutter(false), SHUTTER_TOTAL_MS);
   }, []);
 
   const openLightbox = useCallback(
-    (photo: DisplayPhoto) => triggerShutter(() => setLight(photo)),
+    (photo: DisplayPhoto) => {
+      prefetchLightboxImage(photo);
+      // Mount immediately behind the shutter so downloading and decoding run
+      // during the animation instead of starting 170ms into it.
+      triggerShutter(() => setLight(photo), 0);
+    },
     [triggerShutter]
   );
 
@@ -192,6 +227,14 @@ export default function PortfolioClient({ photos }: PortfolioClientProps) {
                   type="button"
                   className="portfolio-frame"
                   data-orientation={photo.orientation}
+                  // Hover is the earliest honest signal of intent on a desktop,
+                  // and the pointer usually rests on a frame for longer than
+                  // the fetch takes — so by the time the click lands the image
+                  // is often already decoded. Touch has no hover, which is why
+                  // pointerdown stays as the fallback.
+                  onPointerEnter={() => prefetchLightboxImage(photo)}
+                  onPointerDown={() => prefetchLightboxImage(photo)}
+                  onFocus={() => prefetchLightboxImage(photo)}
                   onClick={() => openLightbox(photo)}
                   aria-label={`Open ${getPhotoAlt(photo, "photo")}`}
                 >
