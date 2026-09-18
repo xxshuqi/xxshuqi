@@ -431,17 +431,22 @@ body::after {
 
 /* ── About page ──────────────────────────────────────────────────── */
 
+/* Grid, not flex. Three rows: intro, a rule spanning both columns, then the
+   two data blocks running in parallel underneath. Grid is also what lets the
+   blocks reorder on mobile (portrait → bio → kit → places) — nesting the kit
+   block under the portrait would pin it above the bio on a phone. */
 .about-page {
-  display: flex;
-  align-items: flex-start;
-  gap: 48px;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 560px);
+  gap: 0 48px;
+  align-items: start;
   max-width: 980px;
   padding: 56px clamp(24px, 3vw, 48px) 96px;
 }
 
 .about-photo {
-  flex: 0 0 300px;
-  width: 300px;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .about-photo img {
@@ -451,10 +456,23 @@ body::after {
 }
 
 .about-text {
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 560px;
+}
+
+/* Same face as the wordmark. The page had no heading at all before this — it
+   is also the document's only h1. */
+.about-heading {
+  color: var(--text);
+  font-family: var(--font-title);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
 }
 
 .about-text p {
@@ -465,22 +483,131 @@ body::after {
   line-height: 1.9;
 }
 
+/* Full-width rule across both columns, separating the bio from the data. */
+.about-rule {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  height: 1px;
+  background: var(--border);
+  margin: 56px 0 40px;
+}
+
+.about-kit {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.about-places {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.about-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Same size and tracking as the lightbox EXIF captions, so these read as part
+   of the existing system rather than as a new component. */
+.about-label {
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* 64px, not 52px: "FILM SIM" wraps at the narrower width. */
+.about-spec {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.about-spec dt {
+  color: var(--text-faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+
+.about-spec dd {
+  color: var(--text-mid);
+}
+
+/* The place rows are split in the markup — those are the intended line breaks,
+   not browser wrapping. */
+.about-places-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.about-places-list span::after {
+  content: "·";
+  color: var(--text-faint);
+  margin-left: 10px;
+}
+
+.about-places-list span:last-child::after {
+  content: "";
+  margin: 0;
+}
+
+.about-places-list + .about-places-list {
+  margin-top: 6px;
+}
+
 @media (max-width: 760px) {
+  /* Single column, in reading order: portrait → bio → rule → kit → places. */
   .about-page {
-    flex-direction: column;
-    gap: 28px;
+    grid-template-columns: 1fr;
+    gap: 0;
     padding: 24px 20px 64px;
   }
 
+  .about-heading {
+    font-size: 26px;
+  }
+
   .about-photo {
+    grid-column: 1;
+    grid-row: 1;
     width: 100%;
     max-width: 320px;
-    flex: none;
-    align-self: center;
+    justify-self: center;
+    margin-bottom: 28px;
   }
 
   .about-text {
-    max-width: none;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .about-rule {
+    grid-row: 3;
+    margin: 36px 0 32px;
+  }
+
+  .about-kit {
+    grid-column: 1;
+    grid-row: 4;
+    margin-bottom: 32px;
+  }
+
+  .about-places {
+    grid-column: 1;
+    grid-row: 5;
   }
 }
 
